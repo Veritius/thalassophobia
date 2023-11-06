@@ -2,7 +2,7 @@
 
 use bevy::prelude::*;
 
-/// A structure entity.
+/// A structure entity. This is the root entity of something like a station or submarine.
 #[derive(Component)]
 pub struct Structure {
     pub name: String,
