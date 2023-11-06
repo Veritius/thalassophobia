@@ -12,6 +12,6 @@ pub struct Structure {
 #[derive(Bundle)]
 pub struct StructureBundle {
     pub structure: Structure,
-    pub transform: Transform,
-    pub visibility: Visibility,
+    pub transform: TransformBundle,
+    pub visibility: VisibilityBundle,
 }
