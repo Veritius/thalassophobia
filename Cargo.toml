@@ -4,14 +4,9 @@ version = "0.1.0"
 edition = "2021"
 authors = ["veritius <veritiusgaming@gmail.com>"]
 
-[features]
-default = ["highperf"]
-# Improves performance but may affect stability on rarer platforms
-highperf = ["bevy_rapier3d/simd-nightly"]
-
 [dependencies.bevy]
 version = "0.12"
 
 [dependencies.bevy_rapier3d]
 version = "0.22.0"
-features = ["parallel"]
+features = ["simd-nightly", "parallel"]
