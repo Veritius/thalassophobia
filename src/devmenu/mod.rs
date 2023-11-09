@@ -46,6 +46,9 @@ fn developer_menu_system(
             if ui.button("👁 Inspector").clicked() {
                 menu.inspector_enabled = !menu.inspector_enabled;
             }
+
+            // Buttons for menus that don't exist yet
+            ui.add_enabled_ui(false, |ui| ui.button("✏ Spawner"));
         });
     });
 }
