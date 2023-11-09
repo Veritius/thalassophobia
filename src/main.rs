@@ -4,6 +4,7 @@
 
 mod globals;
 mod state;
+mod settings;
 mod mainmenu;
 mod structure;
 
@@ -21,7 +22,6 @@ fn main() {
     // UI
     app.add_plugins(EguiPlugin);
     app.add_plugins(WorldInspectorPlugin::new());
-    mainmenu::setup_main_menu(&mut app);
 
     // Multiplayer
     app.add_plugins(StardustPlugin);
@@ -29,6 +29,8 @@ fn main() {
 
     // Add subsystems
     state::setup_game_state(&mut app);
+    settings::setup_settings(&mut app);
+    mainmenu::setup_main_menu(&mut app);
     structure::setup_structures(&mut app);
 
     app.run();

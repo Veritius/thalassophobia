@@ -1,14 +1,16 @@
-// use bevy::prelude::*;
+use bevy::prelude::*;
 use bevy_egui::{egui, EguiContexts};
-// use super::MainMenuPage;
+use super::MainMenuPage;
 
 pub(super) fn front_page_system(
     mut contexts: EguiContexts,
-    // mut page: ResMut<MainMenuPage>,
+    mut page: ResMut<MainMenuPage>,
 ) {
     let ctx = contexts.ctx_mut();
 
     egui::Window::new("Thalassophobia").show(ctx, |ui| {
-        ui.heading("Work in progress");
+        if ui.button("Settings").clicked() {
+            *page = MainMenuPage::Settings;
+        }
     });
 }
