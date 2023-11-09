@@ -18,6 +18,10 @@ impl Settings {
             self.particle_quality.draw("menu_settings_particle_quality", ui);
             ui.end_row();
 
+            ui.label("Shader quality");
+            self.shader_quality.draw("menu_settings_shader_quality", ui);
+            ui.end_row();
+
             ui.label("Main volume");
             ui.add(egui::Slider::new(&mut self.main_volume, 0.0..=1.0)
             .show_value(false));
