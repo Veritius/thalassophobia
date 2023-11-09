@@ -24,6 +24,9 @@ pub(super) fn front_page_system(
             if ui.button("Load game").clicked() {
                 *page = MainMenuPage::LoadGame;
             }
+            if ui.button("Join game").clicked() {
+                *page = MainMenuPage::JoinGame;
+            }
             if ui.button("Settings").clicked() {
                 *page = MainMenuPage::Settings;
             }
