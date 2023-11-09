@@ -7,6 +7,10 @@ authors = ["veritius <veritiusgaming@gmail.com>"]
 [dependencies.bevy]
 version = "0.12"
 
+[dependencies.bevy_stardust]
+git = "https://github.com/Veritius/bevy_stardust.git"
+branch = "0.2.0"
+
 [dependencies.bevy_rapier3d]
 version = "0.23.0"
 features = ["simd-stable", "parallel"]
