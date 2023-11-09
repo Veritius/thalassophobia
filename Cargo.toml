@@ -9,4 +9,4 @@ version = "0.12"
 
 [dependencies.bevy_rapier3d]
 version = "0.23.0"
-features = ["simd-nightly", "parallel"]
+features = ["simd-stable", "parallel"]
