@@ -6,6 +6,7 @@ authors = ["veritius <veritiusgaming@gmail.com>"]
 
 [dependencies.bevy]
 version = "0.12"
+features = ["wayland"]
 
 [dependencies.bevy_stardust]
 git = "https://github.com/Veritius/bevy_stardust.git"
