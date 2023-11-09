@@ -13,11 +13,14 @@ pub(super) fn setup_settings(app: &mut App) {
 
 #[derive(Debug, Resource, Reflect)]
 pub struct Settings {
+    // Graphics
     pub model_detail: GraphicsLevel,
     pub texture_quality: GraphicsLevel,
     pub particle_quality: GraphicsLevel,
     pub shader_quality: GraphicsLevel,
+    pub lod_aggression: f32,
 
+    // Audio
     pub main_volume: f32,
 }
 
@@ -28,6 +31,7 @@ impl Default for Settings {
             texture_quality: Default::default(),
             particle_quality: Default::default(),
             shader_quality: Default::default(),
+            lod_aggression: 0.0,
 
             main_volume: 0.5,
         }
