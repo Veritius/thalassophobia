@@ -18,6 +18,12 @@ pub(super) fn front_page_system(
     .movable(false)
     .show(ctx, |ui| {
         ui.vertical_centered(|ui| {
+            if ui.button("New game").clicked() {
+                *page = MainMenuPage::NewGame;
+            }
+            if ui.button("Load game").clicked() {
+                *page = MainMenuPage::LoadGame;
+            }
             if ui.button("Settings").clicked() {
                 *page = MainMenuPage::Settings;
             }
