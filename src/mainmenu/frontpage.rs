@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, app::AppExit};
 use bevy_egui::{egui::{self, Align2}, EguiContexts};
 use super::MainMenuPage;
 
@@ -7,6 +7,7 @@ static VERSION_STRING: &'static str = if cfg!(debug_assertions = "true") { "debu
 pub(super) fn front_page_system(
     mut contexts: EguiContexts,
     mut page: ResMut<MainMenuPage>,
+    mut exit: EventWriter<AppExit>,
 ) {
     let ctx = contexts.ctx_mut();
 
@@ -29,6 +30,9 @@ pub(super) fn front_page_system(
             }
             if ui.button("Settings").clicked() {
                 *page = MainMenuPage::Settings;
+            }
+            if ui.button("Quit").clicked() {
+                exit.send(AppExit);
             }
         });
 
