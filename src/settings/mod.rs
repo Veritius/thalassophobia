@@ -16,6 +16,8 @@ pub struct Settings {
     pub model_detail: GraphicsLevel,
     pub texture_quality: GraphicsLevel,
     pub particle_quality: GraphicsLevel,
+
+    pub main_volume: f32,
 }
 
 impl Default for Settings {
@@ -24,6 +26,8 @@ impl Default for Settings {
             model_detail: Default::default(),
             texture_quality: Default::default(),
             particle_quality: Default::default(),
+
+            main_volume: 0.5,
         }
     }
 }

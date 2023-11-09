@@ -17,6 +17,11 @@ impl Settings {
             ui.label("Particle quality");
             self.particle_quality.draw("menu_settings_particle_quality", ui);
             ui.end_row();
+
+            ui.label("Main volume");
+            ui.add(egui::Slider::new(&mut self.main_volume, 0.0..=1.0)
+            .show_value(false));
+            ui.end_row();
         });
     }
 }
