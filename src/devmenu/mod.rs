@@ -2,11 +2,13 @@ use bevy::prelude::*;
 use bevy_egui::{egui::{self, Align2}, EguiContexts};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
+/// Various debugging features that can be turned off and on at runtime.
 #[derive(Debug, Resource, Reflect)]
 pub struct DeveloperMenu {
     pub visible: bool,
 
     pub inspector_enabled: bool,
+    pub gizmos_enabled: bool,
 }
 
 pub(super) fn setup_dev_menu(app: &mut App) {
@@ -15,6 +17,7 @@ pub(super) fn setup_dev_menu(app: &mut App) {
         visible: true, // TODO: Allow changing this
 
         inspector_enabled: false,
+        gizmos_enabled: false,
     });
 
     // Add world inspector plugin
@@ -45,6 +48,9 @@ fn developer_menu_system(
         ui.horizontal(|ui| {
             if ui.button("👁 Inspector").clicked() {
                 menu.inspector_enabled = !menu.inspector_enabled;
+            }
+            if ui.button("📐 Gizmos").clicked() {
+                menu.gizmos_enabled = !menu.gizmos_enabled;
             }
 
             // Buttons for menus that don't exist yet
