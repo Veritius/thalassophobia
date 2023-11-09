@@ -1,5 +1,12 @@
 use bevy::prelude::*;
 
+pub(super) fn setup_game_state(app: &mut App) {
+    app.register_type::<GameState>();
+    app.register_type::<SimulationState>();
+
+    app.add_state::<GameState>();
+}
+
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect, States)]
 pub enum GameState {
     /// In the main menu.

@@ -14,3 +14,7 @@ pub struct StructureBundle {
     pub transform: TransformBundle,
     pub visibility: VisibilityBundle,
 }
+
+pub(super) fn setup_structures(app: &mut App) {
+    app.register_type::<Structure>();
+}

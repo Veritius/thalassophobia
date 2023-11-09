@@ -27,8 +27,9 @@ fn main() {
     app.add_plugins(StardustPlugin);
     app.add_plugins(UdpTransportPlugin);
 
-    // Game state
-    app.add_state::<state::GameState>();
+    // Add subsystems
+    state::setup_game_state(&mut app);
+    structure::setup_structures(&mut app);
 
     app.run();
 }

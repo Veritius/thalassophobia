@@ -5,13 +5,15 @@ use crate::state::GameState;
 
 use self::frontpage::front_page_system;
 
-#[derive(Debug, Default, Resource, PartialEq, Eq)]
+#[derive(Debug, Default, Resource, PartialEq, Eq, Reflect)]
 enum MainMenuPage {
     #[default]
     FrontPage,
 }
 
-pub fn setup_main_menu(app: &mut App) {
+pub(super) fn setup_main_menu(app: &mut App) {
+    app.register_type::<MainMenuPage>();
+
     app.add_systems(OnEnter(GameState::MainMenu), |mut commands: Commands| { commands.init_resource::<MainMenuPage>() });
     app.add_systems(OnExit(GameState::MainMenu), |mut commands: Commands| { commands.remove_resource::<MainMenuPage>() });
 
