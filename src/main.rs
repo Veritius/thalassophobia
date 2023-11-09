@@ -5,13 +5,13 @@
 mod globals;
 mod state;
 mod settings;
+mod devmenu;
 mod mainmenu;
 mod structure;
 
 use bevy::prelude::*;
 use bevy_stardust::prelude::*;
 use bevy_egui::EguiPlugin;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 fn main() {
     let mut app = App::new();
@@ -21,7 +21,6 @@ fn main() {
 
     // UI
     app.add_plugins(EguiPlugin);
-    app.add_plugins(WorldInspectorPlugin::new());
 
     // Multiplayer
     app.add_plugins(StardustPlugin);
@@ -30,6 +29,7 @@ fn main() {
     // Add subsystems
     state::setup_game_state(&mut app);
     settings::setup_settings(&mut app);
+    devmenu::setup_dev_menu(&mut app);
     mainmenu::setup_main_menu(&mut app);
     structure::setup_structures(&mut app);
 
