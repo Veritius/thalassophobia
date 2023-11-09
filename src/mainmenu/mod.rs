@@ -1,13 +1,15 @@
 mod frontpage;
 mod settings;
 mod startgame;
+mod joingame;
 
 use bevy::prelude::*;
 use crate::state::GameState;
 use self::{
     frontpage::front_page_system,
     settings::settings_menu_system,
-    startgame::{load_game_menu_system, new_game_menu_system}
+    startgame::{load_game_menu_system, new_game_menu_system},
+    joingame::join_game_menu_system,
 };
 
 #[derive(Debug, Default, Resource, PartialEq, Eq, Reflect)]
@@ -17,6 +19,7 @@ enum MainMenuPage {
     Settings,
     NewGame,
     LoadGame,
+    JoinGame,
 }
 
 pub(super) fn setup_main_menu(app: &mut App) {
@@ -34,4 +37,6 @@ pub(super) fn setup_main_menu(app: &mut App) {
         .run_if(resource_exists_and_equals(MainMenuPage::NewGame)));
     app.add_systems(Update, load_game_menu_system
         .run_if(resource_exists_and_equals(MainMenuPage::LoadGame)));
+    app.add_systems(Update, join_game_menu_system
+        .run_if(resource_exists_and_equals(MainMenuPage::JoinGame)));
 }
