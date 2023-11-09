@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, States)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect, States)]
 pub enum GameState {
     /// In the main menu.
     #[default]
@@ -15,7 +15,7 @@ pub enum GameState {
     },
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, Hash)]
 pub enum SimulationState {
     /// Playing by yourself.
     Singleplayer,
