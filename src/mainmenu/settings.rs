@@ -13,6 +13,7 @@ pub(super) fn settings_menu_system(
 
     egui::Window::new("Settings")
     .anchor(Align2::CENTER_CENTER, egui::Vec2::splat(0.0))
+    .default_size(egui::Vec2::splat(0.0))
     .resizable(false)
     .collapsible(false)
     .movable(false)
