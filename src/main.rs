@@ -21,7 +21,6 @@ fn main() {
 
     // Game state
     app.add_state::<state::GameState>();
-    app.add_state::<state::NetworkState>();
 
     app.run();
 }

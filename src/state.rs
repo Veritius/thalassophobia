@@ -9,16 +9,14 @@ pub enum GameState {
     /// In a loading screen.
     Loading,
 
-    /// Running. See [NetworkState] for more.
-    Simulating,
+    /// Running.
+    Simulating {
+        state: SimulationState,
+    },
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, States)]
-pub enum NetworkState {
-    /// Not simulating anything.
-    #[default]
-    Unconnected,
-
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum SimulationState {
     /// Playing by yourself.
     Singleplayer,
 
