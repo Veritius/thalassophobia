@@ -4,14 +4,13 @@ use bevy::prelude::*;
 
 /// A structure entity. This is the root entity of something like a station or submarine.
 #[derive(Component)]
-pub struct Structure {
-    pub name: String,
-}
+pub struct Structure;
 
 /// A bundle of components, with everything you need to have a functional [Structure] entity.
 #[derive(Bundle)]
 pub struct StructureBundle {
     pub structure: Structure,
+    pub name: Name,
     pub transform: TransformBundle,
     pub visibility: VisibilityBundle,
 }

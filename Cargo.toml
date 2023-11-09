@@ -14,3 +14,6 @@ branch = "0.2.0"
 [dependencies.bevy_rapier3d]
 version = "0.23.0"
 features = ["simd-stable", "parallel"]
+
+[dependencies.bevy_egui]
+version = "0.23.0"
