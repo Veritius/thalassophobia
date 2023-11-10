@@ -13,6 +13,7 @@ use self::{
 };
 
 #[derive(Debug, Default, Resource, PartialEq, Eq, Reflect)]
+#[reflect(Resource)]
 enum MainMenuPage {
     #[default]
     FrontPage,
