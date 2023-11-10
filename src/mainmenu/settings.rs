@@ -26,6 +26,9 @@ pub(super) fn settings_menu_system(
             if ui.button("Done").clicked() {
                 *menu = MainMenuPage::FrontPage;
             }
+            if ui.button("Reset").clicked() {
+                *settings = Settings::default();
+            }
         });
     });
 }
