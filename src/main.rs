@@ -10,21 +10,25 @@ mod mainmenu;
 mod structure;
 
 use bevy::prelude::*;
+use bevy_rapier3d::prelude::RapierPhysicsPlugin;
 use bevy_stardust::prelude::*;
 use bevy_egui::EguiPlugin;
 
 fn main() {
     let mut app = App::new();
 
-    // Bevy plugins
-    app.add_plugins(DefaultPlugins);
+    // External plugins essential for game functionality
+    app.add_plugins((
+        DefaultPlugins,
+        RapierPhysicsPlugin::<()>::default(),
+        StardustPlugin,
+    ));
 
-    // UI
-    app.add_plugins(EguiPlugin);
-
-    // Multiplayer
-    app.add_plugins(StardustPlugin);
+    // Transport layers for Stardust
     app.add_plugins(UdpTransportPlugin);
+
+    // UI (will be removed in future when bevy_ui is better)
+    app.add_plugins(EguiPlugin);
 
     // Add subsystems
     state::setup_game_state(&mut app);
