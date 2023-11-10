@@ -4,6 +4,7 @@ use bevy::prelude::*;
 
 /// Controls for the game.
 #[derive(Debug, Resource, Reflect)]
+#[reflect(Resource)]
 pub struct Controls {
     #[cfg(feature="dev")]
     pub toggle_dev_menu: KeyCode,

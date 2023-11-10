@@ -15,6 +15,7 @@ pub(super) fn setup_settings(app: &mut App) {
 }
 
 #[derive(Debug, Resource, Reflect)]
+#[reflect(Resource)]
 pub struct Settings {
     // Graphics
     pub model_detail: GraphicsLevel,

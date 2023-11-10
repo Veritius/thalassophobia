@@ -3,7 +3,8 @@
 use bevy::prelude::*;
 
 /// A structure entity. This is the root entity of something like a station or submarine.
-#[derive(Component, Reflect)]
+#[derive(Default, Component, Reflect)]
+#[reflect(Component)]
 pub struct Structure;
 
 /// A bundle of components, with everything you need to have a functional [Structure] entity.
