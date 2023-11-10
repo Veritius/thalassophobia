@@ -39,7 +39,7 @@ impl MovementController {
         }
     }
 
-    /// Returns the rotation intent (yaw, pitch, roll) as a 3 dimensional vector, taking into account rotation locking.
+    /// Returns the rotation intent (yaw, pitch, roll) as a 3 dimensional vector.
     pub const fn rotate_intent_vec(&self) -> Vec3 {
         Vec3 {
             x: self.intent_yaw,
@@ -48,7 +48,7 @@ impl MovementController {
         }
     }
 
-    /// Returns the rotation intent (yaw, pitch, roll) as a quaternion, taking into account rotation locking.
+    /// Returns the rotation intent (yaw, pitch, roll) as a quaternion.
     pub fn rotate_intent_quat(&self) -> Quat {
         Quat::from_euler(
             EulerRot::YXZ,
