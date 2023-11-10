@@ -24,11 +24,9 @@ pub struct MovementController {
     /// Intent to rotate around the Z axis.
     pub intent_roll: f32,
 
-    /// Prevent rolling the entity in any way, and reset existing roll to `0.0`.
-    /// `rotate_intent_vec` and `rotate_intent_quat` take this into account automatically.
-    /// 
-    /// Useful if the entity you're controlling is a person in VR, in which case roll would make them throw up.
-    pub prevent_roll: bool,
+    /// Imposes special restrictions in cases like VR headsets.
+    /// See the [MovementMode] documentation for more information.
+    pub move_mode: MovementMode,
 }
 
 impl MovementController {
@@ -41,26 +39,32 @@ impl MovementController {
         }
     }
 
-    /// Returns the rotation intent (yaw, pitch, roll) as a 3 dimensional vector, taking into account `prevent_roll`.
+    /// Returns the rotation intent (yaw, pitch, roll) as a 3 dimensional vector, taking into account rotation locking.
     pub const fn rotate_intent_vec(&self) -> Vec3 {
         Vec3 {
-            x: self.intent_pitch,
-            y: self.intent_yaw,
-            z: if self.prevent_roll { 0.0 } else { self.intent_roll },
+            x: self.intent_yaw,
+            y: self.intent_pitch,
+            z: self.intent_roll,
         }
     }
 
-    /// Returns the rotation intent (yaw, pitch, roll) as a quaternion, taking into account `prevent_roll`.
+    /// Returns the rotation intent (yaw, pitch, roll) as a quaternion, taking into account rotation locking.
     pub fn rotate_intent_quat(&self) -> Quat {
         Quat::from_euler(
             EulerRot::YXZ,
             self.intent_yaw,
             self.intent_pitch,
-            if self.prevent_roll {
-                0.0
-            } else {
-                self.intent_roll
-            }
+            self.intent_roll
         )
     }
+}
+
+/// Special restrictions for how an object can move.
+#[derive(Debug, Default, Reflect)]
+pub enum MovementMode {
+    /// No restrictions - full freedom of movement!
+    #[default]
+    Desktop,
+    /// No pitching or rolling allowed, to prevent incidents of extreme nausea and vertigo.
+    Vr,
 }
