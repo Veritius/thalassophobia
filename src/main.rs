@@ -5,6 +5,7 @@
 mod globals;
 mod state;
 mod settings;
+#[cfg(feature="dev")]
 mod devmenu;
 mod mainmenu;
 mod structure;
@@ -33,6 +34,7 @@ fn main() {
     // Add subsystems
     state::setup_game_state(&mut app);
     settings::setup_settings(&mut app);
+    #[cfg(feature="dev")]
     devmenu::setup_dev_menu(&mut app);
     mainmenu::setup_main_menu(&mut app);
     structure::setup_structures(&mut app);

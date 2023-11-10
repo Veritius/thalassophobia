@@ -1,6 +1,7 @@
 use bevy::prelude::*;
-use bevy_egui::{egui::{self, Align2}, EguiContexts};
+use bevy_egui::{egui, EguiContexts};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_rapier3d::render::RapierDebugRenderPlugin;
 
 /// Various debugging features that can be turned off and on at runtime.
 #[derive(Debug, Resource, Reflect)]
@@ -8,7 +9,7 @@ pub struct DeveloperMenu {
     pub visible: bool,
 
     pub inspector_enabled: bool,
-    pub gizmos_enabled: bool,
+    pub network_stats_enabled: bool,
 }
 
 pub(super) fn setup_dev_menu(app: &mut App) {
@@ -17,7 +18,7 @@ pub(super) fn setup_dev_menu(app: &mut App) {
         visible: true, // TODO: Allow changing this
 
         inspector_enabled: false,
-        gizmos_enabled: false,
+        network_stats_enabled: false,
     });
 
     // Add world inspector plugin
@@ -28,6 +29,12 @@ pub(super) fn setup_dev_menu(app: &mut App) {
         }))
     );
 
+    // Add debug physics view plugin
+    app.add_plugins(
+        RapierDebugRenderPlugin::default()
+        .disabled()
+    );
+
     // Add system
     app.add_systems(Update, developer_menu_system);
 }
@@ -35,26 +42,19 @@ pub(super) fn setup_dev_menu(app: &mut App) {
 fn developer_menu_system(
     mut menu: ResMut<DeveloperMenu>,
     mut ctx: EguiContexts,
+    mut phys_ctx: ResMut<bevy_rapier3d::render::DebugRenderContext>,
 ) {
     if !menu.visible { return }
     let ctx = ctx.ctx_mut();
 
-    egui::Window::new("Developer Menu")
-    .anchor(Align2::CENTER_TOP, egui::Vec2::new(0.0, 5.0))
-    .title_bar(false)
-    .movable(false)
-    .resizable(false)
+    egui::TopBottomPanel::top("dev_menu")
     .show(ctx, |ui| {
-        ui.horizontal(|ui| {
-            if ui.button("👁 Inspector").clicked() {
-                menu.inspector_enabled = !menu.inspector_enabled;
-            }
-            if ui.button("📐 Gizmos").clicked() {
-                menu.gizmos_enabled = !menu.gizmos_enabled;
-            }
-
-            // Buttons for menus that don't exist yet
-            ui.add_enabled_ui(false, |ui| ui.button("✏ Spawner"));
-        });
+        egui::menu::bar(ui, |ui| {
+            ui.menu_button("Debugging", |ui| {
+                ui.checkbox(&mut menu.inspector_enabled, "World inspector");
+                ui.checkbox(&mut menu.network_stats_enabled, "Network stats");
+                ui.checkbox(&mut phys_ctx.enabled, "Physics view");
+            });
+        })
     });
 }
