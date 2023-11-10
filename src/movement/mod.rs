@@ -5,7 +5,6 @@ use bevy::prelude::*;
 /// For example, pressing W as a player character should walk forward in the direction they are looking.
 /// 
 /// This component is generic for anything that moves around consciously, including player characters and NPCs.
-/// This also applies to submarines, if being controlled by a player.
 /// How the component affects objects' transformations is up to other game systems.
 #[derive(Debug, Default, Component, Reflect)]
 #[reflect(Component, Default)]
