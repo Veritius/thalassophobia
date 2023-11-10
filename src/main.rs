@@ -9,6 +9,7 @@ mod settings;
 mod devmenu;
 mod mainmenu;
 mod structure;
+mod movement;
 
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::RapierPhysicsPlugin;
