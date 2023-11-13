@@ -1,6 +1,7 @@
 //! [Structure] entities and their child entities.
 
 use bevy::prelude::*;
+use bevy_rapier3d::prelude::*;
 
 /// A structure entity. This is the root entity of something like a station or submarine.
 #[derive(Default, Component, Reflect)]
@@ -14,6 +15,7 @@ pub struct StructureBundle {
     pub name: Name,
     pub transform: TransformBundle,
     pub visibility: VisibilityBundle,
+    pub physics: RigidBody,
 }
 
 pub(super) fn setup_structures(app: &mut App) {
