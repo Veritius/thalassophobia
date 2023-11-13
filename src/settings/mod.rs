@@ -2,8 +2,10 @@ mod options;
 mod widget;
 mod controls;
 
+pub use controls::Controls;
+
 use bevy::prelude::*;
-use self::{options::GraphicsLevel, controls::Controls};
+use self::options::GraphicsLevel;
 
 pub(super) fn setup_settings(app: &mut App) {
     app.register_type::<Settings>();

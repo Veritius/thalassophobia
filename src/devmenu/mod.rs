@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 use bevy_egui::{egui, EguiContexts};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use bevy_rapier3d::render::RapierDebugRenderPlugin;
+use bevy_rapier3d::render::{RapierDebugRenderPlugin, DebugRenderContext};
+use crate::settings::Controls;
 
 /// Various debugging features that can be turned off and on at runtime.
 #[derive(Debug, Resource, Reflect)]
@@ -15,7 +16,7 @@ pub struct DeveloperMenu {
 pub(super) fn setup_dev_menu(app: &mut App) {
     // Add developer menu resource
     app.insert_resource(DeveloperMenu {
-        visible: true, // TODO: Allow changing this
+        visible: false,
 
         inspector_enabled: false,
         network_stats_enabled: false,
@@ -40,10 +41,16 @@ pub(super) fn setup_dev_menu(app: &mut App) {
 }
 
 fn developer_menu_system(
+    controls: Res<Controls>,
+    input: Res<Input<KeyCode>>,
     mut menu: ResMut<DeveloperMenu>,
     mut ctx: EguiContexts,
-    mut phys_ctx: ResMut<bevy_rapier3d::render::DebugRenderContext>,
+    mut phys_ctx: ResMut<DebugRenderContext>,
 ) {
+    if input.just_pressed(controls.toggle_dev_menu) {
+        menu.visible = !menu.visible;
+    }
+
     if !menu.visible { return }
     let ctx = ctx.ctx_mut();
 
