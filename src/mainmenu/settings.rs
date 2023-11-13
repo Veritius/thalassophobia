@@ -1,12 +1,11 @@
 use bevy::prelude::*;
 use bevy_egui::{egui::{self, Align2}, EguiContexts};
-use crate::settings::Settings;
-
+use crate::settings::*;
 use super::MainMenuPage;
 
 pub(super) fn settings_menu_system(
     mut contexts: EguiContexts,
-    mut settings: ResMut<Settings>,
+    mut graphics: ResMut<Graphics>,
     mut menu: ResMut<MainMenuPage>,
 ) {
     let ctx = contexts.ctx_mut();
@@ -18,17 +17,6 @@ pub(super) fn settings_menu_system(
     .collapsible(false)
     .movable(false)
     .show(ctx, |ui| {
-        settings.draw(ui);
-
-        ui.separator();
-
-        ui.horizontal(|ui| {
-            if ui.button("Done").clicked() {
-                *menu = MainMenuPage::FrontPage;
-            }
-            if ui.button("Reset").clicked() {
-                *settings = Settings::default();
-            }
-        });
+        todo!()
     });
 }

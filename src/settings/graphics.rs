@@ -1,6 +1,16 @@
 use std::fmt::Display;
 use bevy::prelude::*;
 
+#[derive(Debug, Default, Resource, Reflect)]
+#[reflect(Resource)]
+pub struct Graphics {
+    pub model_detail: GraphicsLevel,
+    pub texture_quality: GraphicsLevel,
+    pub particle_quality: GraphicsLevel,
+    pub shader_quality: GraphicsLevel,
+    pub lod_aggression: f32,
+}
+
 #[derive(Debug, Default, Clone, PartialEq, Eq, Reflect)]
 pub enum GraphicsLevel {
     Low,
