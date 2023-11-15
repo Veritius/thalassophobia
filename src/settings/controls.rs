@@ -13,6 +13,8 @@ pub struct Controls {
     pub walk_backward: KeyCode,
     pub strafe_left: KeyCode,
     pub strafe_right: KeyCode,
+    pub mod_sprint: KeyCode,
+    pub mod_crouch: KeyCode,
 
     pub action_primary: MouseButton,
     pub action_secondary: MouseButton,
@@ -28,6 +30,8 @@ impl Default for Controls {
             walk_backward: KeyCode::S,
             strafe_left: KeyCode::A,
             strafe_right: KeyCode::D,
+            mod_sprint: KeyCode::ShiftLeft,
+            mod_crouch: KeyCode::ControlLeft,
 
             action_primary: MouseButton::Left,
             action_secondary: MouseButton::Right,
