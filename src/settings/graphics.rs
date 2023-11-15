@@ -6,6 +6,7 @@ use bevy::prelude::*;
 pub struct Graphics {
     pub model_detail: GraphicsLevel,
     pub texture_quality: GraphicsLevel,
+    pub lighting_quality: GraphicsLevel,
     pub particle_quality: GraphicsLevel,
     pub shader_quality: GraphicsLevel,
     pub lod_aggression: f32,
