@@ -38,6 +38,7 @@ fn main() {
     #[cfg(feature="dev")]
     devmenu::setup_dev_menu(&mut app);
     mainmenu::setup_main_menu(&mut app);
+    movement::setup_movement(&mut app);
     structure::setup_structures(&mut app);
 
     app.run();
