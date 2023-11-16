@@ -21,12 +21,7 @@ pub struct MovementController {
     /// Intent to rotate around the X axis.
     pub intent_pitch: f32,
     /// Intent to rotate around the Z axis.
-    pub intent_roll: f32,
-
-    /// Imposes special restrictions in cases like VR headsets.
-    /// See the [MovementMode] documentation for more information.
-    pub move_mode: MovementMode,
-}
+    pub intent_roll: f32,}
 
 impl MovementController {
     /// Returns the translation intent (vertical, horizontal, forward) as a 3 dimensional vector.
@@ -56,14 +51,4 @@ impl MovementController {
             self.intent_roll
         )
     }
-}
-
-/// Special restrictions for how an object can move.
-#[derive(Debug, Default, Reflect)]
-pub enum MovementMode {
-    /// No restrictions - full freedom of movement!
-    #[default]
-    Desktop,
-    /// No pitching or rolling allowed, to prevent incidents of extreme nausea and vertigo.
-    Vr,
 }
