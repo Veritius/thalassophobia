@@ -7,7 +7,7 @@ use bevy::prelude::*;
 /// This component is generic for anything that moves around consciously, including player characters and NPCs.
 /// How the component affects objects' transformations is up to other game systems.
 #[derive(Debug, Default, Component, Reflect)]
-#[reflect(Component, Default)]
+#[reflect(Default, Component)]
 pub struct MovementController {
     /// Intent to move up and down, on the Y axis.
     pub intent_vertical: f32,
@@ -21,7 +21,8 @@ pub struct MovementController {
     /// Intent to rotate around the X axis.
     pub intent_pitch: f32,
     /// Intent to rotate around the Z axis.
-    pub intent_roll: f32,}
+    pub intent_roll: f32,
+}
 
 impl MovementController {
     /// Returns the translation intent (vertical, horizontal, forward) as a 3 dimensional vector.

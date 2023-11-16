@@ -1,10 +1,11 @@
 use bevy::prelude::*;
+use serde::{Serialize, Deserialize};
 
 // TODO: Allow changing the controls in the settings menu
 
 /// Controls for the game.
-#[derive(Debug, Resource, Reflect)]
-#[reflect(Resource)]
+#[derive(Debug, Resource, Reflect, Serialize, Deserialize)]
+#[reflect(Default, Resource, Serialize, Deserialize)]
 pub struct Controls {
     #[cfg(feature="dev")]
     pub toggle_dev_menu: KeyCode,
