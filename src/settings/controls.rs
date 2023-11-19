@@ -1,8 +1,6 @@
 use bevy::prelude::*;
 use serde::{Serialize, Deserialize};
 
-// TODO: Allow changing the controls in the settings menu
-
 /// Controls for the game.
 #[derive(Debug, Resource, Reflect, Serialize, Deserialize)]
 #[reflect(Default, Resource, Serialize, Deserialize)]
