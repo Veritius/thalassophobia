@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_egui::{egui, EguiContexts};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier3d::render::{RapierDebugRenderPlugin, DebugRenderContext};
-use crate::settings::Controls;
+use crate::settings::ControlsSettings;
 
 /// Various debugging features that can be turned off and on at runtime.
 #[derive(Debug, Resource, Reflect)]
@@ -41,7 +41,7 @@ pub(super) fn setup_dev_menu(app: &mut App) {
 }
 
 fn developer_menu_system(
-    controls: Res<Controls>,
+    controls: Res<ControlsSettings>,
     input: Res<Input<KeyCode>>,
     mut menu: ResMut<DeveloperMenu>,
     mut ctx: EguiContexts,

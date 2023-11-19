@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Default, Resource, Reflect, Serialize, Deserialize)]
 #[reflect(Default, Resource, Serialize, Deserialize)]
-pub struct Graphics {
+pub struct GraphicsSettings {
     pub model_detail: GraphicsLevel,
     pub texture_quality: GraphicsLevel,
     pub lighting_quality: GraphicsLevel,

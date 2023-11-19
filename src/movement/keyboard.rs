@@ -1,5 +1,5 @@
 use bevy::{prelude::*, input::mouse::MouseMotion};
-use crate::settings::Controls;
+use crate::settings::ControlsSettings;
 use super::intent::*;
 
 /// Marks an entity to apply keyboard and mouse input to their [MovementIntent](super::intent::MovementIntent) component.
@@ -11,7 +11,7 @@ pub(super) fn keyboard_and_mouse_input_system(
     keyboard: Res<Input<KeyCode>>,
     mut mouse: EventReader<MouseMotion>,
     mut query: Query<&mut MovementIntent, With<KeyboardMouseControl>>,
-    controls: Res<Controls>,
+    controls: Res<ControlsSettings>,
 ) {
     fn buttons_intent(a: bool, b: bool) -> f32 {
         let mut intent = 0.0;

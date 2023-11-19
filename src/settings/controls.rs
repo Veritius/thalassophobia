@@ -6,7 +6,7 @@ use serde::{Serialize, Deserialize};
 /// Controls for the game.
 #[derive(Debug, Resource, Reflect, Serialize, Deserialize)]
 #[reflect(Default, Resource, Serialize, Deserialize)]
-pub struct Controls {
+pub struct ControlsSettings {
     #[cfg(feature="dev")]
     pub toggle_dev_menu: KeyCode,
 
@@ -25,7 +25,7 @@ pub struct Controls {
     pub action_secondary: MouseButton,
 }
 
-impl Default for Controls {
+impl Default for ControlsSettings {
     fn default() -> Self {
         Self {
             #[cfg(feature="dev")]

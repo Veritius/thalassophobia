@@ -1,18 +1,19 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, reflect::TypeRegistry};
 use bevy_egui::{egui, EguiContexts};
-use bevy_inspector_egui::reflect_inspector::ui_for_value;
 use crate::settings::*;
 use super::MainMenuPage;
 
-// TODO: This sucks, make it better.
+// TODO: The settings menu is dependent on bevy_inspector_egui
+// which means it doesn't work when the 'dev' feature is disabled
 
 pub(super) fn settings_menu_system(
     mut contexts: EguiContexts,
     type_registry: Res<AppTypeRegistry>,
     mut menu: ResMut<MainMenuPage>,
 
-    mut graphics: ResMut<Graphics>,
-    mut controls: ResMut<Controls>,
+    mut graphics: ResMut<GraphicsSettings>,
+    mut controls: ResMut<ControlsSettings>,
+    mut audio: ResMut<AudioSettings>,
 ) {
     let ctx = contexts.ctx_mut();
     let type_registry = &*type_registry.read();
@@ -24,104 +25,80 @@ pub(super) fn settings_menu_system(
     .collapsible(false)
     .movable(false)
     .show(ctx, |ui| {
-        ui.vertical(|ui| {
-            egui::Grid::new("settings_grid")
-            .show(ui, |ui| {
-                ui.label("Model detail");
-                graphics_level_combobox(ui, "settings_model_detail", &mut graphics.model_detail);
-                ui.end_row();
 
-                ui.label("Texture quality");
-                graphics_level_combobox(ui, "settings_texture_quality", &mut graphics.texture_quality);
-                ui.end_row();
+        ui.horizontal(|ui| {
+            ui.vertical(|ui| {
+                ui.heading("Graphics");
+                egui::Grid::new("settings_grid_graphics")
+                .show(ui, |ui| {
+                    setting_reflect(ui, type_registry, "Model quality", &mut graphics.model_detail);
+                    setting_reflect(ui, type_registry, "Texture quality", &mut graphics.texture_quality);
+                    setting_reflect(ui, type_registry, "Lighting quality", &mut graphics.lighting_quality);
+                    setting_reflect(ui, type_registry, "Particle quality", &mut graphics.particle_quality);
+                    setting_reflect(ui, type_registry, "Shader quality", &mut graphics.shader_quality);
+                    setting_reflect(ui, type_registry, "LOD aggression", &mut graphics.lod_aggression);
+                });
+            });
 
-                ui.label("Lighting quality");
-                graphics_level_combobox(ui, "settings_lighting_quality", &mut graphics.lighting_quality);
-                ui.end_row();
+            ui.vertical(|ui| {
+                ui.heading("Controls");
+                egui::Grid::new("settings_grid_controls")
+                .show(ui, |ui| {
+                    #[cfg(feature="dev")] {
+                        setting_reflect(ui, type_registry, "Developer menu", &mut controls.toggle_dev_menu);
+                    }
 
-                ui.label("Particle quality");
-                graphics_level_combobox(ui, "settings_particle_quality", &mut graphics.particle_quality);
-                ui.end_row();
+                    setting_reflect(ui, type_registry, "Walk forward", &mut controls.walk_forward);
+                    setting_reflect(ui, type_registry, "Walk backward", &mut controls.walk_backward);
+                    setting_reflect(ui, type_registry, "Walk left", &mut controls.walk_left);
+                    setting_reflect(ui, type_registry, "Walk right", &mut controls.walk_right);
 
-                ui.label("Shader quality");
-                graphics_level_combobox(ui, "settings_shader_quality", &mut graphics.shader_quality);
-                ui.end_row();
+                    setting_reflect(ui, type_registry, "Roll left", &mut controls.roll_left);
+                    setting_reflect(ui, type_registry, "Roll right", &mut controls.roll_right);
 
-                ui.label("LOD aggression");
-                ui.add(egui::Slider::new(&mut graphics.lod_aggression, -1.0..=1.0).show_value(false));
-                ui.end_row();
+                    setting_reflect(ui, type_registry, "Sprint", &mut controls.mod_sprint);
+                    setting_reflect(ui, type_registry, "Crouch", &mut controls.mod_crouch);
 
-                #[cfg(feature="dev")] {
-                    ui.label("Developer menu");
-                    ui.push_id("settings_toggle_dev_menu", |ui| { ui_for_value(&mut controls.toggle_dev_menu, ui, type_registry) });
-                    ui.end_row();
-                }
+                    setting_reflect(ui, type_registry, "Primary interact", &mut controls.action_primary);
+                    setting_reflect(ui, type_registry, "Secondary interact", &mut controls.action_secondary);
+                });
+            });
 
-                ui.label("Walk forward");
-                ui.push_id("settings_walk_forward", |ui| { ui_for_value(&mut controls.walk_forward, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Walk backward");
-                ui.push_id("settings_walk_backward", |ui| { ui_for_value(&mut controls.walk_backward, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Walk left");
-                ui.push_id("settings_walk_left", |ui| { ui_for_value(&mut controls.walk_left, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Walk right");
-                ui.push_id("settings_walk_right", |ui| { ui_for_value(&mut controls.walk_right, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Roll left");
-                ui.push_id("settings_roll_left", |ui| { ui_for_value(&mut controls.roll_left, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Roll right");
-                ui.push_id("settings_roll_right", |ui| { ui_for_value(&mut controls.roll_right, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Sprint");
-                ui.push_id("settings_sprint", |ui| { ui_for_value(&mut controls.mod_sprint, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Crouch");
-                ui.push_id("settings_crouch", |ui| { ui_for_value(&mut controls.mod_crouch, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Primary action");
-                ui.push_id("settings_action_primary", |ui| { ui_for_value(&mut controls.action_primary, ui, type_registry) });
-                ui.end_row();
-
-                ui.label("Secondary action");
-                ui.push_id("settings_action_secondary", |ui| { ui_for_value(&mut controls.action_secondary, ui, type_registry) });
-                ui.end_row();
+            ui.vertical(|ui| {
+                ui.heading("Audio");
+                egui::Grid::new("settings_grid_audio")
+                .show(ui, |ui| {
+                    setting_reflect(ui, type_registry, "Master", &mut audio.level_master);
+                });
             });
         });
+
         ui.separator();
         ui.horizontal(|ui| {
             if ui.button("Done").clicked() {
                 *menu = MainMenuPage::FrontPage;
             }
             if ui.button("Reset").clicked() {
-                *graphics = Graphics::default();
-                *controls = Controls::default();
+                *graphics = GraphicsSettings::default();
+                *controls = ControlsSettings::default();
+                *audio = AudioSettings::default();
             }
         });
     });
 }
 
-fn graphics_level_combobox(
+fn setting_reflect(
     ui: &mut egui::Ui,
-    id: impl std::hash::Hash,
-    value: &mut graphics::GraphicsLevel
+    type_registry: &TypeRegistry,
+    label: &'static str,
+    value: &mut dyn Reflect,
 ) {
-    use graphics::GraphicsLevel::*;
-    egui::ComboBox::new(id, "")
-    .selected_text(format!("{value}"))
-    .show_ui(ui, |ui| {
-        ui.selectable_value(value, High, "High");
-        ui.selectable_value(value, Medium, "Medium");
-        ui.selectable_value(value, Low, "Low");
+    ui.label(label);
+    ui.push_id(format!("settings_{label}"), |ui| {
+        #[cfg(feature="dev")]
+        bevy_inspector_egui::reflect_inspector::ui_for_value(value, ui, type_registry);
+        #[cfg(not(feature="dev"))]
+        ui.label("The settings menu is not functional on non-dev builds right now.");
     });
+    ui.end_row();
 }
