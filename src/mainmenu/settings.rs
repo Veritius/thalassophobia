@@ -25,6 +25,10 @@ pub(super) fn settings_menu_system(
     .collapsible(false)
     .movable(false)
     .show(ctx, |ui| {
+        #[cfg(not(feature="dev"))] {
+            ui.label("The settings menu is not functional on non-dev builds right now.");
+            return;
+        }
 
         ui.horizontal(|ui| {
             ui.vertical(|ui| {
@@ -98,7 +102,7 @@ fn setting_reflect(
         #[cfg(feature="dev")]
         bevy_inspector_egui::reflect_inspector::ui_for_value(value, ui, type_registry);
         #[cfg(not(feature="dev"))]
-        ui.label("The settings menu is not functional on non-dev builds right now.");
+        unimplemented!()
     });
     ui.end_row();
 }
