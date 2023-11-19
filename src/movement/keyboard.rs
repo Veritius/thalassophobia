@@ -41,12 +41,12 @@ pub(super) fn keyboard_and_mouse_input_system(
     }
 
     for mut controller in query.iter_mut() {
-        add_clamped(&mut controller.intent_horizontal, intent_horizontal);
-        add_clamped(&mut controller.intent_forward, intent_forward);
-        add_clamped(&mut controller.intent_roll, intent_roll);
+        add_clamped(&mut controller.horizontal, intent_horizontal);
+        add_clamped(&mut controller.forward, intent_forward);
+        add_clamped(&mut controller.roll, intent_roll);
 
         // We don't clamp these values for responsiveness
-        controller.intent_yaw += mouse_delta.x;
-        controller.intent_pitch += mouse_delta.y;
+        controller.yaw += mouse_delta.x;
+        controller.pitch += mouse_delta.y;
     }
 }

@@ -10,36 +10,36 @@ use bevy::prelude::*;
 #[reflect(Default, Component)]
 pub struct MovementIntent {
     /// Intent to move up and down, on the Y axis.
-    pub intent_vertical: f32,
+    pub vertical: f32,
     /// Intent to move left and right, on the X axis.
-    pub intent_horizontal: f32,
+    pub horizontal: f32,
     /// Intent to move forward and back, on the Z axis.
-    pub intent_forward: f32,
+    pub forward: f32,
 
     /// Intent to rotate around the Y axis.
-    pub intent_yaw: f32,
+    pub yaw: f32,
     /// Intent to rotate around the X axis.
-    pub intent_pitch: f32,
+    pub pitch: f32,
     /// Intent to rotate around the Z axis.
-    pub intent_roll: f32,
+    pub roll: f32,
 }
 
 impl MovementIntent {
     /// Returns the translation intent (vertical, horizontal, forward) as a 3 dimensional vector.
     pub const fn translate_intent(&self) -> Vec3 {
         Vec3 {
-            x: self.intent_horizontal,
-            y: self.intent_vertical,
-            z: self.intent_forward,
+            x: self.horizontal,
+            y: self.vertical,
+            z: self.forward,
         }
     }
 
     /// Returns the rotation intent (yaw, pitch, roll) as a 3 dimensional vector.
     pub const fn rotate_intent_vec(&self) -> Vec3 {
         Vec3 {
-            x: self.intent_yaw,
-            y: self.intent_pitch,
-            z: self.intent_roll,
+            x: self.yaw,
+            y: self.pitch,
+            z: self.roll,
         }
     }
 
@@ -47,9 +47,9 @@ impl MovementIntent {
     pub fn rotate_intent_quat(&self) -> Quat {
         Quat::from_euler(
             EulerRot::YXZ,
-            self.intent_yaw,
-            self.intent_pitch,
-            self.intent_roll
+            self.yaw,
+            self.pitch,
+            self.roll
         )
     }
 }
