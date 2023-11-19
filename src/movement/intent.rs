@@ -1,14 +1,14 @@
 use bevy::prelude::*;
 
-/// Controller for how an object wants to move.
+/// Information for how an object wants to move.
 /// This data is independent of the object's current transform data, but are still to be applied relative to it.
 /// For example, pressing W as a player character should walk forward in the direction they are looking.
 /// 
 /// This component is generic for anything that moves around consciously, including player characters and NPCs.
 /// How the component affects objects' transformations is up to other game systems.
-#[derive(Debug, Default, Component, Reflect)]
+#[derive(Debug, Default, Clone, Component, Reflect)]
 #[reflect(Default, Component)]
-pub struct MovementController {
+pub struct MovementIntent {
     /// Intent to move up and down, on the Y axis.
     pub intent_vertical: f32,
     /// Intent to move left and right, on the X axis.
@@ -24,7 +24,7 @@ pub struct MovementController {
     pub intent_roll: f32,
 }
 
-impl MovementController {
+impl MovementIntent {
     /// Returns the translation intent (vertical, horizontal, forward) as a 3 dimensional vector.
     pub const fn translate_intent(&self) -> Vec3 {
         Vec3 {

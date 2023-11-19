@@ -12,8 +12,12 @@ pub struct Controls {
 
     pub walk_forward: KeyCode,
     pub walk_backward: KeyCode,
-    pub strafe_left: KeyCode,
-    pub strafe_right: KeyCode,
+    pub walk_left: KeyCode,
+    pub walk_right: KeyCode,
+
+    pub roll_left: KeyCode,
+    pub roll_right: KeyCode,
+
     pub mod_sprint: KeyCode,
     pub mod_crouch: KeyCode,
 
@@ -29,8 +33,12 @@ impl Default for Controls {
 
             walk_forward: KeyCode::W,
             walk_backward: KeyCode::S,
-            strafe_left: KeyCode::A,
-            strafe_right: KeyCode::D,
+            walk_left: KeyCode::A,
+            walk_right: KeyCode::D,
+
+            roll_left: KeyCode::Q,
+            roll_right: KeyCode::R,
+
             mod_sprint: KeyCode::ShiftLeft,
             mod_crouch: KeyCode::ControlLeft,
 

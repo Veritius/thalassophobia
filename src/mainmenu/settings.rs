@@ -65,12 +65,20 @@ pub(super) fn settings_menu_system(
                 ui.push_id("settings_walk_backward", |ui| { ui_for_value(&mut controls.walk_backward, ui, type_registry) });
                 ui.end_row();
 
-                ui.label("Strafe left");
-                ui.push_id("settings_strafe_left", |ui| { ui_for_value(&mut controls.strafe_left, ui, type_registry) });
+                ui.label("Walk left");
+                ui.push_id("settings_walk_left", |ui| { ui_for_value(&mut controls.walk_left, ui, type_registry) });
                 ui.end_row();
 
-                ui.label("Strafe right");
-                ui.push_id("settings_strafe_right", |ui| { ui_for_value(&mut controls.strafe_right, ui, type_registry) });
+                ui.label("Walk right");
+                ui.push_id("settings_walk_right", |ui| { ui_for_value(&mut controls.walk_right, ui, type_registry) });
+                ui.end_row();
+
+                ui.label("Roll left");
+                ui.push_id("settings_roll_left", |ui| { ui_for_value(&mut controls.roll_left, ui, type_registry) });
+                ui.end_row();
+
+                ui.label("Roll right");
+                ui.push_id("settings_roll_right", |ui| { ui_for_value(&mut controls.roll_right, ui, type_registry) });
                 ui.end_row();
 
                 ui.label("Sprint");
