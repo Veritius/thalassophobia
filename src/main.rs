@@ -10,6 +10,7 @@ mod devmenu;
 mod mainmenu;
 mod structure;
 mod movement;
+mod vitality;
 
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::RapierPhysicsPlugin;
@@ -40,6 +41,7 @@ fn main() {
     mainmenu::setup_main_menu(&mut app);
     movement::setup_movement(&mut app);
     structure::setup_structures(&mut app);
+    vitality::setup_vitality(&mut app);
 
     app.run();
 }
