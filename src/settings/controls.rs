@@ -36,7 +36,7 @@ impl Default for ControlsSettings {
             walk_right: KeyCode::D,
 
             roll_left: KeyCode::Q,
-            roll_right: KeyCode::R,
+            roll_right: KeyCode::E,
 
             sprint: KeyCode::ShiftLeft,
             ascend: KeyCode::Space,

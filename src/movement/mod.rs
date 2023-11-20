@@ -14,8 +14,9 @@ pub(super) fn setup_movement(app: &mut bevy::prelude::App) {
         .in_set(MovementSystem::Reset));
 
     app.add_systems(Update, keyboard::keyboard_and_mouse_input_system
+        .in_set(MovementSystem::Input)
         .before(MovementSystem::Apply)
-        .in_set(MovementSystem::Input));
+        .before(MovementSystem::Reset));
 }
 
 fn reset_intents(

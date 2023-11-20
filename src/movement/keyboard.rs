@@ -20,16 +20,18 @@ pub(super) fn keyboard_and_mouse_input_system(
         intent
     }
 
+    let intent_vertical = buttons_intent(
+        keyboard.pressed(controls.ascend),
+        keyboard.pressed(controls.descend));
     let intent_horizontal = buttons_intent(
-        keyboard.pressed(controls.walk_left),
-        keyboard.pressed(controls.walk_right));
+        keyboard.pressed(controls.walk_right),
+        keyboard.pressed(controls.walk_left));
     let intent_forward = buttons_intent(
         keyboard.pressed(controls.walk_forward),
         keyboard.pressed(controls.walk_backward));
     let intent_roll = buttons_intent(
-        keyboard.pressed(controls.roll_right),
-        keyboard.pressed(controls.roll_left));
-
+        keyboard.pressed(controls.roll_left),
+        keyboard.pressed(controls.roll_right));
     let mouse_delta = mouse
         .read()
         .last() // We only care about the most recent event
@@ -41,6 +43,7 @@ pub(super) fn keyboard_and_mouse_input_system(
     }
 
     for mut controller in query.iter_mut() {
+        add_clamped(&mut controller.vertical, intent_vertical);
         add_clamped(&mut controller.horizontal, intent_horizontal);
         add_clamped(&mut controller.forward, intent_forward);
         add_clamped(&mut controller.roll, intent_roll);
