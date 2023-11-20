@@ -1,5 +1,5 @@
 # Thalassophobia
-A 3D underwater submarine crew simulator inspired by the likes of Barotrauma and Rain World, focusing on survival in an oppressive alien environment. Running on the [Bevy](https://bevyengine.org/) game engine.
+A 3D underwater submarine crew simulator inspired by the gameplay of Barotrauma and the environment of Rain World, focusing on survival in an oppressive alien environment. Running on the [Bevy](https://bevyengine.org/) game engine.
 
 Current goals:
 - [ ] Multiplayer lobbies
@@ -12,7 +12,9 @@ Future goals:
 - [ ] VR support
 
 ## Dependencies
-Linux requires the following packages to work:
+Bevy documents its dependencies for all platforms [here](https://bevyengine.org/learn/book/getting-started/setup/#install-os-dependencies).
+
+### Linux
 - `libxcb-render0-dev`
 - `libxcb-shape0-dev`
 - `libxcb-xfixes0-dev`
