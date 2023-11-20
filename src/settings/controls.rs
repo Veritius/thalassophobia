@@ -16,8 +16,9 @@ pub struct ControlsSettings {
     pub roll_left: KeyCode,
     pub roll_right: KeyCode,
 
-    pub mod_sprint: KeyCode,
-    pub mod_crouch: KeyCode,
+    pub sprint: KeyCode,
+    pub ascend: KeyCode,
+    pub descend: KeyCode,
 
     pub action_primary: MouseButton,
     pub action_secondary: MouseButton,
@@ -37,8 +38,9 @@ impl Default for ControlsSettings {
             roll_left: KeyCode::Q,
             roll_right: KeyCode::R,
 
-            mod_sprint: KeyCode::ShiftLeft,
-            mod_crouch: KeyCode::ControlLeft,
+            sprint: KeyCode::ShiftLeft,
+            ascend: KeyCode::Space,
+            descend: KeyCode::ControlLeft,
 
             action_primary: MouseButton::Left,
             action_secondary: MouseButton::Right,

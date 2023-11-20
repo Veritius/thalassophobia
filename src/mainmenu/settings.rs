@@ -57,11 +57,12 @@ pub(super) fn settings_menu_system(
                     setting_reflect(ui, type_registry, "Walk left", &mut controls.walk_left);
                     setting_reflect(ui, type_registry, "Walk right", &mut controls.walk_right);
 
-                    setting_reflect(ui, type_registry, "Roll left", &mut controls.roll_left);
-                    setting_reflect(ui, type_registry, "Roll right", &mut controls.roll_right);
+                    setting_reflect(ui, type_registry, "Roll/lean left", &mut controls.roll_left);
+                    setting_reflect(ui, type_registry, "Roll/lean right", &mut controls.roll_right);
 
-                    setting_reflect(ui, type_registry, "Sprint", &mut controls.mod_sprint);
-                    setting_reflect(ui, type_registry, "Crouch", &mut controls.mod_crouch);
+                    setting_reflect(ui, type_registry, "Sprint", &mut controls.sprint);
+                    setting_reflect(ui, type_registry, "Ascend / Jump", &mut controls.ascend);
+                    setting_reflect(ui, type_registry, "Descend / Crouch", &mut controls.descend);
 
                     setting_reflect(ui, type_registry, "Primary interact", &mut controls.action_primary);
                     setting_reflect(ui, type_registry, "Secondary interact", &mut controls.action_secondary);
