@@ -1,9 +1,8 @@
 use bevy::prelude::*;
 
-/// Shoots bullets, taking from [`AmmoProvider`](super::ammo::AmmoProvider)s.
-// TODO: Name this component better.
+/// Shoots [`AmmoCartridge`](super::ammo::AmmoCartridge)s  from [`AmmoProvider`](super::ammo::AmmoProvider)s.
 #[derive(Debug, Component, Reflect)]
-pub struct FiringPiece {
+pub struct Gun {
     /// Specifies an `AmmoProvider` to use.
     pub provider: Option<Entity>,
 

@@ -8,5 +8,5 @@ use bevy::prelude::*;
 pub(super) fn setup_guns(app: &mut App) {
     app.register_type::<ammo::AmmoCartridge>();
     app.register_type::<ammo::AmmoProvider>();
-    app.register_type::<firing::FiringPiece>();
+    app.register_type::<firing::Gun>();
 }
