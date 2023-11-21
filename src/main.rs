@@ -2,15 +2,18 @@
 
 #![warn(missing_docs)]
 
-mod globals;
-mod state;
-mod settings;
 #[cfg(feature="dev")]
 mod devmenu;
-mod mainmenu;
-mod structure;
-mod movement;
+
+mod globals;
+mod guns;
 mod health;
+mod items;
+mod mainmenu;
+mod movement;
+mod settings;
+mod state;
+mod structure;
 
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::RapierPhysicsPlugin;
@@ -33,18 +36,20 @@ fn main() {
     // UI (will be removed in future when bevy_ui is better)
     app.add_plugins(EguiPlugin);
 
-    // Add subsystems
-    state::setup_game_state(&mut app);
-    settings::setup_settings(&mut app);
-    mainmenu::setup_main_menu(&mut app);
-    movement::setup_movement(&mut app);
-    structure::setup_structures(&mut app);
-    health::setup_health(&mut app);
-
     // Development subsystems
     #[cfg(feature="dev")] {
         devmenu::setup_dev_menu(&mut app);
     }
+
+    // Add subsystems
+    guns::setup_guns(&mut app);
+    health::setup_health(&mut app);
+    items::setup_items(&mut app);
+    mainmenu::setup_main_menu(&mut app);
+    movement::setup_movement(&mut app);
+    settings::setup_settings(&mut app);
+    state::setup_game_state(&mut app);
+    structure::setup_structures(&mut app);
 
     app.run();
 }
