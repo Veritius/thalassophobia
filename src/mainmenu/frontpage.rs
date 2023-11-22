@@ -19,25 +19,40 @@ pub(super) fn front_page_system(
     .movable(false)
     .show(ctx, |ui| {
         ui.vertical_centered(|ui| {
-            if ui.button("New game").clicked() {
+            ui.style_mut().spacing.item_spacing = [0.0, 4.0].into();
+
+            fn main_menu_button(
+                ui: &mut egui::Ui,
+                label: &'static str,
+            ) -> bool {
+                ui.add_sized([90.0, 12.0], egui::Button::new(label)).clicked()
+            }
+
+            if main_menu_button(ui, "New game") {
                 *page = MainMenuPage::NewGame;
             }
-            if ui.button("Load game").clicked() {
+
+            if main_menu_button(ui, "Load game") {
                 *page = MainMenuPage::LoadGame;
             }
-            if ui.button("Join game").clicked() {
+
+            if main_menu_button(ui, "Join game") {
                 *page = MainMenuPage::JoinGame;
             }
-            if ui.button("Settings").clicked() {
+
+            if main_menu_button(ui, "Settings") {
                 *page = MainMenuPage::Settings;
             }
-            if ui.button("Quit").clicked() {
+
+            if main_menu_button(ui, "Quit") {
                 exit.send(AppExit);
             }
         });
 
-        ui.add_space(4.0);
+        ui.add_space(5.0);
 
-        ui.small(format!("{} {} ({VERSION_STRING})", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION")));
+        ui.horizontal_centered(|ui| {
+            ui.small(format!("{} {} ({VERSION_STRING})", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION")));
+        });
     });
 }
