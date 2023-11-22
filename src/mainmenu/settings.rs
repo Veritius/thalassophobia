@@ -1,5 +1,7 @@
+use std::ops::RangeInclusive;
+
 use bevy::{prelude::*, reflect::TypeRegistry};
-use bevy_egui::{egui, EguiContexts};
+use bevy_egui::{egui::{self, emath::Numeric}, EguiContexts};
 use crate::settings::*;
 use super::MainMenuPage;
 
@@ -35,12 +37,13 @@ pub(super) fn settings_menu_system(
                 ui.heading("Graphics");
                 egui::Grid::new("settings_grid_graphics")
                 .show(ui, |ui| {
-                    setting_reflect(ui, type_registry, "Model quality", &mut graphics.model_detail);
-                    setting_reflect(ui, type_registry, "Texture quality", &mut graphics.texture_quality);
-                    setting_reflect(ui, type_registry, "Lighting quality", &mut graphics.lighting_quality);
-                    setting_reflect(ui, type_registry, "Particle quality", &mut graphics.particle_quality);
-                    setting_reflect(ui, type_registry, "Shader quality", &mut graphics.shader_quality);
-                    setting_reflect(ui, type_registry, "LOD aggression", &mut graphics.lod_aggression);
+                    reflect_combobox(ui, type_registry, "Model quality", &mut graphics.model_detail);
+                    reflect_combobox(ui, type_registry, "Texture quality", &mut graphics.texture_quality);
+                    reflect_combobox(ui, type_registry, "Lighting quality", &mut graphics.lighting_quality);
+                    reflect_combobox(ui, type_registry, "Particle quality", &mut graphics.particle_quality);
+                    reflect_combobox(ui, type_registry, "Shader quality", &mut graphics.shader_quality);
+
+                    graphics_slider(ui, "LOD aggression", &mut graphics.lod_aggression, -10.0..=10.0)
                 });
             });
 
@@ -49,23 +52,23 @@ pub(super) fn settings_menu_system(
                 egui::Grid::new("settings_grid_controls")
                 .show(ui, |ui| {
                     #[cfg(feature="dev")] {
-                        setting_reflect(ui, type_registry, "Developer menu", &mut controls.toggle_dev_menu);
+                        reflect_combobox(ui, type_registry, "Developer menu", &mut controls.toggle_dev_menu);
                     }
 
-                    setting_reflect(ui, type_registry, "Walk forward", &mut controls.walk_forward);
-                    setting_reflect(ui, type_registry, "Walk backward", &mut controls.walk_backward);
-                    setting_reflect(ui, type_registry, "Walk left", &mut controls.walk_left);
-                    setting_reflect(ui, type_registry, "Walk right", &mut controls.walk_right);
+                    reflect_combobox(ui, type_registry, "Walk forward", &mut controls.walk_forward);
+                    reflect_combobox(ui, type_registry, "Walk backward", &mut controls.walk_backward);
+                    reflect_combobox(ui, type_registry, "Walk left", &mut controls.walk_left);
+                    reflect_combobox(ui, type_registry, "Walk right", &mut controls.walk_right);
 
-                    setting_reflect(ui, type_registry, "Roll/lean left", &mut controls.roll_left);
-                    setting_reflect(ui, type_registry, "Roll/lean right", &mut controls.roll_right);
+                    reflect_combobox(ui, type_registry, "Roll/lean left", &mut controls.roll_left);
+                    reflect_combobox(ui, type_registry, "Roll/lean right", &mut controls.roll_right);
 
-                    setting_reflect(ui, type_registry, "Sprint", &mut controls.sprint);
-                    setting_reflect(ui, type_registry, "Ascend / Jump", &mut controls.ascend);
-                    setting_reflect(ui, type_registry, "Descend / Crouch", &mut controls.descend);
+                    reflect_combobox(ui, type_registry, "Sprint", &mut controls.sprint);
+                    reflect_combobox(ui, type_registry, "Ascend / Jump", &mut controls.ascend);
+                    reflect_combobox(ui, type_registry, "Descend / Crouch", &mut controls.descend);
 
-                    setting_reflect(ui, type_registry, "Primary interact", &mut controls.action_primary);
-                    setting_reflect(ui, type_registry, "Secondary interact", &mut controls.action_secondary);
+                    reflect_combobox(ui, type_registry, "Primary interact", &mut controls.action_primary);
+                    reflect_combobox(ui, type_registry, "Secondary interact", &mut controls.action_secondary);
                 });
             });
 
@@ -73,7 +76,7 @@ pub(super) fn settings_menu_system(
                 ui.heading("Audio");
                 egui::Grid::new("settings_grid_audio")
                 .show(ui, |ui| {
-                    setting_reflect(ui, type_registry, "Master", &mut audio.level_master);
+                    audio_slider(ui, "Master volume", &mut audio.level_master);
                 });
             });
         });
@@ -92,7 +95,7 @@ pub(super) fn settings_menu_system(
     });
 }
 
-fn setting_reflect(
+fn reflect_combobox(
     ui: &mut egui::Ui,
     type_registry: &TypeRegistry,
     label: &'static str,
@@ -105,5 +108,26 @@ fn setting_reflect(
         #[cfg(not(feature="dev"))]
         unimplemented!()
     });
+    ui.end_row();
+}
+
+fn graphics_slider<T: Numeric>(
+    ui: &mut egui::Ui,
+    label: &'static str,
+    value: &mut T,
+    range: RangeInclusive<T>,
+) {
+    ui.label(label);
+    ui.add(egui::Slider::new(value, range).show_value(false));
+    ui.end_row();
+}
+
+fn audio_slider(
+    ui: &mut egui::Ui,
+    label: &'static str,
+    value: &mut f32,
+) {
+    ui.label(label);
+    ui.add(egui::Slider::new(value, 0.0..=1.0));
     ui.end_row();
 }
