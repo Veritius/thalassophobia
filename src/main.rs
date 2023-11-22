@@ -14,6 +14,7 @@ mod movement;
 mod settings;
 mod state;
 mod structure;
+mod compartments;
 
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::RapierPhysicsPlugin;
@@ -50,6 +51,7 @@ fn main() {
     settings::setup_settings(&mut app);
     state::setup_game_state(&mut app);
     structure::setup_structures(&mut app);
+    compartments::setup_compartments(&mut app);
 
     app.run();
 }
