@@ -1,10 +1,12 @@
-use bevy::prelude::ResMut;
-use bevy_egui::{egui, EguiContexts};
-use super::MainMenuPage;
+use bevy::prelude::*;
+use bevy_egui::{egui::{self, Widget}, EguiContexts};
+use super::{MainMenuPage, multiplayer::{MultiplayerHostConfig, toggle_multiplayer_button}};
 
 pub(super) fn new_game_menu_system(
+    mut commands: Commands,
     mut contexts: EguiContexts,
     mut menu: ResMut<MainMenuPage>,
+    mut multiplayer: Option<ResMut<MultiplayerHostConfig>>,
 ) {
     let ctx = contexts.ctx_mut();
 
@@ -19,20 +21,30 @@ pub(super) fn new_game_menu_system(
 
         ui.separator();
 
+        if let Some(ref mut multiplayer) = multiplayer {
+            multiplayer.ui(ui);
+            ui.separator();
+        }
+
         ui.horizontal(|ui| {
             if ui.button("Cancel").clicked() {
                 *menu = MainMenuPage::FrontPage;
+                commands.remove_resource::<MultiplayerHostConfig>();
             }
             if ui.button("Confirm").clicked() {
                 todo!()
             }
+
+            toggle_multiplayer_button(ui, &mut commands, &mut multiplayer);
         });
     });
 }
 
 pub(super) fn load_game_menu_system(
+    mut commands: Commands,
     mut contexts: EguiContexts,
     mut menu: ResMut<MainMenuPage>,
+    mut multiplayer: Option<ResMut<MultiplayerHostConfig>>,
 ) {
     let ctx = contexts.ctx_mut();
 
@@ -47,13 +59,21 @@ pub(super) fn load_game_menu_system(
 
         ui.separator();
 
+        if let Some(ref mut multiplayer) = multiplayer {
+            multiplayer.ui(ui);
+            ui.separator();
+        }
+
         ui.horizontal(|ui| {
             if ui.button("Cancel").clicked() {
                 *menu = MainMenuPage::FrontPage;
+                commands.remove_resource::<MultiplayerHostConfig>();
             }
             if ui.button("Confirm").clicked() {
                 todo!()
             }
+
+            toggle_multiplayer_button(ui, &mut commands, &mut multiplayer);
         });
     });
 }

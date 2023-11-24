@@ -2,6 +2,7 @@ mod frontpage;
 mod settings;
 mod startgame;
 mod joingame;
+mod multiplayer;
 
 use bevy::prelude::*;
 use crate::state::GameState;
