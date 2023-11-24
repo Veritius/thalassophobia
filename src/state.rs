@@ -1,14 +1,16 @@
 use bevy::prelude::*;
 
 pub(super) fn setup_game_state(app: &mut App) {
-    app.register_type::<GameState>();
     app.register_type::<SimulationState>();
+    app.register_type::<MultiplayerState>();
 
-    app.add_state::<GameState>();
+    app.add_state::<SimulationState>();
+    app.add_state::<MultiplayerState>();
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect, States)]
-pub enum GameState {
+#[reflect(PartialEq)]
+pub enum SimulationState {
     /// In the main menu.
     #[default]
     MainMenu,
@@ -17,19 +19,15 @@ pub enum GameState {
     Loading,
 
     /// Running.
-    Simulating {
-        state: SimulationState,
-    },
+    Simulating,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, Hash)]
-pub enum SimulationState {
-    /// Playing by yourself.
-    Singleplayer,
-
-    /// Connected to a remote lobby as a client.
-    Multiplayer,
-
-    /// Hosting a lobby and also playing in it.
-    HostingLobby,
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect, States)]
+#[reflect(PartialEq)]
+pub enum MultiplayerState {
+    #[default]
+    Inactive,
+    Standby,
+    Hosting,
+    Client,
 }
