@@ -5,6 +5,8 @@
 #[cfg(feature="dev")]
 mod devmenu;
 
+mod compartments;
+mod gamestate;
 mod globals;
 mod guns;
 mod health;
@@ -12,9 +14,7 @@ mod items;
 mod mainmenu;
 mod movement;
 mod settings;
-mod state;
 mod structure;
-mod compartments;
 
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::RapierPhysicsPlugin;
@@ -43,15 +43,15 @@ fn main() {
     }
 
     // Add subsystems
+    compartments::setup_compartments(&mut app);
+    gamestate::setup_game_state(&mut app);
     guns::setup_guns(&mut app);
     health::setup_health(&mut app);
     items::setup_items(&mut app);
     mainmenu::setup_main_menu(&mut app);
     movement::setup_movement(&mut app);
     settings::setup_settings(&mut app);
-    state::setup_game_state(&mut app);
     structure::setup_structures(&mut app);
-    compartments::setup_compartments(&mut app);
 
     app.run();
 }

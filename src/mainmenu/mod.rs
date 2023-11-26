@@ -5,7 +5,8 @@ mod joingame;
 mod multiplayer;
 
 use bevy::prelude::*;
-use crate::state::SimulationState;
+use crate::gamestate::AppState;
+
 use self::{
     frontpage::front_page_system,
     settings::settings_menu_system,
@@ -27,8 +28,8 @@ enum MainMenuPage {
 pub(super) fn setup_main_menu(app: &mut App) {
     app.register_type::<MainMenuPage>();
 
-    app.add_systems(OnEnter(SimulationState::MainMenu), |mut commands: Commands| { commands.init_resource::<MainMenuPage>() });
-    app.add_systems(OnExit(SimulationState::MainMenu), |mut commands: Commands| { commands.remove_resource::<MainMenuPage>() });
+    app.add_systems(OnEnter(AppState::MainMenu), |mut commands: Commands| { commands.init_resource::<MainMenuPage>() });
+    app.add_systems(OnExit(AppState::MainMenu), |mut commands: Commands| { commands.remove_resource::<MainMenuPage>() });
 
     // Menu systems
     app.add_systems(Update, front_page_system
