@@ -1,8 +1,7 @@
 mod frontpage;
 mod settings;
-mod startgame;
 mod joingame;
-mod multiplayer;
+mod lobby;
 
 use bevy::prelude::*;
 use crate::gamestate::AppState;
@@ -10,8 +9,7 @@ use crate::gamestate::AppState;
 use self::{
     frontpage::front_page_system,
     settings::settings_menu_system,
-    startgame::{load_game_menu_system, new_game_menu_system},
-    joingame::join_game_menu_system,
+    joingame::join_game_menu_system, lobby::lobby_menu_system,
 };
 
 #[derive(Debug, Default, Resource, PartialEq, Eq, Reflect)]
@@ -20,8 +18,6 @@ enum MainMenuPage {
     #[default]
     FrontPage,
     Settings,
-    NewGame,
-    LoadGame,
     JoinGame,
 }
 
@@ -33,13 +29,16 @@ pub(super) fn setup_main_menu(app: &mut App) {
 
     // Menu systems
     app.add_systems(Update, front_page_system
+        .run_if(in_state(AppState::MainMenu))
         .run_if(resource_exists_and_equals(MainMenuPage::FrontPage)));
     app.add_systems(Update, settings_menu_system
+        .run_if(in_state(AppState::MainMenu))
         .run_if(resource_exists_and_equals(MainMenuPage::Settings)));
-    app.add_systems(Update, new_game_menu_system
-        .run_if(resource_exists_and_equals(MainMenuPage::NewGame)));
-    app.add_systems(Update, load_game_menu_system
-        .run_if(resource_exists_and_equals(MainMenuPage::LoadGame)));
     app.add_systems(Update, join_game_menu_system
+        .run_if(in_state(AppState::MainMenu))
         .run_if(resource_exists_and_equals(MainMenuPage::JoinGame)));
+
+    // Lobby UI
+    app.add_systems(Update, lobby_menu_system
+        .run_if(in_state(AppState::Lobby)));
 }

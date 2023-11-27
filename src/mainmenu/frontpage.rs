@@ -1,5 +1,6 @@
 use bevy::{prelude::*, app::AppExit};
 use bevy_egui::{egui::{self, Align2}, EguiContexts};
+use crate::gamestate::AppState;
 use super::MainMenuPage;
 
 static VERSION_STRING: &'static str = if cfg!(debug_assertions = "true") { "debug" } else { "release" };
@@ -8,6 +9,7 @@ pub(super) fn front_page_system(
     mut contexts: EguiContexts,
     mut page: ResMut<MainMenuPage>,
     mut exit: EventWriter<AppExit>,
+    mut next_app_state: ResMut<NextState<AppState>>,
 ) {
     let ctx = contexts.ctx_mut();
 
@@ -28,12 +30,8 @@ pub(super) fn front_page_system(
                 ui.add_sized([90.0, 12.0], egui::Button::new(label)).clicked()
             }
 
-            if main_menu_button(ui, "New game") {
-                *page = MainMenuPage::NewGame;
-            }
-
-            if main_menu_button(ui, "Load game") {
-                *page = MainMenuPage::LoadGame;
+            if main_menu_button(ui, "Create lobby") {
+                next_app_state.set(AppState::Lobby);
             }
 
             if main_menu_button(ui, "Join game") {

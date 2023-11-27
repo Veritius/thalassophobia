@@ -16,6 +16,7 @@ pub(super) fn settings_menu_system(
     mut graphics: ResMut<GraphicsSettings>,
     mut controls: ResMut<ControlsSettings>,
     mut audio: ResMut<AudioSettings>,
+    mut network: ResMut<NetworkSettings>,
 ) {
     let ctx = contexts.ctx_mut();
     let type_registry = &*type_registry.read();
@@ -77,6 +78,14 @@ pub(super) fn settings_menu_system(
                 egui::Grid::new("settings_grid_audio")
                 .show(ui, |ui| {
                     audio_slider(ui, "Master volume", &mut audio.level_master);
+                });
+            });
+
+            ui.vertical(|ui| {
+                ui.heading("Network");
+                egui::Grid::new("settings_grid_network")
+                .show(ui, |ui| {
+                    ui.label("To do");
                 });
             });
         });
