@@ -21,5 +21,7 @@ pub enum AppState {
     #[default]
     MainMenu,
 
+    Lobby,
+
     InGame,
 }

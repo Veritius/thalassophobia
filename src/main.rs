@@ -13,12 +13,12 @@ mod health;
 mod items;
 mod mainmenu;
 mod movement;
+mod multiplayer;
 mod settings;
 mod structure;
 
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::RapierPhysicsPlugin;
-use bevy_stardust::prelude::*;
 use bevy_egui::EguiPlugin;
 
 fn main() {
@@ -28,11 +28,10 @@ fn main() {
     app.add_plugins((
         DefaultPlugins,
         RapierPhysicsPlugin::<()>::default(),
-        StardustPlugin,
     ));
 
-    // Transport layers for Stardust
-    app.add_plugins(UdpTransportPlugin);
+    // Set up multiplayer
+    multiplayer::setup_multiplayer(&mut app);
 
     // UI (will be removed in future when bevy_ui is better)
     app.add_plugins(EguiPlugin);
