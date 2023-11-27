@@ -9,6 +9,9 @@ pub(super) fn setup_game_state(app: &mut App) {
 
     app.add_state::<AppState>();
     app.add_state::<SimulationState>();
+
+    app.add_systems(OnEnter(SimulationState::Stopped), pause_simulation);
+    app.add_systems(OnEnter(SimulationState::Running), unpause_simulation);
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect, States)]

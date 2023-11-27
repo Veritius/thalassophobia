@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_egui::{egui, EguiContexts};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier3d::render::{RapierDebugRenderPlugin, DebugRenderContext};
-use crate::settings::ControlsSettings;
+use crate::{settings::ControlsSettings, gamestate::simulation::SimulationState};
 
 /// Various debugging features that can be turned off and on at runtime.
 #[derive(Debug, Resource, Reflect)]
@@ -26,7 +26,7 @@ pub(super) fn setup_dev_menu(app: &mut App) {
     app.add_plugins(
         WorldInspectorPlugin::new()
         .run_if(IntoSystem::into_system(|menu: Res<DeveloperMenu>| {
-            menu.visible && menu.inspector_enabled
+            menu.inspector_enabled
         }))
     );
 
@@ -43,6 +43,8 @@ pub(super) fn setup_dev_menu(app: &mut App) {
 fn developer_menu_system(
     controls: Res<ControlsSettings>,
     input: Res<Input<KeyCode>>,
+    state: Res<State<SimulationState>>,
+    mut next_sim_state: ResMut<NextState<SimulationState>>,
     mut menu: ResMut<DeveloperMenu>,
     mut ctx: EguiContexts,
     mut phys_ctx: ResMut<DebugRenderContext>,
@@ -57,6 +59,18 @@ fn developer_menu_system(
     egui::TopBottomPanel::top("dev_menu")
     .show(ctx, |ui| {
         egui::menu::bar(ui, |ui| {
+            ui.menu_button("Simulation", |ui| {
+                if ui.button(match state.get() {
+                    SimulationState::Stopped => "Unpause time",
+                    SimulationState::Running => "Pause time",
+                }).clicked() {
+                    match state.get() {
+                        SimulationState::Stopped => next_sim_state.set(SimulationState::Running),
+                        SimulationState::Running => next_sim_state.set(SimulationState::Stopped),
+                    }
+                }
+            });
+
             ui.menu_button("Debugging", |ui| {
                 ui.checkbox(&mut menu.inspector_enabled, "World inspector");
                 ui.checkbox(&mut menu.network_stats_enabled, "Network stats");

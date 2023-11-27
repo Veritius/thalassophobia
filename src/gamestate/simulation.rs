@@ -3,9 +3,18 @@ use bevy::prelude::*;
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect, States)]
 pub enum SimulationState {
     #[default]
-    Offline,
+    Stopped,
+    Running,
+}
 
-    Frozen,
+pub(super) fn pause_simulation(
+    mut time: ResMut<Time<Virtual>>,
+) {
+    time.pause();
+}
 
-    Simulating,
+pub(super) fn unpause_simulation(
+    mut time: ResMut<Time<Virtual>>,
+) {
+    time.unpause();
 }
