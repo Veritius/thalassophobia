@@ -1,0 +1,2 @@
+# Creatures
+Creatures serve as an enemy to both crewmembers and the submarine as a whole. Individual creatures are part of a [wider ecosystem](./ecosystem.md), and [each have their own motivations](./ai.md).
