@@ -12,7 +12,8 @@
                 "args": [
                     "build",
                     "--bin=thalassophobia",
-                    "--package=thalassophobia"
+                    "--package=thalassophobia",
+                    "--features=dev",
                 ],
                 "filter": {
                     "name": "thalassophobia",

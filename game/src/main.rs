@@ -7,6 +7,8 @@ mod devmenu;
 
 mod gamestate;
 mod mainmenu;
+
+#[cfg(feature="multiplayer")]
 mod multiplayer;
 
 use bevy::prelude::*;
@@ -23,6 +25,7 @@ fn main() {
     ));
 
     // Set up multiplayer
+    #[cfg(feature="multiplayer")]
     multiplayer::setup_multiplayer(&mut app);
 
     // UI (will be removed in future when bevy_ui is better)
