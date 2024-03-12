@@ -22,7 +22,7 @@ You can click on the license name to open a copy, or if viewing this document as
 
 | Path     | License                                      |
 | -------- | -------------------------------------------- |
-| `game`   | [GNU Affero General Public License 3.0]      |
+| `game`   | [Mozilla Public License 2.0]                 |
 | `assets` | [Mixed licenses][assets-licensing]           |
 | `design` | [Creative Commons BY-SA 4.0 License]         |
 
@@ -32,5 +32,5 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 [assets-licensing]: ./assets/README.md#license
 
 <!-- Links to the licenses -->
-[GNU Affero General Public License 3.0]: ./LICENSE-AGPL
+[Mozilla Public License 2.0]: ./LICENSE-MPL
 [Creative Commons BY-SA 4.0 License]: ./LICENSE-CC
