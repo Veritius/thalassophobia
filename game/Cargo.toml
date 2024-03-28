@@ -8,7 +8,7 @@ authors = ["veritius <veritiusgaming@gmail.com>"]
 # Required for core functionality
 bevy = "0.13"
 bevy_rapier3d = { version = "0.25", features = ["simd-stable", "parallel"]}
-leafwing-input-manager = "0.13"
+leafwing-input-manager = { version = "0.13", features = ["egui"] }
 serde = { version = "1", features = ["derive"] }
 
 # Required for defs
