@@ -28,6 +28,8 @@ fn main() {
     app.add_plugins(multiplayer::MultiplayerPlugin);
 
     // UI (will be removed in future when bevy_ui is better)
+    // Cfg flag because of this issue: https://github.com/jakobhellermann/bevy-inspector-egui/issues/175
+    #[cfg(not(feature="dev"))]
     app.add_plugins(bevy_egui::EguiPlugin);
 
     // Development subsystems
