@@ -5,6 +5,8 @@
 #[cfg(feature="dev")]
 mod devmenu;
 
+mod ui;
+
 mod gamestate;
 mod mainmenu;
 
@@ -28,15 +30,15 @@ fn main() {
     app.add_plugins(multiplayer::MultiplayerPlugin);
 
     // UI (will be removed in future when bevy_ui is better)
-    app.add_plugins(bevy_egui::EguiPlugin);
+    app.add_plugins(ui::UiExtensionsPlugin);
 
     // Development subsystems
     #[cfg(feature="dev")]
     app.add_plugins(devmenu::DevMenuPlugin);
 
     // Add subsystems
-    gamestate::setup_game_state(&mut app);
-    mainmenu::setup_main_menu(&mut app);
+    app.add_plugins(gamestate::GameStatePlugin);
+    app.add_plugins(mainmenu::MainMenuPlugin);
 
     app.run();
 }
