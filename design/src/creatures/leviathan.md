@@ -1,2 +1,0 @@
-# Leviathan creatures
-Leviathan creatures are hostile creatures that rival the submarine in size, mass, and lethality. They pose the biggest threat to the submarine out of all the creature classes. They are immediately hostile to the submarine and its crew. Leviathan creatures can be used as boss monsters, ways to block off paths without using immersion-breaking tactics such as invisible walls, etc.
