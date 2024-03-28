@@ -4,6 +4,37 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier3d::render::{RapierDebugRenderPlugin, DebugRenderContext};
 use crate::gamestate::simulation::SimulationState;
 
+pub(crate) struct DevMenuPlugin;
+
+impl Plugin for DevMenuPlugin {
+    fn build(&self, app: &mut App) {
+            // Add developer menu resource
+        app.insert_resource(DeveloperMenu {
+            visible: false,
+
+            inspector_enabled: false,
+            network_stats_enabled: false,
+        });
+
+        // Add world inspector plugin
+        app.add_plugins(
+            WorldInspectorPlugin::new()
+            .run_if(IntoSystem::into_system(|menu: Res<DeveloperMenu>| {
+                menu.inspector_enabled
+            }))
+        );
+
+        // Add debug physics view plugin
+        app.add_plugins(
+            RapierDebugRenderPlugin::default()
+            .disabled()
+        );
+
+        // Add system
+        app.add_systems(Update, developer_menu_system);
+    }
+}
+
 /// Various debugging features that can be turned off and on at runtime.
 #[derive(Debug, Resource, Reflect)]
 pub struct DeveloperMenu {
@@ -11,33 +42,6 @@ pub struct DeveloperMenu {
 
     pub inspector_enabled: bool,
     pub network_stats_enabled: bool,
-}
-
-pub(super) fn setup_dev_menu(app: &mut App) {
-    // Add developer menu resource
-    app.insert_resource(DeveloperMenu {
-        visible: false,
-
-        inspector_enabled: false,
-        network_stats_enabled: false,
-    });
-
-    // Add world inspector plugin
-    app.add_plugins(
-        WorldInspectorPlugin::new()
-        .run_if(IntoSystem::into_system(|menu: Res<DeveloperMenu>| {
-            menu.inspector_enabled
-        }))
-    );
-
-    // Add debug physics view plugin
-    app.add_plugins(
-        RapierDebugRenderPlugin::default()
-        .disabled()
-    );
-
-    // Add system
-    app.add_systems(Update, developer_menu_system);
 }
 
 fn developer_menu_system(

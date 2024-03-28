@@ -17,12 +17,16 @@ pub enum MultiplayerState {
     Running,
 }
 
-pub(super) fn setup_multiplayer(app: &mut App) {
-    app.add_plugins((
-        StardustPlugin,
-        UdpTransportPlugin::balanced(APP_NET_VERSION),
-    ));
+pub(crate) struct MultiplayerPlugin;
 
-    app.register_type::<MultiplayerState>();
-    app.init_state::<MultiplayerState>();
+impl Plugin for MultiplayerPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_plugins((
+            StardustPlugin,
+            UdpTransportPlugin::balanced(APP_NET_VERSION),
+        ));
+    
+        app.register_type::<MultiplayerState>();
+        app.init_state::<MultiplayerState>();
+    }
 }

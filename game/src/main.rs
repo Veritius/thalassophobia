@@ -26,15 +26,14 @@ fn main() {
 
     // Set up multiplayer
     #[cfg(feature="multiplayer")]
-    multiplayer::setup_multiplayer(&mut app);
+    app.add_plugins(multiplayer::MultiplayerPlugin);
 
     // UI (will be removed in future when bevy_ui is better)
     app.add_plugins(EguiPlugin);
 
     // Development subsystems
-    #[cfg(feature="dev")] {
-        devmenu::setup_dev_menu(&mut app);
-    }
+    #[cfg(feature="dev")]
+    app.add_plugins(devmenu::DevMenuPlugin);
 
     // Add subsystems
     gamestate::setup_game_state(&mut app);
