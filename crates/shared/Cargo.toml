@@ -1,0 +1,11 @@
+[package]
+name = "thalassophobia_shared"
+version = "0.1.0"
+edition = "2021"
+authors = ["veritius <veritiusgaming@gmail.com>"]
+
+[lib]
+crate-type = ["dylib"]
+
+[dependencies]
+thalassophobia_defs = { path = "../defs" }

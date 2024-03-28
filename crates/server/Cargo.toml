@@ -1,0 +1,8 @@
+[package]
+name = "thalassophobia_server"
+version = "0.1.0"
+edition = "2021"
+authors = ["veritius <veritiusgaming@gmail.com>"]
+
+[dependencies]
+thalassophobia_shared = { path = "../shared" }
