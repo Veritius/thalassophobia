@@ -21,11 +21,12 @@ pub(crate) struct MultiplayerPlugin;
 
 impl Plugin for MultiplayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins((
-            StardustPlugin,
-            UdpTransportPlugin::balanced(APP_NET_VERSION),
-        ));
-    
+        // Core networking plugin
+        app.add_plugins(StardustPlugin);
+
+        // Transport layer plugins
+        UdpTransportPlugin::balanced(APP_NET_VERSION);
+
         app.register_type::<MultiplayerState>();
         app.init_state::<MultiplayerState>();
     }

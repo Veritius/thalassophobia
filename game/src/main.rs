@@ -13,7 +13,6 @@ mod multiplayer;
 
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::RapierPhysicsPlugin;
-use bevy_egui::EguiPlugin;
 
 fn main() {
     let mut app = App::new();
@@ -29,7 +28,7 @@ fn main() {
     app.add_plugins(multiplayer::MultiplayerPlugin);
 
     // UI (will be removed in future when bevy_ui is better)
-    app.add_plugins(EguiPlugin);
+    app.add_plugins(bevy_egui::EguiPlugin);
 
     // Development subsystems
     #[cfg(feature="dev")]

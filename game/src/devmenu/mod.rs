@@ -8,7 +8,7 @@ pub(crate) struct DevMenuPlugin;
 
 impl Plugin for DevMenuPlugin {
     fn build(&self, app: &mut App) {
-            // Add developer menu resource
+        // Add developer menu resource
         app.insert_resource(DeveloperMenu {
             visible: false,
 
