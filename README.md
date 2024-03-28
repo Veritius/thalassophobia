@@ -21,7 +21,7 @@ You can click on the license name to open a copy, or if viewing this document as
 
 | Path     | License                                      |
 | -------- | -------------------------------------------- |
-| `game`   | [Mozilla Public License 2.0]                 |
+| `crates` | [Mozilla Public License 2.0]                 |
 | `assets` | [Mixed licenses][assets-licensing]           |
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work, will be licensed as above. All assets included in the work are credited in [CREDITS.md](./CREDITS.md).

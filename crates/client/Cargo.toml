@@ -1,0 +1,12 @@
+[package]
+name = "thalassophobia_client"
+version = "0.1.0"
+edition = "2021"
+authors = ["veritius <veritiusgaming@gmail.com>"]
+
+[dependencies]
+thalassophobia_shared = { path = "../shared" }
+thalassophobia_server = { path = "../server", optional = true }
+
+[features]
+listen = ["thalassophobia_server"]
