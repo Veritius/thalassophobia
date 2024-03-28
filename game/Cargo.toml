@@ -15,7 +15,7 @@ serde = { version = "1", features = ["derive"] }
 ron = "0.8"
 
 # Required for UI
-bevy_egui = "0.26"
+bevy_egui = "0.25"
 
 # Required for multiplayer
 bevy_stardust = { version = "0.4", optional = true }
