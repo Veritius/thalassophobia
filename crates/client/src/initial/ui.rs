@@ -99,11 +99,18 @@ pub(super) fn update_loading_screen(
     mut bar: Query<&mut Style, With<InitialLoadingUiBar>>,
     mut txt: Query<&mut Text, With<InitialLoadingInfoText>>,
 ) {
-    let per = (progress.done() as f32 / progress.required() as f32) * 100.0;
-    bar.single_mut().width = Val::Percent(per);
-    let text = &mut txt.single_mut().sections[0].value;
-    text.clear();
-    text.push_str(&format!("{} / {}", progress.done(), progress.required()));
+    // Update bars
+    let percent = (progress.done() as f32 / progress.required() as f32) * 100.0;
+    for mut bar in bar.iter_mut() {
+        bar.width = Val::Percent(percent);
+    }
+
+    // Update text
+    let text = format!("{} / {}", progress.done(), progress.required());
+    for mut txt in txt.iter_mut() {
+        let t = &mut txt.sections[0].value;
+        t.clear(); t.push_str(&text);
+    }
 }
 
 pub(super) fn despawn_loading_screen(

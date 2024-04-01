@@ -1,4 +1,3 @@
-mod progress;
 mod ui;
 
 use shared::bevy::prelude::*;
