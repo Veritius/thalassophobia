@@ -17,7 +17,10 @@ impl Plugin for InitialLoadingPlugin {
         ).run_if(in_state(ClientState::Initial)));
 
         app.add_systems(OnEnter(ClientState::Initial), ui::spawn_loading_screen);
-        app.add_systems(OnExit(ClientState::Initial), ui::despawn_loading_screen);
+        app.add_systems(Done::<InitialLoading>::new(), (
+            |mut next: ResMut<NextState<ClientState>>| { next.set(ClientState::MainMenu); },
+            ui::despawn_loading_screen,
+        ));
     }
 }
 
