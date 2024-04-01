@@ -18,6 +18,7 @@ impl Plugin for InitialLoadingPlugin {
 
         // Tracking update
         app.add_systems(Update, ((
+            (|| { Progress { done: 0, required: 1 } }).track_progress::<InitialLoading>(),
             ui::update_loading_screen.after(ProgressTrackingSet::<InitialLoading>::new()),
         )).run_if(in_state(ClientState::Initial)));
 
