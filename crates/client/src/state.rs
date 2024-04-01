@@ -11,7 +11,10 @@ impl Plugin for GameStatePlugin {
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, States)]
 pub enum ClientState {
-    /// In the main menu.
+    /// Loading state before the main menu.
     #[default]
+    Initial,
+
+    /// In the main menu.
     MainMenu,
 }

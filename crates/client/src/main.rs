@@ -1,3 +1,4 @@
+mod initial;
 mod settings;
 mod state;
 
@@ -8,6 +9,7 @@ fn main() {
     shared::setup(&mut app);
 
     app.add_plugins(state::GameStatePlugin);
+    app.add_plugins(initial::InitialLoadingPlugin);
 
     app.run();
 }
