@@ -4,7 +4,6 @@ mod ui;
 use shared::bevy::prelude::*;
 use shared::progress::*;
 use crate::state::ClientState;
-use progress::dummy_progress_tracker;
 
 pub(crate) struct InitialLoadingPlugin;
 
@@ -20,7 +19,6 @@ impl Plugin for InitialLoadingPlugin {
 
         // Tracking update
         app.add_systems(Update, ((
-            dummy_progress_tracker.track_progress::<InitialLoading>(),
             ui::update_loading_screen.after(ProgressTrackingSet::<InitialLoading>::new()),
         )).run_if(in_state(ClientState::Initial)));
 
