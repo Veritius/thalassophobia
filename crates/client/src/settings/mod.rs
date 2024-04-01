@@ -1,15 +1,31 @@
 use shared::bevy::prelude::*;
 use shared::movement::*;
 
-mod keybinds;
+mod access;
+mod audio;
+mod controls;
+mod graphics;
 
-pub use keybinds::*;
+pub use access::*;
+pub use audio::*;
+pub use controls::*;
+pub use graphics::*;
 
 pub(crate) struct UserSettingsPlugin;
 
 impl Plugin for UserSettingsPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<Bindings<GroundedHumanMovements>>();
-        app.init_resource::<Bindings<FloatingHumanMovements>>();
+        // Accessibility settings
+        app.init_resource::<AccessibilitySettings>();
+
+        // Audio settings
+        app.init_resource::<AudioSettings>();
+
+        // Controls settings
+        app.init_resource::<ControlSettings<GroundedHumanMovements>>();
+        app.init_resource::<ControlSettings<FloatingHumanMovements>>();
+
+        // Graphics settings
+        app.init_resource::<GraphicsSettings>();
     }
 }

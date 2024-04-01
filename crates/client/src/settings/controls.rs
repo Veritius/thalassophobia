@@ -4,9 +4,9 @@ use shared::input::prelude::*;
 use shared::movement::*;
 
 #[derive(Resource)]
-pub struct Bindings<T: Actionlike>(pub InputMap<T>);
+pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);
 
-impl Default for Bindings<GroundedHumanMovements> {
+impl Default for ControlSettings<GroundedHumanMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
@@ -39,7 +39,7 @@ impl Default for Bindings<GroundedHumanMovements> {
     }
 }
 
-impl Default for Bindings<FloatingHumanMovements> {
+impl Default for ControlSettings<FloatingHumanMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
