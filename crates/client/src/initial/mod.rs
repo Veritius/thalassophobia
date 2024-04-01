@@ -12,11 +12,19 @@ impl Plugin for InitialLoadingPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(ProgressTrackerPlugin::<InitialLoading>::default());
 
-        app.add_systems(Update, (
-            dummy_progress_tracker.track_progress::<InitialLoading>(),
-        ).run_if(in_state(ClientState::Initial)));
+        // Run at app start
+        app.add_systems(OnEnter(ClientState::Initial), (
+            start_tracking::<InitialLoading>,
+            ui::spawn_loading_screen,
+        ));
 
-        app.add_systems(OnEnter(ClientState::Initial), ui::spawn_loading_screen);
+        // Tracking update
+        app.add_systems(Update, ((
+            dummy_progress_tracker.track_progress::<InitialLoading>(),
+            ui::update_loading_screen.after(ProgressTrackingSet::<InitialLoading>::new()),
+        )).run_if(in_state(ClientState::Initial)));
+
+        // End of tracking
         app.add_systems(Done::<InitialLoading>::new(), (
             |mut next: ResMut<NextState<ClientState>>| { next.set(ClientState::MainMenu); },
             ui::despawn_loading_screen,
