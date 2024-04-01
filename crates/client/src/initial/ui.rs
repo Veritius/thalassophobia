@@ -9,6 +9,9 @@ pub(super) struct InitialLoadingUiElement;
 #[derive(Component)]
 pub(super) struct InitialLoadingUiBar;
 
+#[derive(Component)]
+pub(super) struct InitialLoadingInfoText;
+
 pub(super) fn spawn_loading_screen(
     mut commands: Commands,
     assets: Res<AssetServer>,
@@ -51,7 +54,11 @@ pub(super) fn spawn_loading_screen(
         parent.spawn(NodeBundle {
             background_color: BackgroundColor(Color::GRAY),
             style: Style {
-                margin: UiRect::top(Val::Px(12.0)),
+                margin: UiRect {
+                    top: Val::Px(12.0),
+                    bottom: Val::Px(4.0),
+                    ..default()
+                },
                 height: Val::Px(10.0),
                 width: Val::Px(160.0),
                 ..default()
@@ -71,15 +78,32 @@ pub(super) fn spawn_loading_screen(
                 },
             ));
         });
+
+        // Loading info text
+        parent.spawn((
+            InitialLoadingInfoText,
+            TextBundle::from_section(
+                "",
+                TextStyle {
+                    font: assets.load("fonts/FiraSans-Medium.ttf"),
+                    font_size: 16.0,
+                    ..default()
+                },
+            ),
+        ));
     });
 }
 
 pub(super) fn update_loading_screen(
     progress: Res<OverallProgress<InitialLoading>>,
-    mut query: Query<&mut Style, With<InitialLoadingUiBar>>,
+    mut bar: Query<&mut Style, With<InitialLoadingUiBar>>,
+    mut txt: Query<&mut Text, With<InitialLoadingInfoText>>,
 ) {
     let per = (progress.done() as f32 / progress.required() as f32) * 100.0;
-    query.single_mut().width = Val::Percent(per);
+    bar.single_mut().width = Val::Percent(per);
+    let text = &mut txt.single_mut().sections[0].value;
+    text.clear();
+    text.push_str(&format!("{} / {}", progress.done(), progress.required()));
 }
 
 pub(super) fn despawn_loading_screen(
