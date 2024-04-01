@@ -4,6 +4,17 @@ use shared::bevy_reflect;
 
 #[derive(Resource, Reflect)]
 pub struct AccessibilitySettings {
+    /*
+        General accessibility stuff
+    */
+
+    /// Only applies to the host of the game.
+    pub game_speed: f32,
+
+    /// Adjusts brightness of the world.
+    pub light_gamma: f32,
+
+    /// Color blindness config.
     pub colorblindness: ColorblindMode,
 
     /*
@@ -11,9 +22,12 @@ pub struct AccessibilitySettings {
     */
 
     /// Doesn't actually disable dismemberment, since it affects gameplay.
-    /// Instead, it just tones it down a significant amount.
+    /// Instead, limbs are greyed out to mark their disappearance.
     pub disable_dismemberment: bool,
+
+    /// Disables gib effects alongside other gore.
     pub disable_gibbing: bool,
+
     /// Fully disables blood particle effects.
     pub disable_blood: bool,
 }
@@ -21,6 +35,8 @@ pub struct AccessibilitySettings {
 impl Default for AccessibilitySettings {
     fn default() -> Self {
         Self {
+            game_speed: 0.0,
+            light_gamma: 1.0,
             colorblindness: ColorblindMode::default(),
 
             disable_dismemberment: false,
