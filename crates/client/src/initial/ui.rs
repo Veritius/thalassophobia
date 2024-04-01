@@ -40,18 +40,6 @@ pub(super) fn spawn_loading_screen(
         },
     ))
     .with_children(|parent| {
-        // Extra section for question buttons
-        parent.spawn(NodeBundle {
-            style: Style {
-                margin: UiRect::all(Val::Px(6.0)),
-                flex_direction: FlexDirection::Column,
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                ..default()
-            },
-            ..default()
-        });
-
         // Container for the loading data
         parent.spawn(NodeBundle {
             style: Style {
@@ -114,6 +102,18 @@ pub(super) fn spawn_loading_screen(
                     },
                 ),
             ));
+        });
+
+        // Extra section for question buttons
+        parent.spawn(NodeBundle {
+            style: Style {
+                margin: UiRect::all(Val::Px(6.0)),
+                flex_direction: FlexDirection::Column,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                ..default()
+            },
+            ..default()
         });
     });
 }
