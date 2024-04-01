@@ -7,16 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'thalassophobia'",
+            "name": "Debug executable 'thalassophobia_client'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=thalassophobia",
-                    "--package=thalassophobia",
-                    "--features=dev",
+                    "--bin=thalassophobia_client",
+                    "--package=thalassophobia_client",
                 ],
                 "filter": {
-                    "name": "thalassophobia",
+                    "name": "thalassophobia_client",
                     "kind": "bin"
                 }
             },

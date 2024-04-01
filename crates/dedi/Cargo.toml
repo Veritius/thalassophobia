@@ -1,5 +1,5 @@
 [package]
-name = "thalassophobia_client"
+name = "thalassophobia_dedi"
 version = "0.1.0"
 edition = "2021"
 authors = ["veritius <veritiusgaming@gmail.com>"]
@@ -7,14 +7,7 @@ authors = ["veritius <veritiusgaming@gmail.com>"]
 [dependencies.shared]
 package = "thalassophobia_shared"
 path = "../shared"
-features = ["bevy_default"]
 
 [dependencies.server]
 package = "thalassophobia_server"
 path = "../server"
-optional = true
-
-[features]
-default = ["listen"]
-multiplayer = ["shared/multiplayer"]
-listen = ["multiplayer", "server"]

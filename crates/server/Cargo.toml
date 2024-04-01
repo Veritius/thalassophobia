@@ -4,5 +4,10 @@ version = "0.1.0"
 edition = "2021"
 authors = ["veritius <veritiusgaming@gmail.com>"]
 
-[dependencies]
-thalassophobia_shared = { path = "../shared" }
+[lib]
+crate-type = ["dylib"]
+
+[dependencies.shared]
+package = "thalassophobia_shared"
+path = "../shared"
+features = ["multiplayer"]
