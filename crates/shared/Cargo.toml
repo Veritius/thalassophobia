@@ -23,7 +23,7 @@ features = ["parallel"]
 version = "0.13"
 
 [dependencies.bevy_mod_progress]
-git = "https://github.com/Veritius/bevy_mod_progress.git"
+version = "0.1"
 
 [dependencies.bevy_stardust]
 version = "0.5"
