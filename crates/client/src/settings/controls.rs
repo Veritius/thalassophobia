@@ -1,7 +1,7 @@
 use shared::bevy::prelude::*;
 use shared::bevy_ecs;
 use shared::input::prelude::*;
-use shared::movement::*;
+use shared::player::movement::*;
 
 #[derive(Resource)]
 pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);

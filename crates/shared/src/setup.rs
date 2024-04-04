@@ -15,6 +15,5 @@ pub fn setup(app: &mut App) {
     }
 
     // Subsystem plugins
-    app.add_plugins(crate::movement::MovementInputsPlugin);
     app.add_plugins(crate::state::GameStatePlugin);
 }
