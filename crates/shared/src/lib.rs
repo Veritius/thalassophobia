@@ -12,4 +12,5 @@ mod setup;
 pub use setup::setup;
 
 pub mod movement;
+pub mod player;
 pub mod state;
