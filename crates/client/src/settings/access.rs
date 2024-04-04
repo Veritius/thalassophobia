@@ -35,7 +35,7 @@ pub struct AccessibilitySettings {
 impl Default for AccessibilitySettings {
     fn default() -> Self {
         Self {
-            game_speed: 0.0,
+            game_speed: 1.0,
             light_gamma: 1.0,
             colorblindness: ColorblindMode::default(),
 
