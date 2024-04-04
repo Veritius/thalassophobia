@@ -25,6 +25,10 @@ version = "0.13"
 [dependencies.bevy_mod_progress]
 version = "0.1"
 
+[dependencies.rhai]
+version = "1.17"
+features = ["sync"]
+
 [dependencies.bevy_stardust]
 version = "0.5"
 optional = true

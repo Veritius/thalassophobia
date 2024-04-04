@@ -1,9 +1,10 @@
-pub use bevy as bevy;
+pub use bevy;
 pub use bevy::ecs as bevy_ecs;
 pub use bevy::reflect as bevy_reflect;
 pub use bevy_rapier3d as rapier;
 pub use leafwing_input_manager as input;
 pub use bevy_mod_progress as progress;
+pub use rhai;
 
 #[cfg(feature="multiplayer")]
 pub use bevy_stardust as stardust;
@@ -12,4 +13,5 @@ mod setup;
 pub use setup::setup;
 
 pub mod player;
+pub mod scripting;
 pub mod state;
