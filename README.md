@@ -3,6 +3,14 @@ A 3D submarine game set on a hostile alien planet. Running on the [Bevy](https:/
 
 ## Building
 The minimum supported Rust version is currently **nightly Rust** due to the use of `"-Zshare-generics=off"`.
+Linux builds are configured to use the [mold](https://github.com/rui314/mold) linker. To change this, go to `cargo/config.toml`.
+
+Using `cargo run` to run an executable works fine. However, to export your build to be sent to other people:
+- Ensure `libstd` and `libbevy_dylib` are in the same directory as the executable and all dynamic libraries.
+    - `libstd` can be found at `~/.rustup/toolchains` on Linux or other UNIX-like systems.
+    - `libbevy_dylib` can be found in the `deps` folder in the build directory. Make sure its hash extension matches (check with `ldd`).
+
+The dylib shenanigans are a result of how the Rust toolchain works - hopefully it improves in future.
 
 ## Contributing
 Before contributing, please read the [licensing](#license) section to understand how your work will be used.
