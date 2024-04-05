@@ -41,6 +41,10 @@ impl GameState {
         !self.is_loaded()
     }
 
+    pub fn is_paused(&self) -> bool {
+        *self == GameState::Paused
+    }
+
     pub fn is_running(&self) -> bool {
         *self == GameState::Simulating
     }
@@ -55,7 +59,7 @@ pub fn simulation_unloaded() -> impl Fn(Res<State<GameState>>) -> bool + Clone {
 }
 
 pub fn simulation_paused() -> impl Fn(Res<State<GameState>>) -> bool + Clone {
-    |state| { *state == GameState::Paused }
+    |state| { state.is_paused() }
 }
 
 pub fn simulation_running() -> impl Fn(Res<State<GameState>>) -> bool + Clone {
