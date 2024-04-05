@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use leafwing_input_manager::plugin::InputManagerPlugin;
+use crate::state::simulation_running;
 
 pub mod movement;
 pub mod controller;
@@ -14,7 +15,9 @@ impl Plugin for PlayerCharacterPlugin {
         app.add_systems(Update, (
             controller::grounded_rotation_system,
             controller::grounded_movement_system,
-        ).chain().in_set(PlayerCharacterSystemSet::Controller));
+        ).chain()
+            .run_if(simulation_running())
+            .in_set(PlayerCharacterSystemSet::Controller));
     }
 }
 
