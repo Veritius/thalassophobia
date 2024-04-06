@@ -28,6 +28,9 @@ pub struct AccessibilitySettings {
     /// Disables gib effects alongside other gore.
     pub disable_gibbing: bool,
 
+    /// Changes the color of blood to something else.
+    pub blood_recolor: Option<Color>,
+
     /// Fully disables blood particle effects.
     pub disable_blood: bool,
 }
@@ -41,6 +44,7 @@ impl Default for AccessibilitySettings {
 
             disable_dismemberment: false,
             disable_gibbing: false,
+            blood_recolor: None,
             disable_blood: false,
         }
     }
