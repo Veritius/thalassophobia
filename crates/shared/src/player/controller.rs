@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use bevy_rapier3d::dynamics::ExternalImpulse;
 use leafwing_input_manager::prelude::*;
+use crate::disabling::Disabled;
+
 use super::movement::*;
 
 pub const CONTROLLER_PITCH_MIN: f32 = -0.8;
@@ -19,7 +21,7 @@ pub struct PlayerControllerCamera {
 }
 
 pub(super) fn grounded_rotation_system(
-    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedHumanMovements>), Without<PlayerControllerCamera>>,
+    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedHumanMovements>), (Without<PlayerControllerCamera>, Without<Disabled>)>,
     mut heads: Query<(&mut PlayerControllerCamera, &mut Transform), Without<PlayerController>>,
 ) {
     for (mut body_data, mut body_transform, body_actions) in bodies.iter_mut() {
@@ -55,7 +57,7 @@ pub(super) fn grounded_rotation_system(
 }
 
 pub(super) fn grounded_movement_system(
-    mut bodies: Query<(&Transform, &mut ExternalImpulse, &ActionState<GroundedHumanMovements>), With<PlayerController>>,
+    mut bodies: Query<(&Transform, &mut ExternalImpulse, &ActionState<GroundedHumanMovements>), (With<PlayerController>, Without<Disabled>)>,
 ) {
     for (&body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
         let mut move_intent = Vec2::ZERO;
