@@ -7,7 +7,7 @@ authors = ["veritius <veritiusgaming@gmail.com>"]
 [dependencies.shared]
 package = "thalassophobia_shared"
 path = "../shared"
-features = ["bevy_default"]
+features = ["render"]
 
 [dependencies.server]
 package = "thalassophobia_server"

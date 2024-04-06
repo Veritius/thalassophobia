@@ -11,6 +11,7 @@ crate-type = ["dylib"]
 version = "0.13"
 default-features = false
 features = [
+    "multi-threaded",
     "bevy_asset",
     "bevy_scene",
 ]
@@ -30,8 +31,25 @@ version = "0.5"
 optional = true
 
 [features]
-default = ["bevy_dylib"]
-multiplayer = ["bevy_stardust"]
+default = [
+    "bevy_dylib"
+]
+render = [
+    "bevy/bevy_audio",
+    "bevy/bevy_core_pipeline",
+    "bevy/bevy_gltf",
+    "bevy/bevy_pbr",
+    "bevy/bevy_render",
+    "bevy/bevy_sprite",
+    "bevy/bevy_text",
+    "bevy/bevy_ui",
+    "bevy/bevy_winit",
+    "bevy/png",
+    "bevy/vorbis",
+    "bevy/x11"
+]
+multiplayer = [
+    "bevy_stardust"
+]
 phys_debug = ["bevy_rapier3d/debug-render"]
-bevy_default = ["bevy/default"]
 bevy_dylib = ["bevy/dynamic_linking"]
