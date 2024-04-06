@@ -11,5 +11,6 @@ pub use bevy_stardust as stardust;
 mod setup;
 pub use setup::setup;
 
+pub mod disabling;
 pub mod player;
 pub mod state;
