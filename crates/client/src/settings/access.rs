@@ -1,6 +1,5 @@
 use shared::bevy::prelude::*;
-use shared::bevy_ecs;
-use shared::bevy_reflect;
+use shared::{bevy_ecs, bevy_reflect};
 
 #[derive(Resource, Reflect)]
 pub struct AccessibilitySettings {

@@ -1,9 +1,9 @@
 use shared::bevy::prelude::*;
-use shared::bevy_ecs;
+use shared::{bevy_ecs, bevy_reflect};
 use shared::input::prelude::*;
 use shared::player::movement::*;
 
-#[derive(Resource)]
+#[derive(Resource, Reflect)]
 pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);
 
 impl Default for ControlSettings<GroundedHumanMovements> {

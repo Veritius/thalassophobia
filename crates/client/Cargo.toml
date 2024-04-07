@@ -14,7 +14,12 @@ package = "thalassophobia_server"
 path = "../server"
 optional = true
 
+[dependencies.bevy_editor_pls]
+version = "0.8"
+optional = true
+
 [features]
-default = ["listen"]
+default = ["listen", "editor"]
 multiplayer = ["shared/multiplayer"]
-listen = ["multiplayer", "server"]
+listen = ["multiplayer", "dep:server"]
+editor = ["dep:bevy_editor_pls"]
