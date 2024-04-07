@@ -40,7 +40,7 @@ fn loaded_system(
 
     // Spawn a light
     commands.spawn(PointLightBundle {
-        transform: Transform::from_xyz(10.0, 5.0, 10.0),
+        transform: Transform::from_xyz(0.0, 5.0, 0.0),
         ..default()
     });
 
