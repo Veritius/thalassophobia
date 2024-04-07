@@ -55,7 +55,10 @@ fn loaded_system(
 
     // Character body
     commands.spawn((
-        PlayerController { rotation_yaw: 0.0, head_entity: Some(head) },
+        PlayerController {
+            head_entity: Some(head),
+            ..default()
+        },
         TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
         VisibilityBundle::default(),
         InputManagerBundle::with_map(controls.0.clone()),

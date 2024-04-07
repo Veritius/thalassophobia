@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_rapier3d::dynamics::ExternalImpulse;
+use bevy_rapier3d::{dynamics::ExternalImpulse, pipeline::QueryFilter, plugin::RapierContext};
 use leafwing_input_manager::prelude::*;
 use crate::disabling::Disabled;
 
@@ -10,9 +10,27 @@ const CONTROLLER_PITCH_MAX: f32 = 0.8;
 
 #[derive(Component)]
 pub struct PlayerController {
+    pub walk_speed_mod: f32,
+    pub sprint_speed_mod: f32,
+
     pub rotation_yaw: f32,
 
+    pub raycast_len: f32,
     pub head_entity: Option<Entity>,
+}
+
+impl Default for PlayerController {
+    fn default() -> Self {
+        Self {
+            walk_speed_mod: 1.0,
+            sprint_speed_mod: 1.5,
+
+            rotation_yaw: 0.0,
+
+            raycast_len: 1.0,
+            head_entity: None,
+        }
+    }
 }
 
 #[derive(Component)]
@@ -57,9 +75,10 @@ pub(super) fn grounded_rotation_system(
 }
 
 pub(super) fn grounded_movement_system(
-    mut bodies: Query<(&Transform, &mut ExternalImpulse, &ActionState<GroundedHumanMovements>), (With<PlayerController>, Without<Disabled>)>,
+    rapier_context: Res<RapierContext>,
+    mut bodies: Query<(&GlobalTransform, &Transform, &PlayerController, &mut ExternalImpulse, &ActionState<GroundedHumanMovements>), Without<Disabled>>,
 ) {
-    for (&body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
+    for (&body_global_transform, &body_transform, &ref body_controller, mut body_impulse, body_actions) in bodies.iter_mut() {
         let mut move_intent = Vec2::ZERO;
 
         let lz = body_transform.local_z();
@@ -73,8 +92,8 @@ pub(super) fn grounded_movement_system(
         if body_actions.pressed(&GroundedHumanMovements::StrafeLeft  ) { move_intent -= rgt; }
 
         let speed_mult = match body_actions.pressed(&GroundedHumanMovements::Sprint) {
-            false => 1.0,
-            true  => 1.5,
+            false => body_controller.walk_speed_mod,
+            true => body_controller.sprint_speed_mod,
         };
 
         // Overall value for movement
@@ -86,7 +105,15 @@ pub(super) fn grounded_movement_system(
 
         // Jump vector
         if body_actions.just_pressed(&GroundedHumanMovements::Jump) {
-            body_impulse.impulse.y += 20.0;
+            if let Some((_, _)) = rapier_context.cast_ray(
+                body_global_transform.translation(),
+                -Vec3::Y,
+                body_controller.raycast_len,
+                false,
+                QueryFilter::only_fixed(),
+            ) {
+                body_impulse.impulse.y += 20.0;
+            }
         }
     }
 }
