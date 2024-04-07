@@ -5,8 +5,8 @@ use crate::disabling::Disabled;
 
 use super::movement::*;
 
-pub const CONTROLLER_PITCH_MIN: f32 = -0.8;
-pub const CONTROLLER_PITCH_MAX: f32 = 0.8;
+const CONTROLLER_PITCH_MIN: f32 = -0.8;
+const CONTROLLER_PITCH_MAX: f32 = 0.8;
 
 #[derive(Component)]
 pub struct PlayerController {
@@ -29,7 +29,7 @@ pub(super) fn grounded_rotation_system(
         let axis_input = match body_actions.axis_pair(&GroundedHumanMovements::Turn) {
             Some(val) => {
                 let mut vx = val.xy();
-                vx.x *= 0.0004; // left and right
+                vx.x *= 0.0070; // left and right
                 vx.y *= 0.0040; // up and down
                 vx
             },
@@ -73,7 +73,7 @@ pub(super) fn grounded_movement_system(
         if body_actions.pressed(&GroundedHumanMovements::StrafeLeft  ) { move_intent -= rgt; }
 
         // Overall value for movement
-        let move_intent = move_intent.normalize_or_zero() * 15.0;
+        let move_intent = move_intent.normalize_or_zero() * 1.0;
 
         // Update velocity
         body_impulse.impulse.x += move_intent.x;
