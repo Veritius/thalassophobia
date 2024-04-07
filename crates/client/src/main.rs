@@ -2,6 +2,8 @@ mod initial;
 mod settings;
 mod state;
 
+mod debugsys;
+
 use shared::bevy::prelude::*;
 
 fn main() {
@@ -10,6 +12,8 @@ fn main() {
 
     app.add_plugins(state::GameStatePlugin);
     app.add_plugins(initial::InitialLoadingPlugin);
+
+    app.add_plugins(debugsys::DebugSystemsPlugin);
 
     app.run();
 }

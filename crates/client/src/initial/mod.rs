@@ -29,4 +29,4 @@ impl Plugin for InitialLoadingPlugin {
     }
 }
 
-struct InitialLoading;
+pub struct InitialLoading;
