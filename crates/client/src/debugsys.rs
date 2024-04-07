@@ -1,5 +1,5 @@
 use shared::{bevy::prelude::*, rapier::prelude::*, progress::*, input::prelude::*};
-use shared::{state::GameState, player::{controller::*, movement::*}};
+use shared::{state::GameState, physics::*, player::{controller::*, movement::*}};
 use crate::initial::InitialLoading;
 use crate::settings::ControlSettings;
 
@@ -64,6 +64,10 @@ fn loaded_system(
         InputManagerBundle::with_map(controls.0.clone()),
         RigidBody::Dynamic,
         Collider::capsule_y(0.5, 0.5),
+        CollisionGroups {
+            memberships: PHYS_GROUP_CHARACTER,
+            filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE,
+        },
         LockedAxes::ROTATION_LOCKED,
         Damping { linear_damping: 5.0, angular_damping: 1.0 },
         GravityScale(5.0),

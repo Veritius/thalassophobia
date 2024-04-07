@@ -1,7 +1,7 @@
 use bevy::prelude::*;
-use bevy_rapier3d::{dynamics::ExternalImpulse, pipeline::QueryFilter, plugin::RapierContext};
+use bevy_rapier3d::{dynamics::ExternalImpulse, geometry::CollisionGroups, pipeline::QueryFilter, plugin::RapierContext};
 use leafwing_input_manager::prelude::*;
-use crate::disabling::Disabled;
+use crate::{disabling::Disabled, physics::{PHYS_GROUP_CHARACTER, PHYS_GROUP_STRUCTURE, PHYS_GROUP_TERRAIN}};
 
 use super::movement::*;
 
@@ -76,9 +76,17 @@ pub(super) fn grounded_rotation_system(
 
 pub(super) fn grounded_movement_system(
     rapier_context: Res<RapierContext>,
-    mut bodies: Query<(&GlobalTransform, &Transform, &PlayerController, &mut ExternalImpulse, &ActionState<GroundedHumanMovements>), Without<Disabled>>,
+    mut bodies: Query<(
+        Entity,
+        &GlobalTransform,
+        &Transform,
+        &PlayerController,
+        &mut ExternalImpulse,
+        &ActionState<GroundedHumanMovements>,
+        Option<&CollisionGroups>,
+    ), Without<Disabled>>,
 ) {
-    for (&body_global_transform, &body_transform, &ref body_controller, mut body_impulse, body_actions) in bodies.iter_mut() {
+    for (body_entity, &body_global_transform, &body_transform, &ref body_controller, mut body_impulse, body_actions, body_groups) in bodies.iter_mut() {
         let mut move_intent = Vec2::ZERO;
 
         let lz = body_transform.local_z();
@@ -105,13 +113,26 @@ pub(super) fn grounded_movement_system(
 
         // Jump vector
         if body_actions.just_pressed(&GroundedHumanMovements::Jump) {
+            // Get membership data from a component if present, otherwise use a default
+            let group = if let Some(groups) = body_groups {
+                groups.clone()
+            } else {
+                // Default collision group
+                CollisionGroups {
+                    memberships: PHYS_GROUP_CHARACTER,
+                    filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE
+                }
+            };
+
+            // Cast a ray to see if there's anything below us to jump off of
             if let Some((_, _)) = rapier_context.cast_ray(
                 body_global_transform.translation(),
                 -Vec3::Y,
                 body_controller.raycast_len,
                 false,
-                QueryFilter::only_fixed(),
+                QueryFilter::default().exclude_collider(body_entity).groups(group),
             ) {
+                // Apply jump impulse
                 body_impulse.impulse.y += 20.0;
             }
         }
