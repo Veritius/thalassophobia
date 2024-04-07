@@ -72,8 +72,13 @@ pub(super) fn grounded_movement_system(
         if body_actions.pressed(&GroundedHumanMovements::StrafeRight ) { move_intent += rgt; }
         if body_actions.pressed(&GroundedHumanMovements::StrafeLeft  ) { move_intent -= rgt; }
 
+        let speed_mult = match body_actions.pressed(&GroundedHumanMovements::Sprint) {
+            false => 1.0,
+            true  => 1.5,
+        };
+
         // Overall value for movement
-        let move_intent = move_intent.normalize_or_zero();
+        let move_intent = move_intent.normalize_or_zero() * speed_mult;
 
         // Update velocity for movement vector
         body_impulse.impulse.x += move_intent.x;
@@ -81,7 +86,7 @@ pub(super) fn grounded_movement_system(
 
         // Jump vector
         if body_actions.just_pressed(&GroundedHumanMovements::Jump) {
-            body_impulse.impulse.y += 5.0;
+            body_impulse.impulse.y += 20.0;
         }
     }
 }

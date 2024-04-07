@@ -62,7 +62,8 @@ fn loaded_system(
         RigidBody::Dynamic,
         Collider::capsule_y(0.5, 0.5),
         LockedAxes::ROTATION_LOCKED,
-        Damping { linear_damping: 1.0, angular_damping: 1.0 },
+        Damping { linear_damping: 5.0, angular_damping: 1.0 },
+        GravityScale(5.0),
         Ccd::enabled(),
         ExternalImpulse::default(),
     )).add_child(head);
