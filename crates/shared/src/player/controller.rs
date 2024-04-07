@@ -73,10 +73,15 @@ pub(super) fn grounded_movement_system(
         if body_actions.pressed(&GroundedHumanMovements::StrafeLeft  ) { move_intent -= rgt; }
 
         // Overall value for movement
-        let move_intent = move_intent.normalize_or_zero() * 1.0;
+        let move_intent = move_intent.normalize_or_zero();
 
-        // Update velocity
+        // Update velocity for movement vector
         body_impulse.impulse.x += move_intent.x;
         body_impulse.impulse.z += move_intent.y;
+
+        // Jump vector
+        if body_actions.just_pressed(&GroundedHumanMovements::Jump) {
+            body_impulse.impulse.y += 5.0;
+        }
     }
 }
