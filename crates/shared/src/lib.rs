@@ -12,5 +12,6 @@ mod setup;
 pub use setup::setup;
 
 pub mod disabling;
+pub mod living;
 pub mod player;
 pub mod state;

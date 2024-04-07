@@ -15,5 +15,6 @@ pub fn setup(app: &mut App) {
     }
 
     // Subsystem plugins
+    app.add_plugins(crate::disabling::DisablingPlugin);
     app.add_plugins(crate::state::GameStatePlugin);
 }
