@@ -11,7 +11,8 @@ pub fn setup(app: &mut App) {
 
     // Multiplayer functionality
     #[cfg(feature="multiplayer")] {
-        app.add_plugins(crate::stardust::plugin::StardustPlugin);
+        app.add_plugins(crate::multiplayer::StardustPlugin);
+        app.add_plugins(crate::multiplayer::udp::UdpTransportPlugin::balanced(crate::multiplayer::UDP_APPLICATION_VERSION));
     }
 
     // Subsystem plugins

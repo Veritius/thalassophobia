@@ -6,7 +6,7 @@ pub use leafwing_input_manager as input;
 pub use bevy_mod_progress as progress;
 
 #[cfg(feature="multiplayer")]
-pub use bevy_stardust as stardust;
+pub mod multiplayer;
 
 mod setup;
 pub use setup::setup;
