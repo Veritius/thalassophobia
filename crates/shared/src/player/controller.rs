@@ -93,11 +93,17 @@ pub(super) fn grounded_movement_system(
         let fwd = -Vec2::new(lz.x, lz.z);
         let rgt = Vec2::new(lz.z, -lz.x);
 
-        // Movement inputs
+        // Keyboard movement inputs
         if body_actions.pressed(&GroundedHumanMovements::Forward     ) { move_intent += fwd; }
         if body_actions.pressed(&GroundedHumanMovements::Backward    ) { move_intent -= fwd; }
         if body_actions.pressed(&GroundedHumanMovements::StrafeRight ) { move_intent += rgt; }
         if body_actions.pressed(&GroundedHumanMovements::StrafeLeft  ) { move_intent -= rgt; }
+
+        // Controller movement inputs
+        if let Some(axis_pair) = body_actions.axis_pair(&GroundedHumanMovements::MoveAxis) {
+            let vect = axis_pair.xy() * fwd;
+            move_intent += vect;
+        }
 
         let speed_mult = match body_actions.pressed(&GroundedHumanMovements::Sprint) {
             false => body_controller.walk_speed_mod,
@@ -111,7 +117,7 @@ pub(super) fn grounded_movement_system(
         body_impulse.impulse.x += move_intent.x;
         body_impulse.impulse.z += move_intent.y;
 
-        // Jump vector
+        // Jumping
         if body_actions.just_pressed(&GroundedHumanMovements::Jump) {
             // Get membership data from a component if present, otherwise use a default
             let group = if let Some(groups) = body_groups {
