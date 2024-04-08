@@ -9,7 +9,7 @@ pub use bevy_mod_progress as progress;
 pub mod multiplayer;
 
 mod setup;
-pub use setup::setup;
+pub use setup::*;
 
 pub mod disabling;
 pub mod living;

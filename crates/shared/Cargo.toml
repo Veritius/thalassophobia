@@ -27,7 +27,8 @@ version = "0.13"
 version = "0.1"
 
 [dependencies.bevy_stardust]
-version = "0.5"
+git = "https://github.com/Veritius/bevy_stardust"
+branch = "main"
 optional = true
 
 [dependencies.bevy_stardust_udp]
