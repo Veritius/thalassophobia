@@ -36,6 +36,11 @@ fn loaded_system(
     }).insert((
         RigidBody::Fixed,
         Collider::cuboid(10.0, 0.1, 10.0),
+        CollisionGroups {
+            memberships: PHYS_GROUP_STRUCTURE,
+            filters: Group::all(),
+        },
+        PHYS_DOM_TERRAIN,
     ));
 
     // Spawn a light
@@ -68,6 +73,7 @@ fn loaded_system(
             memberships: PHYS_GROUP_CHARACTER,
             filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE,
         },
+        PHYS_DOM_CHARACTER,
         LockedAxes::ROTATION_LOCKED,
         Damping { linear_damping: 5.0, angular_damping: 1.0 },
         GravityScale(5.0),
