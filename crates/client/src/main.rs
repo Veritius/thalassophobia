@@ -1,3 +1,4 @@
+mod detail;
 mod initial;
 mod settings;
 mod state;

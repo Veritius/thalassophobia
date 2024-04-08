@@ -36,6 +36,9 @@ git = "https://github.com/Veritius/bevy_stardust"
 branch = "udp-0.1.0"
 optional = true
 
+[dependencies.smallvec]
+version = "1.13"
+
 [features]
 default = [
     "bevy_dylib"
