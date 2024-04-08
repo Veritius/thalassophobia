@@ -11,6 +11,7 @@ fn main() {
     let mut app = App::new();
     shared::pre_setup(&mut app);
 
+    app.add_plugins(detail::LevelOfDetailPlugin);
     app.add_plugins(initial::InitialLoadingPlugin);
     app.add_plugins(settings::UserSettingsPlugin);
     app.add_plugins(state::GameStatePlugin);

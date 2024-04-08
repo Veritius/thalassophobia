@@ -1,7 +1,7 @@
 mod markers;
 
 use std::marker::PhantomData;
-use shared::{bevy::prelude::*, bevy_ecs, bevy_reflect, smallvec::SmallVec};
+use shared::{bevy::prelude::*, bevy_ecs, smallvec::SmallVec};
 use self::markers::*;
 
 pub type MeshDetailLevels = DetailLevels<Mesh>;
@@ -9,8 +9,15 @@ pub type BaseColorDetailLevels = DetailLevels<Image, BaseColor>;
 pub type MetallicRoughnessDetailLevels = DetailLevels<Image, MetallicRoughness>;
 pub type NormalMapDetailLevels = DetailLevels<Image, NormalMap>;
 
-#[derive(Component, Default, Reflect)]
-#[reflect(Component)]
+pub(crate) struct LevelOfDetailPlugin;
+
+impl Plugin for LevelOfDetailPlugin {
+    fn build(&self, app: &mut App) {
+
+    }
+}
+
+#[derive(Debug, Default, Component)]
 pub struct DetailLevels<A: Asset, M: ?Sized = ()> {
     pub inner: SmallVec<[Handle<A>; 3]>,
     phantom: PhantomData<M>,
