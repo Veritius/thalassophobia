@@ -1,6 +1,5 @@
 use shared::bevy::prelude::*;
 use shared::bevy_ecs;
-use crate::initial::InitialPassed;
 
 pub(crate) struct GameStatePlugin;
 
@@ -41,6 +40,10 @@ impl ClientState {
         }
     }
 }
+
+/// Added only when the [`Initial`](ClientState::Initial) state is passed.
+#[derive(Resource)]
+pub(crate) struct InitialPassed;
 
 // Sanity check that makes the game explode if an invalid state transition occurs.
 fn initial_transition_check(

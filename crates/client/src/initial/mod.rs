@@ -1,8 +1,8 @@
 mod ui;
 
-use shared::{bevy::prelude::*, bevy_ecs};
+use shared::bevy::prelude::*;
 use shared::progress::*;
-use crate::state::ClientState;
+use crate::state::{ClientState, InitialPassed};
 
 pub(crate) struct InitialLoadingPlugin;
 
@@ -23,14 +23,11 @@ impl Plugin for InitialLoadingPlugin {
 
         // End of tracking
         app.add_systems(Done::<InitialLoading>::new(), (
+            |mut commands: Commands| { commands.insert_resource(InitialPassed); },
             |mut next: ResMut<NextState<ClientState>>| { next.set(ClientState::MainMenu); },
             ui::despawn_loading_screen,
         ));
     }
 }
-
-/// Added only when the [`Initial`](ClientState::Initial) state is passed.
-#[derive(Resource)]
-pub struct InitialPassed;
 
 pub struct InitialLoading;
