@@ -6,6 +6,12 @@ pub(crate) struct GameStatePlugin;
 impl Plugin for GameStatePlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<ClientState>();
+
+        app.add_systems(OnTransition { from: ClientState::MainMenu, to: ClientState::Initial }, panic_bad_transition);
+        app.add_systems(OnTransition { from: ClientState::Singleplayer, to: ClientState::Initial }, panic_bad_transition);
+
+        #[cfg(feature="multiplayer")]
+        app.add_systems(OnTransition { from: ClientState::Multiplayer, to: ClientState::Initial }, panic_bad_transition);
     }
 }
 
@@ -37,4 +43,8 @@ impl ClientState {
             _ => false,
         }
     }
+}
+
+fn panic_bad_transition() {
+    panic!("Somehow transitioned to the Initial state, which isn't allowed.");
 }
