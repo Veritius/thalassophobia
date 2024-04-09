@@ -27,7 +27,8 @@ fn loaded_system(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    controls: Res<ControlSettings<GroundedMovements>>,
+    rotation_controls: Res<ControlSettings<RotationMovements>>,
+    movement_controls: Res<ControlSettings<FloatingMovements>>,
 ) {
     // Set game state to simulating
     commands.add(|world: &mut World| { world.resource_mut::<NextState<GameState>>().set(GameState::Simulating) });
@@ -77,7 +78,8 @@ fn loaded_system(
         },
         TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
         VisibilityBundle::default(),
-        InputManagerBundle::with_map(controls.0.clone()),
+        InputManagerBundle::with_map(rotation_controls.0.clone()),
+        InputManagerBundle::with_map(movement_controls.0.clone()),
         RigidBody::Dynamic,
         Collider::capsule_y(0.5, 0.5),
         CollisionGroups {
@@ -87,7 +89,7 @@ fn loaded_system(
         PHYS_DOM_CHARACTER,
         LockedAxes::ROTATION_LOCKED,
         Damping { linear_damping: 5.0, angular_damping: 1.0 },
-        GravityScale(5.0),
+        GravityScale(0.0),
         Ccd::enabled(),
         ExternalImpulse::default(),
     )).add_child(head);

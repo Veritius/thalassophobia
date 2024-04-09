@@ -78,7 +78,7 @@ pub(super) fn controller_rotation_system(
 pub(super) fn grounded_movement_system(
     mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<GroundedMovements>), Without<Disabled>>,
 ) {
-    for (&ref body_controller, &body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
+    for (controller, body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
         let mut move_intent = Vec2::ZERO;
 
         let lz = body_transform.local_z();
@@ -97,9 +97,10 @@ pub(super) fn grounded_movement_system(
             move_intent += vect;
         }
 
+        // Get movement speed value
         let speed_mult = match body_actions.pressed(&GroundedMovements::Sprint) {
-            false => body_controller.walk_speed_mod,
-            true => body_controller.sprint_speed_mod,
+            false => controller.base_walk_speed,
+            true => controller.sprint_walk_speed,
         };
 
         // Overall value for movement
@@ -110,8 +111,8 @@ pub(super) fn grounded_movement_system(
         body_impulse.impulse.z += move_intent.y;
 
         // Jump if need be
-        if body_actions.just_pressed(&GroundedMovements::Jump) && body_controller.is_touching_ground {
-            body_impulse.impulse.y += body_controller.jump_impulse;
+        if body_actions.just_pressed(&GroundedMovements::Jump) && controller.is_touching_ground {
+            body_impulse.impulse.y += controller.jump_impulse;
         }
     }
 }
@@ -119,5 +120,31 @@ pub(super) fn grounded_movement_system(
 pub(super) fn floating_movement_system(
     mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<FloatingMovements>), Without<Disabled>>,
 ) {
+    for (controller, body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
+        let mut move_intent = Vec3::ZERO;
 
+        let up = *body_transform.up();
+        let fwd = *body_transform.forward();
+        let rgt = *body_transform.right();
+
+        // Keyboard movement inputs
+        if body_actions.pressed(&FloatingMovements::Ascend      ) { move_intent += up;  }
+        if body_actions.pressed(&FloatingMovements::Descend     ) { move_intent -= up;  }
+        if body_actions.pressed(&FloatingMovements::Forward     ) { move_intent += fwd; }
+        if body_actions.pressed(&FloatingMovements::Backward    ) { move_intent -= fwd; }
+        if body_actions.pressed(&FloatingMovements::StrafeRight ) { move_intent += rgt; }
+        if body_actions.pressed(&FloatingMovements::StrafeLeft  ) { move_intent -= rgt; }
+
+        // Get movement speed value
+        let speed_mult = match body_actions.pressed(&FloatingMovements::Sprint) {
+            false => controller.base_swim_speed,
+            true => controller.sprint_swim_speed,
+        };
+
+        // Overall value for movement
+        let move_intent = move_intent.normalize_or_zero() * speed_mult;
+
+        // Apply movement impulse
+        body_impulse.impulse += move_intent;
+    }
 }

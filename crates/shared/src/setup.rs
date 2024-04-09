@@ -2,8 +2,8 @@ use bevy::prelude::*;
 
 #[derive(Resource, Clone, Copy, PartialEq, Eq)]
 pub enum SetupMode {
-    Headless,
     Full,
+    Headless,
 }
 
 pub fn pre_setup(app: &mut App) {

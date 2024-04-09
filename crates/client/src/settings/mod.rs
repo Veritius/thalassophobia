@@ -24,6 +24,8 @@ impl Plugin for UserSettingsPlugin {
         app.init_resource::<AudioSettings>();
 
         // Controls settings
+        app.register_type::<ControlSettings<RotationMovements>>();
+        app.init_resource::<ControlSettings<RotationMovements>>();
         app.register_type::<ControlSettings<GroundedMovements>>();
         app.init_resource::<ControlSettings<GroundedMovements>>();
         app.register_type::<ControlSettings<FloatingMovements>>();

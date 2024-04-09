@@ -17,13 +17,15 @@ impl Plugin for PlayerCharacterPlugin {
         let setup_mode = app.world.resource::<SetupMode>();
 
         match setup_mode {
-            SetupMode::Headless => {
-                app.add_plugins(InputManagerPlugin::<actions::GroundedMovements>::server());
-                app.add_plugins(InputManagerPlugin::<actions::FloatingMovements>::server());
-            },
             SetupMode::Full => {
+                app.add_plugins(InputManagerPlugin::<actions::RotationMovements>::default());
                 app.add_plugins(InputManagerPlugin::<actions::GroundedMovements>::default());
                 app.add_plugins(InputManagerPlugin::<actions::FloatingMovements>::default());
+            },
+            SetupMode::Headless => {
+                app.add_plugins(InputManagerPlugin::<actions::RotationMovements>::server());
+                app.add_plugins(InputManagerPlugin::<actions::GroundedMovements>::server());
+                app.add_plugins(InputManagerPlugin::<actions::FloatingMovements>::server());
             },
         }
 
@@ -69,11 +71,16 @@ pub const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 #[derive(Debug, Component)]
 pub struct PlayerController {
     /// How fast walking is.
-    pub walk_speed_mod: f32,
+    pub base_walk_speed: f32,
     /// How fast sprinting is.
-    pub sprint_speed_mod: f32,
+    pub sprint_walk_speed: f32,
     /// How much force is applied when the character jumps.
     pub jump_impulse: f32,
+
+    /// How fast swimming is.
+    pub base_swim_speed: f32,
+    /// How fast sprinting underwater is.
+    pub sprint_swim_speed: f32,
 
     /// The current left-right rotation of the controller, in radians.
     /// Overrides `Transform` and `GlobalTransform`.
@@ -120,9 +127,12 @@ impl PlayerController {
 impl Default for PlayerController {
     fn default() -> Self {
         Self {
-            walk_speed_mod: 1.0,
-            sprint_speed_mod: 1.5,
+            base_walk_speed: 1.0,
+            sprint_walk_speed: 1.5,
             jump_impulse: 20.0,
+
+            base_swim_speed: 0.3,
+            sprint_swim_speed: 0.5,
 
             rotation_yaw: 0.0,
             rotation_pitch: 0.0,
