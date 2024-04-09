@@ -15,6 +15,6 @@ path = "../server"
 optional = true
 
 [features]
-default = ["listen"]
+default = ["multiplayer", "hosting"]
 multiplayer = ["shared/multiplayer"]
-listen = ["multiplayer", "dep:server"]
+hosting = ["multiplayer", "dep:server"]

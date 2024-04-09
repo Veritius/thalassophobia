@@ -12,6 +12,12 @@ Using `cargo run` to run an executable works fine. However, to export your build
 
 The dylib shenanigans are a result of how the Rust toolchain works - hopefully it improves in future.
 
+***
+
+The `client` package has several feature flags to disable parts of the game. All are enabled by default.
+- `multiplayer` - Allows the client to join, but not host, multiplayer lobbies.
+- `hosting` - Allows the client to host multiplayer lobbies. Implies `multiplayer`.
+
 ## Contributing
 Before contributing, please read the [licensing](#license) section to understand how your work will be used.
 
