@@ -1,5 +1,6 @@
 use shared::bevy::prelude::*;
 use shared::bevy_ecs;
+use crate::initial::InitialPassed;
 
 pub(crate) struct GameStatePlugin;
 
@@ -7,11 +8,7 @@ impl Plugin for GameStatePlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<ClientState>();
 
-        app.add_systems(OnTransition { from: ClientState::MainMenu, to: ClientState::Initial }, panic_bad_transition);
-        app.add_systems(OnTransition { from: ClientState::Singleplayer, to: ClientState::Initial }, panic_bad_transition);
-
-        #[cfg(feature="multiplayer")]
-        app.add_systems(OnTransition { from: ClientState::Multiplayer, to: ClientState::Initial }, panic_bad_transition);
+        app.add_systems(OnEnter(ClientState::Initial), initial_transition_check);
     }
 }
 
@@ -45,6 +42,10 @@ impl ClientState {
     }
 }
 
-fn panic_bad_transition() {
-    panic!("Somehow transitioned to the Initial state, which isn't allowed.");
+// Sanity check that makes the game explode if an invalid state transition occurs.
+fn initial_transition_check(
+    passed: Option<Res<InitialPassed>>,
+) {
+    if passed.is_none() { return }
+    panic!("Transitioned to the Initial state from another state, which isn't allowed.");
 }
