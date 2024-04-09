@@ -5,7 +5,7 @@ mod queries;
 pub use actions::*;
 pub use queries::*;
 
-use std::f32::consts::FRAC_2_PI;
+use std::f32::consts::FRAC_PI_2;
 use bevy::prelude::*;
 use leafwing_input_manager::plugin::InputManagerPlugin;
 use crate::{state::simulation_running, SetupMode};
@@ -42,8 +42,8 @@ pub enum PlayerControllerSystemSet {
     Controller,
 }
 
-pub const CONTROLLER_PITCH_MIN: f32 = -FRAC_2_PI;
-pub const CONTROLLER_PITCH_MAX: f32 = FRAC_2_PI;
+pub const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
+pub const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 
 #[derive(Debug, Component)]
 pub struct PlayerController {
