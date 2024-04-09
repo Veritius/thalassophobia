@@ -1,6 +1,12 @@
 use bevy::prelude::*;
 use crate::input::prelude::*;
 
+/// Movements that can be made to turn around.
+#[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
+pub enum RotationMovements {
+    TurnAxis,
+}
+
 /// Movements that can be made when standing on the ground.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum GroundedMovements {
@@ -15,7 +21,6 @@ pub enum GroundedMovements {
     Vault,
     Crouch,
     Sprint,
-    Turn,
 }
 
 /// Movements that can be made when floating in water.
@@ -29,5 +34,4 @@ pub enum FloatingMovements {
     Ascend,
     Descend,
     Sprint,
-    Turn,
 }

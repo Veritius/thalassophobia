@@ -27,19 +27,35 @@ impl Plugin for PlayerCharacterPlugin {
             },
         }
 
-        app.add_systems(Update, (
-            systems::touching_ground_system,
-            systems::grounded_rotation_system,
-            systems::grounded_movement_system,
-        ).chain()
+        app.configure_sets(Update, PlayerControllerSystemSet::Rotation
+            .after(PlayerControllerSystemSet::PhysicsTests));
+
+        app.configure_sets(Update, PlayerControllerSystemSet::Movements
+            .after(PlayerControllerSystemSet::Rotation));
+
+        app.add_systems(Update, systems::touching_ground_system
             .run_if(simulation_running())
-            .in_set(PlayerControllerSystemSet::Controller));
+            .in_set(PlayerControllerSystemSet::PhysicsTests));
+
+        app.add_systems(Update, systems::controller_rotation_system
+            .run_if(simulation_running())
+            .in_set(PlayerControllerSystemSet::Rotation));
+
+        app.add_systems(Update, systems::grounded_movement_system
+            .run_if(simulation_running())
+            .in_set(PlayerControllerSystemSet::Movements));
+
+        app.add_systems(Update, systems::floating_movement_system
+            .run_if(simulation_running())
+            .in_set(PlayerControllerSystemSet::Movements));
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, SystemSet)]
 pub enum PlayerControllerSystemSet {
-    Controller,
+    PhysicsTests,
+    Rotation,
+    Movements,
 }
 
 /// The furthest downward the controller can turn.

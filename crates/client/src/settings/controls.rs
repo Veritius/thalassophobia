@@ -6,6 +6,17 @@ use shared::controller::*;
 #[derive(Resource, Reflect)]
 pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);
 
+impl Default for ControlSettings<RotationMovements> {
+    fn default() -> Self {
+        let mut map = InputMap::default();
+
+        map.insert(RotationMovements::TurnAxis, DualAxis::mouse_motion());
+        map.insert(RotationMovements::TurnAxis, DualAxis::right_stick());
+
+        return Self(map);
+    }
+}
+
 impl Default for ControlSettings<GroundedMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
@@ -32,9 +43,6 @@ impl Default for ControlSettings<GroundedMovements> {
         map.insert(GroundedMovements::Sprint, KeyCode::ShiftLeft);
         map.insert(GroundedMovements::Sprint, GamepadButtonType::LeftThumb);
 
-        map.insert(GroundedMovements::Turn, DualAxis::mouse_motion());
-        map.insert(GroundedMovements::Turn, DualAxis::right_stick());
-
         return Self(map);
     }
 }
@@ -59,9 +67,6 @@ impl Default for ControlSettings<FloatingMovements> {
 
         map.insert(FloatingMovements::Sprint, KeyCode::ShiftLeft);
         map.insert(FloatingMovements::Sprint, GamepadButtonType::LeftThumb);
-
-        map.insert(FloatingMovements::Turn, DualAxis::mouse_motion());
-        map.insert(FloatingMovements::Turn, DualAxis::right_stick());
 
         return Self(map);
     }

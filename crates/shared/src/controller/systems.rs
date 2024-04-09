@@ -39,13 +39,13 @@ pub(super) fn touching_ground_system(
     }
 }
 
-pub(super) fn grounded_rotation_system(
-    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedMovements>), (Without<PlayerControllerHead>, Without<Disabled>)>,
+pub(super) fn controller_rotation_system(
+    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<RotationMovements>), (Without<PlayerControllerHead>, Without<Disabled>)>,
     mut heads: Query<&mut Transform, (With<PlayerControllerHead>, Without<PlayerController>)>,
 ) {
     for (mut body_data, mut body_transform, body_actions) in bodies.iter_mut() {
         // Try to read any rotation inputs
-        let axis_input = match body_actions.axis_pair(&GroundedMovements::Turn) {
+        let axis_input = match body_actions.axis_pair(&RotationMovements::TurnAxis) {
             Some(val) => {
                 let mut vx = val.xy();
                 vx.x *= 0.0030; // left and right
@@ -114,4 +114,10 @@ pub(super) fn grounded_movement_system(
             body_impulse.impulse.y += body_controller.jump_impulse;
         }
     }
+}
+
+pub(super) fn floating_movement_system(
+    mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<FloatingMovements>), Without<Disabled>>,
+) {
+
 }
