@@ -131,7 +131,7 @@ impl Default for PlayerController {
             sprint_walk_speed: 1.5,
             jump_impulse: 20.0,
 
-            base_swim_speed: 0.1,
+            base_swim_speed: 0.2,
             sprint_swim_speed: 0.3,
 
             rotation_yaw: 0.0,
