@@ -27,7 +27,7 @@ fn loaded_system(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    controls: Res<ControlSettings<GroundedHumanMovements>>,
+    controls: Res<ControlSettings<GroundedMovements>>,
 ) {
     // Set game state to simulating
     commands.add(|world: &mut World| { world.resource_mut::<NextState<GameState>>().set(GameState::Simulating) });

@@ -49,8 +49,8 @@ fn on_escape(
     primary_window.cursor.visible = true;
 
     // Disable movement inputs
-    commands.insert_resource(ToggleActions::<GroundedHumanMovements>::DISABLED);
-    commands.insert_resource(ToggleActions::<FloatingHumanMovements>::DISABLED);
+    commands.insert_resource(ToggleActions::<GroundedMovements>::DISABLED);
+    commands.insert_resource(ToggleActions::<FloatingMovements>::DISABLED);
 
     // Spawn some text saying the game is paused
     let font_handle = assets.load("fonts/FiraSans-Medium.ttf");
@@ -98,8 +98,8 @@ fn on_reenter(
     primary_window.cursor.visible = false;
 
     // Enable movement inputs
-    commands.insert_resource(ToggleActions::<GroundedHumanMovements>::ENABLED);
-    commands.insert_resource(ToggleActions::<FloatingHumanMovements>::ENABLED);
+    commands.insert_resource(ToggleActions::<GroundedMovements>::ENABLED);
+    commands.insert_resource(ToggleActions::<FloatingMovements>::ENABLED);
 
     // Despawn the escape menu ui
     if let Ok(entity) = ui_root_query.get_single() {

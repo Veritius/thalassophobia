@@ -40,12 +40,12 @@ pub(super) fn touching_ground_system(
 }
 
 pub(super) fn grounded_rotation_system(
-    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedHumanMovements>), (Without<PlayerControllerHead>, Without<Disabled>)>,
+    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedMovements>), (Without<PlayerControllerHead>, Without<Disabled>)>,
     mut heads: Query<&mut Transform, (With<PlayerControllerHead>, Without<PlayerController>)>,
 ) {
     for (mut body_data, mut body_transform, body_actions) in bodies.iter_mut() {
         // Try to read any rotation inputs
-        let axis_input = match body_actions.axis_pair(&GroundedHumanMovements::Turn) {
+        let axis_input = match body_actions.axis_pair(&GroundedMovements::Turn) {
             Some(val) => {
                 let mut vx = val.xy();
                 vx.x *= 0.0030; // left and right
@@ -76,7 +76,7 @@ pub(super) fn grounded_rotation_system(
 }
 
 pub(super) fn grounded_movement_system(
-    mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<GroundedHumanMovements>), Without<Disabled>>,
+    mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<GroundedMovements>), Without<Disabled>>,
 ) {
     for (&ref body_controller, &body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
         let mut move_intent = Vec2::ZERO;
@@ -86,18 +86,18 @@ pub(super) fn grounded_movement_system(
         let rgt = Vec2::new(lz.z, -lz.x);
 
         // Keyboard movement inputs
-        if body_actions.pressed(&GroundedHumanMovements::Forward     ) { move_intent += fwd; }
-        if body_actions.pressed(&GroundedHumanMovements::Backward    ) { move_intent -= fwd; }
-        if body_actions.pressed(&GroundedHumanMovements::StrafeRight ) { move_intent += rgt; }
-        if body_actions.pressed(&GroundedHumanMovements::StrafeLeft  ) { move_intent -= rgt; }
+        if body_actions.pressed(&GroundedMovements::Forward     ) { move_intent += fwd; }
+        if body_actions.pressed(&GroundedMovements::Backward    ) { move_intent -= fwd; }
+        if body_actions.pressed(&GroundedMovements::StrafeRight ) { move_intent += rgt; }
+        if body_actions.pressed(&GroundedMovements::StrafeLeft  ) { move_intent -= rgt; }
 
         // Controller movement inputs
-        if let Some(axis_pair) = body_actions.axis_pair(&GroundedHumanMovements::MoveAxis) {
+        if let Some(axis_pair) = body_actions.axis_pair(&GroundedMovements::MoveAxis) {
             let vect = axis_pair.xy() * fwd;
             move_intent += vect;
         }
 
-        let speed_mult = match body_actions.pressed(&GroundedHumanMovements::Sprint) {
+        let speed_mult = match body_actions.pressed(&GroundedMovements::Sprint) {
             false => body_controller.walk_speed_mod,
             true => body_controller.sprint_speed_mod,
         };
@@ -110,7 +110,7 @@ pub(super) fn grounded_movement_system(
         body_impulse.impulse.z += move_intent.y;
 
         // Jump if need be
-        if body_actions.just_pressed(&GroundedHumanMovements::Jump) && body_controller.is_touching_ground {
+        if body_actions.just_pressed(&GroundedMovements::Jump) && body_controller.is_touching_ground {
             body_impulse.impulse.y += body_controller.jump_impulse;
         }
     }

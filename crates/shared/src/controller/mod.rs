@@ -18,12 +18,12 @@ impl Plugin for PlayerCharacterPlugin {
 
         match setup_mode {
             SetupMode::Headless => {
-                app.add_plugins(InputManagerPlugin::<actions::GroundedHumanMovements>::server());
-                app.add_plugins(InputManagerPlugin::<actions::FloatingHumanMovements>::server());
+                app.add_plugins(InputManagerPlugin::<actions::GroundedMovements>::server());
+                app.add_plugins(InputManagerPlugin::<actions::FloatingMovements>::server());
             },
             SetupMode::Full => {
-                app.add_plugins(InputManagerPlugin::<actions::GroundedHumanMovements>::default());
-                app.add_plugins(InputManagerPlugin::<actions::FloatingHumanMovements>::default());
+                app.add_plugins(InputManagerPlugin::<actions::GroundedMovements>::default());
+                app.add_plugins(InputManagerPlugin::<actions::FloatingMovements>::default());
             },
         }
 
@@ -42,9 +42,14 @@ pub enum PlayerControllerSystemSet {
     Controller,
 }
 
+/// The furthest downward the controller can turn.
+/// Prevents the camera from doing frontflips.
 pub const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
+/// The furthest upward the controller can turn.
+/// Prevents the camera from doing backflips.
 pub const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 
+/// A simple FPS controller for player controlled characters.
 #[derive(Debug, Component)]
 pub struct PlayerController {
     /// How fast walking is.

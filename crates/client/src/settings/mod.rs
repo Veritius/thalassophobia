@@ -24,10 +24,10 @@ impl Plugin for UserSettingsPlugin {
         app.init_resource::<AudioSettings>();
 
         // Controls settings
-        app.register_type::<ControlSettings<GroundedHumanMovements>>();
-        app.init_resource::<ControlSettings<GroundedHumanMovements>>();
-        app.register_type::<ControlSettings<FloatingHumanMovements>>();
-        app.init_resource::<ControlSettings<FloatingHumanMovements>>();
+        app.register_type::<ControlSettings<GroundedMovements>>();
+        app.init_resource::<ControlSettings<GroundedMovements>>();
+        app.register_type::<ControlSettings<FloatingMovements>>();
+        app.init_resource::<ControlSettings<FloatingMovements>>();
 
         // Graphics settings
         app.register_type::<GraphicsSettings>();

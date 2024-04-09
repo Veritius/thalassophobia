@@ -1,8 +1,9 @@
 use bevy::prelude::*;
 use crate::input::prelude::*;
 
+/// Movements that can be made when standing on the ground.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
-pub enum GroundedHumanMovements {
+pub enum GroundedMovements {
     MoveAxis,
     Forward,
     Backward,
@@ -17,8 +18,9 @@ pub enum GroundedHumanMovements {
     Turn,
 }
 
+/// Movements that can be made when floating in water.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
-pub enum FloatingHumanMovements {
+pub enum FloatingMovements {
     MoveAxis,
     Forward,
     Backward,
