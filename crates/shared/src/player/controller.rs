@@ -62,6 +62,9 @@ impl Default for PlayerController {
     }
 }
 
+#[derive(Debug, Component, Default)]
+pub struct PlayerControllerHead;
+
 pub(super) fn touching_ground_system(
     rapier_context: Res<RapierContext>,
     // We can't filter out entities that haven't changed positions, since we can't account for other entities changing position.
@@ -95,9 +98,6 @@ pub(super) fn touching_ground_system(
         }
     }
 }
-
-#[derive(Debug, Component, Default)]
-pub struct PlayerControllerHead;
 
 pub(super) fn grounded_rotation_system(
     mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedHumanMovements>), (Without<PlayerControllerHead>, Without<Disabled>)>,
