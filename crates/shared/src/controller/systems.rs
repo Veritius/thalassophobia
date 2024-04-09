@@ -3,67 +3,7 @@ use bevy_rapier3d::{dynamics::ExternalImpulse, geometry::CollisionGroups, pipeli
 use leafwing_input_manager::prelude::*;
 use crate::{disabling::Disabled, physics::{PHYS_GROUP_CHARACTER, PHYS_GROUP_STRUCTURE, PHYS_GROUP_TERRAIN}};
 
-use super::movement::*;
-
-const PI_FRAC_2: f32 = std::f32::consts::PI / 2.0;
-const CONTROLLER_PITCH_MIN: f32 = -PI_FRAC_2;
-const CONTROLLER_PITCH_MAX: f32 = PI_FRAC_2;
-
-#[derive(Debug, Component)]
-pub struct PlayerController {
-    pub walk_speed_mod: f32,
-    pub sprint_speed_mod: f32,
-    pub jump_impulse: f32,
-
-    pub rotation_yaw: f32,
-    pub rotation_pitch: f32,
-
-    pub ground_raycast_len: f32,
-    pub is_touching_ground: bool,
-
-    pub head_entity: Entity,
-}
-
-impl PlayerController {
-    /// Returns a quaternion of the controller's yaw (left/right)
-    #[inline]
-    pub fn yaw_quat(&self) -> Quat {
-        Quat::from_axis_angle(Vec3::Y, -self.rotation_yaw)
-    }
-
-    /// Returns a quaternion of the controller's pitch (up/down)
-    #[inline]
-    pub fn pitch_quat(&self) -> Quat {
-        Quat::from_axis_angle(Vec3::X, -self.rotation_pitch)
-    }
-
-    /// Returns a quaternion of the controller's pitch and yaw
-    #[inline]
-    pub fn look_quat(&self) -> Quat {
-        self.yaw_quat() * self.pitch_quat()
-    }
-}
-
-impl Default for PlayerController {
-    fn default() -> Self {
-        Self {
-            walk_speed_mod: 1.0,
-            sprint_speed_mod: 1.5,
-            jump_impulse: 20.0,
-
-            rotation_yaw: 0.0,
-            rotation_pitch: 0.0,
-
-            ground_raycast_len: 1.0,
-            is_touching_ground: false,
-
-            head_entity: Entity::PLACEHOLDER,
-        }
-    }
-}
-
-#[derive(Debug, Component, Default)]
-pub struct PlayerControllerHead;
+use super::*;
 
 pub(super) fn touching_ground_system(
     rapier_context: Res<RapierContext>,
@@ -133,15 +73,9 @@ pub(super) fn grounded_rotation_system(
 }
 
 pub(super) fn grounded_movement_system(
-    mut bodies: Query<(
-        Entity,
-        &PlayerController,
-        &Transform,
-        &mut ExternalImpulse,
-        &ActionState<GroundedHumanMovements>,
-    ), Without<Disabled>>,
+    mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<GroundedHumanMovements>), Without<Disabled>>,
 ) {
-    for (body_entity, &ref body_controller, &body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
+    for (&ref body_controller, &body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
         let mut move_intent = Vec2::ZERO;
 
         let lz = body_transform.local_z();

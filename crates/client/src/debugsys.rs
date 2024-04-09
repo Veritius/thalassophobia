@@ -1,5 +1,5 @@
 use shared::{bevy::prelude::*, rapier::prelude::*, progress::*, input::prelude::*};
-use shared::{state::GameState, physics::*, player::{controller::*, movement::*}};
+use shared::{state::GameState, physics::*, controller::*};
 use crate::initial::InitialLoading;
 use crate::settings::ControlSettings;
 

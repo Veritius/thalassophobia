@@ -1,5 +1,5 @@
 use shared::bevy::prelude::*;
-use shared::player::movement::*;
+use shared::controller::*;
 
 mod access;
 mod audio;

@@ -1,5 +1,5 @@
 use bevy::{ecs::{query::QueryEntityError, system::SystemParam}, prelude::*};
-use super::controller::{PlayerController, PlayerControllerHead};
+use super::{PlayerController, PlayerControllerHead};
 
 #[derive(SystemParam)]
 pub struct PlayerControllers<'w, 's> {

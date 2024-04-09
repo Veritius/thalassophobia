@@ -16,5 +16,5 @@ pub use setup::*;
 pub mod disabling;
 pub mod living;
 pub mod physics;
-pub mod player;
+pub mod controller;
 pub mod state;

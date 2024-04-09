@@ -22,7 +22,7 @@ pub fn pre_setup(app: &mut App) {
 
     // Subsystem plugins
     app.add_plugins(crate::disabling::DisablingPlugin);
-    app.add_plugins(crate::player::PlayerCharacterPlugin);
+    app.add_plugins(crate::controller::PlayerCharacterPlugin);
     app.add_plugins(crate::state::GameStatePlugin);
 }
 

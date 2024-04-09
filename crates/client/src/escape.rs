@@ -1,4 +1,4 @@
-use shared::{bevy::{prelude::*, window::{CursorGrabMode, PrimaryWindow}}, bevy_ecs, input::prelude::*, player::movement::*};
+use shared::{bevy::{prelude::*, window::{CursorGrabMode, PrimaryWindow}}, bevy_ecs, input::prelude::*, controller::*};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, States)]
 pub enum Escaped {
