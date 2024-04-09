@@ -7,9 +7,6 @@ pub enum SetupMode {
 }
 
 pub fn pre_setup(app: &mut App) {
-    // Add Bevy's core functionality
-    app.add_plugins(DefaultPlugins);
-
     // Physics engine
     app.add_plugins(crate::rapier::plugin::RapierPhysicsPlugin::<()>::default());
     #[cfg(feature="phys_debug")]

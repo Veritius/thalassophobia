@@ -11,6 +11,7 @@ use shared::{bevy::prelude::*, SetupMode};
 fn main() {
     // Create app and add shared setup
     let mut app = App::new();
+    app.add_plugins(DefaultPlugins);
     app.insert_resource(SetupMode::Full);
     shared::pre_setup(&mut app);
 
