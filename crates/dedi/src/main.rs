@@ -3,6 +3,7 @@ use shared::{bevy::prelude::*, SetupMode};
 fn main() {
     // Create app and add shared setup
     let mut app = App::new();
+    app.add_plugins(MinimalPlugins);
     app.insert_resource(SetupMode::Headless);
     shared::pre_setup(&mut app);
 
