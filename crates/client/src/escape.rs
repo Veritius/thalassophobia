@@ -71,7 +71,7 @@ fn on_escape(
             "Paused",
             TextStyle {
                 font: font_handle.clone(),
-                font_size: 30.0,
+                font_size: 40.0,
                 ..default()
             }),
         );
@@ -80,7 +80,7 @@ fn on_escape(
             "Press Esc to unpause",
             TextStyle {
                 font: font_handle.clone(),
-                font_size: 16.0,
+                font_size: 20.0,
                 ..default()
             }),
         );
