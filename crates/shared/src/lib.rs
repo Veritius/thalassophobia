@@ -6,15 +6,19 @@ pub use leafwing_input_manager as input;
 pub use bevy_mod_progress as progress;
 
 pub use smallvec;
-
-#[cfg(feature="multiplayer")]
-pub mod multiplayer;
+pub use serde;
+pub use chrono;
+pub use semver;
 
 mod setup;
 pub use setup::*;
 
+pub mod campaign;
+pub mod controller;
 pub mod disabling;
 pub mod living;
 pub mod physics;
-pub mod controller;
 pub mod state;
+
+#[cfg(feature="multiplayer")]
+pub mod multiplayer;
