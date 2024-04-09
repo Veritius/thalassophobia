@@ -84,13 +84,10 @@ impl PlayerController {
 
     /// Returns a quaternion of the controller's pitch (up/down)
     /// 
-    /// If [`head_entity`](Self::head_entity) is `None`, returns [`Quat::IDENTITY`].
+    /// If [`head_entity`](Self::head_entity) is `None`, the returned value is meaningless.
     #[inline]
     pub fn pitch_quat(&self) -> Quat {
-        match self.head_entity.is_some() {
-            true => Quat::from_axis_angle(Vec3::X, -self.rotation_pitch),
-            false => Quat::IDENTITY,
-        }
+        Quat::from_axis_angle(Vec3::X, -self.rotation_pitch)
     }
 
     /// Returns a quaternion of the controller's pitch and yaw.
