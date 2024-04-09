@@ -5,8 +5,9 @@ use crate::{disabling::Disabled, physics::{PHYS_GROUP_CHARACTER, PHYS_GROUP_STRU
 
 use super::movement::*;
 
-const CONTROLLER_PITCH_MIN: f32 = -1.7;
-const CONTROLLER_PITCH_MAX: f32 = 1.7;
+const PI_FRAC_2: f32 = std::f32::consts::PI / 2.0;
+const CONTROLLER_PITCH_MIN: f32 = -PI_FRAC_2;
+const CONTROLLER_PITCH_MAX: f32 = PI_FRAC_2;
 
 #[derive(Component)]
 pub struct PlayerController {
