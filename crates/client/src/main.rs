@@ -19,6 +19,5 @@ fn main() {
     app.add_plugins(debugsys::DebugSystemsPlugin);
 
     shared::post_setup(&mut app);
-
     app.run();
 }
