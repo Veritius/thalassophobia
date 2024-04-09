@@ -9,15 +9,38 @@ const PI_FRAC_2: f32 = std::f32::consts::PI / 2.0;
 const CONTROLLER_PITCH_MIN: f32 = -PI_FRAC_2;
 const CONTROLLER_PITCH_MAX: f32 = PI_FRAC_2;
 
-#[derive(Component)]
+#[derive(Debug, Component)]
 pub struct PlayerController {
     pub walk_speed_mod: f32,
     pub sprint_speed_mod: f32,
 
     pub rotation_yaw: f32,
+    pub rotation_pitch: f32,
 
-    pub raycast_len: f32,
-    pub head_entity: Option<Entity>,
+    pub ground_raycast_len: f32,
+    pub is_touching_ground: bool,
+
+    pub head_entity: Entity,
+}
+
+impl PlayerController {
+    /// Returns a quaternion of the controller's yaw (left/right)
+    #[inline]
+    pub fn yaw_quat(&self) -> Quat {
+        Quat::from_axis_angle(Vec3::Y, -self.rotation_yaw)
+    }
+
+    /// Returns a quaternion of the controller's pitch (up/down)
+    #[inline]
+    pub fn pitch_quat(&self) -> Quat {
+        Quat::from_axis_angle(Vec3::X, -self.rotation_pitch)
+    }
+
+    /// Returns a quaternion of the controller's pitch and yaw
+    #[inline]
+    pub fn look_quat(&self) -> Quat {
+        self.yaw_quat() * self.pitch_quat()
+    }
 }
 
 impl Default for PlayerController {
@@ -27,21 +50,22 @@ impl Default for PlayerController {
             sprint_speed_mod: 1.5,
 
             rotation_yaw: 0.0,
+            rotation_pitch: 0.0,
 
-            raycast_len: 1.0,
-            head_entity: None,
+            ground_raycast_len: 1.0,
+            is_touching_ground: false,
+
+            head_entity: Entity::PLACEHOLDER,
         }
     }
 }
 
-#[derive(Component)]
-pub struct PlayerControllerCamera {
-    pub rotation_pitch: f32,
-}
+#[derive(Debug, Component, Default)]
+pub struct PlayerControllerHead;
 
 pub(super) fn grounded_rotation_system(
-    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedHumanMovements>), (Without<PlayerControllerCamera>, Without<Disabled>)>,
-    mut heads: Query<(&mut PlayerControllerCamera, &mut Transform), Without<PlayerController>>,
+    mut bodies: Query<(&mut PlayerController, &mut Transform, &ActionState<GroundedHumanMovements>), (Without<PlayerControllerHead>, Without<Disabled>)>,
+    mut heads: Query<&mut Transform, (With<PlayerControllerHead>, Without<PlayerController>)>,
 ) {
     for (mut body_data, mut body_transform, body_actions) in bodies.iter_mut() {
         // Try to read any rotation inputs
@@ -57,21 +81,18 @@ pub(super) fn grounded_rotation_system(
 
         // Update the body's rotation
         body_data.rotation_yaw += axis_input.x;
-        body_transform.rotation = Quat::from_axis_angle(Vec3::Y, -body_data.rotation_yaw);
+        body_transform.rotation = body_data.yaw_quat();
 
         // Get the head component
-        let (mut head_data, mut head_transform) = match heads.get_mut(match body_data.head_entity {
-            Some(v) => v,
-            None => { continue },
-        }) {
+        let mut head_transform = match heads.get_mut(body_data.head_entity) {
             Ok(v) => v,
             Err(_) => { continue },
         };
 
         // Update the head's rotation
-        head_data.rotation_pitch += axis_input.y;
-        head_data.rotation_pitch = head_data.rotation_pitch.clamp(CONTROLLER_PITCH_MIN, CONTROLLER_PITCH_MAX);
-        head_transform.rotation = Quat::from_axis_angle(Vec3::X, -head_data.rotation_pitch);
+        body_data.rotation_pitch += axis_input.y;
+        body_data.rotation_pitch = body_data.rotation_pitch.clamp(CONTROLLER_PITCH_MIN, CONTROLLER_PITCH_MAX);
+        head_transform.rotation = body_data.pitch_quat();
     }
 }
 
@@ -135,7 +156,7 @@ pub(super) fn grounded_movement_system(
             if let Some((_, _)) = rapier_context.cast_ray(
                 body_global_transform.translation(),
                 -Vec3::Y,
-                body_controller.raycast_len,
+                body_controller.ground_raycast_len,
                 false,
                 QueryFilter::default().exclude_collider(body_entity).groups(group),
             ) {

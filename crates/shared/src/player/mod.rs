@@ -4,6 +4,7 @@ use crate::{state::simulation_running, SetupMode};
 
 pub mod movement;
 pub mod controller;
+pub mod queries;
 
 pub(crate) struct PlayerCharacterPlugin;
 

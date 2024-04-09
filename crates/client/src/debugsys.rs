@@ -51,7 +51,7 @@ fn loaded_system(
 
     // Character head
     let head = commands.spawn((
-        PlayerControllerCamera { rotation_pitch: 0.0 },
+        PlayerControllerHead,
         Camera3dBundle {
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..default()
@@ -61,7 +61,7 @@ fn loaded_system(
     // Character body
     commands.spawn((
         PlayerController {
-            head_entity: Some(head),
+            head_entity: head,
             ..default()
         },
         TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
