@@ -11,7 +11,13 @@ impl<'w, 's> PlayerControllers<'w, 's> {
     /// Returns a ray showing the direction of where they are looking.
     pub fn look_ray(&self, entity: Entity) -> Result<Ray3d, QueryEntityError> {
         let (body_data, body_transform) = self.bodies.get(entity)?;
-        let (head_data, head_transform) = self.heads.get(body_data.head_entity)?;
+
+        match body_data.head_entity {
+            Some(head_id) => todo!(),
+            None => todo!(),
+        }
+
+        // let (head_data, head_transform) = self.heads.get()?;
 
         todo!()
     }

@@ -60,7 +60,10 @@ pub(super) fn grounded_rotation_system(
         body_transform.rotation = body_data.yaw_quat();
 
         // Get the head component
-        let mut head_transform = match heads.get_mut(body_data.head_entity) {
+        let mut head_transform = match heads.get_mut(match body_data.head_entity {
+            Some(v) => v,
+            None => { continue },
+        }) {
             Ok(v) => v,
             Err(_) => { continue },
         };

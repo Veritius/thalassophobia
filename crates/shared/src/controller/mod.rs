@@ -60,6 +60,8 @@ pub struct PlayerController {
     pub rotation_yaw: f32,
     /// The current up-down rotation of the controller, in radians.
     /// Overrides `Transform` and `GlobalTransform`.
+    /// 
+    /// If [`head_entity`](Self::head_entity) is `None`, this value is meaningless.
     /// Constrained by [`CONTROLLER_PITCH_MIN`] and [`CONTROLLER_PITCH_MAX`].
     pub rotation_pitch: f32,
 
@@ -69,7 +71,8 @@ pub struct PlayerController {
     pub is_touching_ground: bool,
 
     /// The head entity used for pitch rotation.
-    pub head_entity: Entity,
+    /// If `None`, pitch will not be applied.
+    pub head_entity: Option<Entity>,
 }
 
 impl PlayerController {
@@ -80,12 +83,17 @@ impl PlayerController {
     }
 
     /// Returns a quaternion of the controller's pitch (up/down)
+    /// 
+    /// If [`head_entity`](Self::head_entity) is `None`, returns [`Quat::IDENTITY`].
     #[inline]
     pub fn pitch_quat(&self) -> Quat {
-        Quat::from_axis_angle(Vec3::X, -self.rotation_pitch)
+        match self.head_entity.is_some() {
+            true => Quat::from_axis_angle(Vec3::X, -self.rotation_pitch),
+            false => Quat::IDENTITY,
+        }
     }
 
-    /// Returns a quaternion of the controller's pitch and yaw
+    /// Returns a quaternion of the controller's pitch and yaw.
     #[inline]
     pub fn look_quat(&self) -> Quat {
         self.yaw_quat() * self.pitch_quat()
@@ -105,7 +113,7 @@ impl Default for PlayerController {
             ground_raycast_len: 1.0,
             is_touching_ground: false,
 
-            head_entity: Entity::PLACEHOLDER,
+            head_entity: None,
         }
     }
 }

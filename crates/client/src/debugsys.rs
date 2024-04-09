@@ -61,7 +61,7 @@ fn loaded_system(
     // Character body
     commands.spawn((
         PlayerController {
-            head_entity: head,
+            head_entity: Some(head),
             ..default()
         },
         TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
