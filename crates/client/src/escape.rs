@@ -35,9 +35,13 @@ fn toggle_escape(
     }
 }
 
+#[derive(Component)]
+struct EscapeMenuUiRoot;
+
 fn on_escape(
     mut commands: Commands,
     mut window_query: Query<&mut Window, With<PrimaryWindow>>,
+    assets: Res<AssetServer>,
 ) {
     // Configure the cursor
     let mut primary_window = window_query.single_mut();
@@ -47,11 +51,46 @@ fn on_escape(
     // Disable movement inputs
     commands.insert_resource(ToggleActions::<GroundedHumanMovements>::DISABLED);
     commands.insert_resource(ToggleActions::<FloatingHumanMovements>::DISABLED);
+
+    // Spawn some text saying the game is paused
+    let font_handle = assets.load("fonts/FiraSans-Medium.ttf");
+    commands.spawn((EscapeMenuUiRoot, NodeBundle {
+        background_color: BackgroundColor(Color::DARK_GRAY),
+        style: Style {
+            justify_self: JustifySelf::Center,
+            justify_items: JustifyItems::Center,
+            align_self: AlignSelf::Center,
+            align_items: AlignItems::Center,
+            flex_direction: FlexDirection::Column,
+            padding: UiRect::axes(Val::Px(20.0), Val::Px(10.0)),
+            ..default()
+        },
+        ..default()
+    })).with_children(|parent| {
+        parent.spawn(TextBundle::from_section(
+            "Paused",
+            TextStyle {
+                font: font_handle.clone(),
+                font_size: 30.0,
+                ..default()
+            }),
+        );
+
+        parent.spawn(TextBundle::from_section(
+            "Press Esc to unpause",
+            TextStyle {
+                font: font_handle.clone(),
+                font_size: 16.0,
+                ..default()
+            }),
+        );
+    });
 }
 
 fn on_reenter(
     mut commands: Commands,
     mut window_query: Query<&mut Window, With<PrimaryWindow>>,
+    ui_root_query: Query<Entity, With<EscapeMenuUiRoot>>,
 ) {
     // Configure the cursor
     let mut primary_window = window_query.single_mut();
@@ -61,6 +100,11 @@ fn on_reenter(
     // Enable movement inputs
     commands.insert_resource(ToggleActions::<GroundedHumanMovements>::ENABLED);
     commands.insert_resource(ToggleActions::<FloatingHumanMovements>::ENABLED);
+
+    // Despawn the escape menu ui
+    if let Ok(entity) = ui_root_query.get_single() {
+        commands.entity(entity).despawn_recursive();
+    }
 }
 
 // A system to reset the position of the cursor every frame.
