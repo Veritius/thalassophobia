@@ -2,11 +2,10 @@ mod actions;
 mod systems;
 mod queries;
 
-use std::f32::consts::FRAC_2_PI;
-
 pub use actions::*;
 pub use queries::*;
 
+use std::f32::consts::FRAC_2_PI;
 use bevy::prelude::*;
 use leafwing_input_manager::plugin::InputManagerPlugin;
 use crate::{state::simulation_running, SetupMode};
