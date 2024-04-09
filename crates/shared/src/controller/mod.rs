@@ -2,6 +2,8 @@ mod actions;
 mod systems;
 mod queries;
 
+use std::f32::consts::FRAC_2_PI;
+
 pub use actions::*;
 pub use queries::*;
 
@@ -41,10 +43,8 @@ pub enum PlayerCharacterSystemSet {
     Controller,
 }
 
-const PI_FRAC_2: f32 = std::f32::consts::PI / 2.0;
-
-pub const CONTROLLER_PITCH_MIN: f32 = -PI_FRAC_2;
-pub const CONTROLLER_PITCH_MAX: f32 = PI_FRAC_2;
+pub const CONTROLLER_PITCH_MIN: f32 = -FRAC_2_PI;
+pub const CONTROLLER_PITCH_MAX: f32 = FRAC_2_PI;
 
 #[derive(Debug, Component)]
 pub struct PlayerController {
