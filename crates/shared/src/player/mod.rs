@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use leafwing_input_manager::plugin::InputManagerPlugin;
-use crate::state::simulation_running;
+use crate::{state::simulation_running, SetupMode};
 
 pub mod movement;
 pub mod controller;
@@ -9,8 +9,18 @@ pub(crate) struct PlayerCharacterPlugin;
 
 impl Plugin for PlayerCharacterPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(InputManagerPlugin::<movement::GroundedHumanMovements>::server());
-        app.add_plugins(InputManagerPlugin::<movement::FloatingHumanMovements>::server());
+        let setup_mode = app.world.resource::<SetupMode>();
+
+        match setup_mode {
+            SetupMode::Headless => {
+                app.add_plugins(InputManagerPlugin::<movement::GroundedHumanMovements>::server());
+                app.add_plugins(InputManagerPlugin::<movement::FloatingHumanMovements>::server());
+            },
+            SetupMode::Full => {
+                app.add_plugins(InputManagerPlugin::<movement::GroundedHumanMovements>::default());
+                app.add_plugins(InputManagerPlugin::<movement::FloatingHumanMovements>::default());
+            },
+        }
 
         app.add_systems(Update, (
             controller::grounded_rotation_system,

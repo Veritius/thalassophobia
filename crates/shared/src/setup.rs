@@ -1,5 +1,11 @@
 use bevy::prelude::*;
 
+#[derive(Resource, Clone, Copy, PartialEq, Eq)]
+pub enum SetupMode {
+    Headless,
+    Full,
+}
+
 pub fn pre_setup(app: &mut App) {
     // Add Bevy's core functionality
     app.add_plugins(DefaultPlugins);
@@ -25,4 +31,7 @@ pub fn post_setup(app: &mut App) {
     #[cfg(feature="multiplayer")] {
         app.add_plugins(crate::multiplayer::udp::UdpTransportPlugin::balanced(crate::multiplayer::UDP_APPLICATION_VERSION));
     }
+
+    // Remove setup mode resource
+    app.world.remove_resource::<SetupMode>();
 }
