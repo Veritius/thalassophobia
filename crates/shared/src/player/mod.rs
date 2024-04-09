@@ -24,6 +24,7 @@ impl Plugin for PlayerCharacterPlugin {
         }
 
         app.add_systems(Update, (
+            controller::touching_ground_system,
             controller::grounded_rotation_system,
             controller::grounded_movement_system,
         ).chain()

@@ -8,6 +8,6 @@ impl Plugin for DisablingPlugin {
     }
 }
 
-/// Disabled entities are frozen in time.
+/// Disabled entities are frozen in time and will not be ticked by most game systems.
 #[derive(Debug, Clone, Component, PartialEq, Eq, PartialOrd, Ord, Reflect, Hash)]
 pub struct Disabled;

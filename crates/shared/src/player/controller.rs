@@ -13,6 +13,7 @@ const CONTROLLER_PITCH_MAX: f32 = PI_FRAC_2;
 pub struct PlayerController {
     pub walk_speed_mod: f32,
     pub sprint_speed_mod: f32,
+    pub jump_impulse: f32,
 
     pub rotation_yaw: f32,
     pub rotation_pitch: f32,
@@ -48,6 +49,7 @@ impl Default for PlayerController {
         Self {
             walk_speed_mod: 1.0,
             sprint_speed_mod: 1.5,
+            jump_impulse: 20.0,
 
             rotation_yaw: 0.0,
             rotation_pitch: 0.0,
@@ -56,6 +58,40 @@ impl Default for PlayerController {
             is_touching_ground: false,
 
             head_entity: Entity::PLACEHOLDER,
+        }
+    }
+}
+
+pub(super) fn touching_ground_system(
+    rapier_context: Res<RapierContext>,
+    // We can't filter out entities that haven't changed positions, since we can't account for other entities changing position.
+    mut bodies: Query<(Entity, &mut PlayerController, &GlobalTransform, Option<&CollisionGroups>), Without<Disabled>>,
+) {
+    for (body_entity, mut body_data, global_transform, collision_groups) in bodies.iter_mut() {
+        // Get membership data from a component if present, otherwise use a default
+        let group = if let Some(groups) = collision_groups {
+            groups.clone()
+        } else {
+            // Default collision group
+            CollisionGroups {
+                memberships: PHYS_GROUP_CHARACTER,
+                filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE
+            }
+        };
+
+        // Cast a ray to see if there's anything below us to jump off of
+        let raycast = rapier_context.cast_ray(
+            global_transform.translation(),
+            -Vec3::Y,
+            body_data.ground_raycast_len,
+            false,
+            QueryFilter::default().exclude_collider(body_entity).groups(group),
+        );
+
+        // Apply the raycast result to the controller
+        match raycast {
+            Some(_) => { body_data.is_touching_ground = true; },
+            None => { body_data.is_touching_ground = false; },
         }
     }
 }
@@ -97,18 +133,15 @@ pub(super) fn grounded_rotation_system(
 }
 
 pub(super) fn grounded_movement_system(
-    rapier_context: Res<RapierContext>,
     mut bodies: Query<(
         Entity,
-        &GlobalTransform,
-        &Transform,
         &PlayerController,
+        &Transform,
         &mut ExternalImpulse,
         &ActionState<GroundedHumanMovements>,
-        Option<&CollisionGroups>,
     ), Without<Disabled>>,
 ) {
-    for (body_entity, &body_global_transform, &body_transform, &ref body_controller, mut body_impulse, body_actions, body_groups) in bodies.iter_mut() {
+    for (body_entity, &ref body_controller, &body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
         let mut move_intent = Vec2::ZERO;
 
         let lz = body_transform.local_z();
@@ -139,30 +172,9 @@ pub(super) fn grounded_movement_system(
         body_impulse.impulse.x += move_intent.x;
         body_impulse.impulse.z += move_intent.y;
 
-        // Jumping
-        if body_actions.just_pressed(&GroundedHumanMovements::Jump) {
-            // Get membership data from a component if present, otherwise use a default
-            let group = if let Some(groups) = body_groups {
-                groups.clone()
-            } else {
-                // Default collision group
-                CollisionGroups {
-                    memberships: PHYS_GROUP_CHARACTER,
-                    filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE
-                }
-            };
-
-            // Cast a ray to see if there's anything below us to jump off of
-            if let Some((_, _)) = rapier_context.cast_ray(
-                body_global_transform.translation(),
-                -Vec3::Y,
-                body_controller.ground_raycast_len,
-                false,
-                QueryFilter::default().exclude_collider(body_entity).groups(group),
-            ) {
-                // Apply jump impulse
-                body_impulse.impulse.y += 20.0;
-            }
+        // Jump if need be
+        if body_actions.just_pressed(&GroundedHumanMovements::Jump) && body_controller.is_touching_ground {
+            body_impulse.impulse.y += body_controller.jump_impulse;
         }
     }
 }
