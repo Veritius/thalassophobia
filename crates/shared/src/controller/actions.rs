@@ -4,13 +4,17 @@ use crate::input::prelude::*;
 /// Movements that can be made to turn around.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum RotationMovements {
-    TurnAxis,
+    Axis,
+    Up,
+    Down,
+    Left,
+    Right,
 }
 
 /// Movements that can be made when standing on the ground.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum GroundedMovements {
-    MoveAxis,
+    Axis,
     Forward,
     Backward,
     StrafeLeft,
@@ -26,7 +30,7 @@ pub enum GroundedMovements {
 /// Movements that can be made when floating in water.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum FloatingMovements {
-    MoveAxis,
+    Axis,
     Forward,
     Backward,
     StrafeLeft,

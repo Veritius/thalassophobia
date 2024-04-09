@@ -44,19 +44,24 @@ pub(super) fn controller_rotation_system(
     mut heads: Query<&mut Transform, (With<PlayerControllerHead>, Without<PlayerController>)>,
 ) {
     for (mut body_data, mut body_transform, body_actions) in bodies.iter_mut() {
+        let mut turn_intent = Vec2::ZERO;
+
         // Try to read any rotation inputs
-        let axis_input = match body_actions.axis_pair(&RotationMovements::TurnAxis) {
-            Some(val) => {
-                let mut vx = val.xy();
-                vx.x *= 0.0030; // left and right
-                vx.y *= 0.0020; // up and down
-                vx
-            },
-            None => { continue },
+        if let Some(axis_pair) = body_actions.axis_pair(&RotationMovements::Axis) {
+            turn_intent += axis_pair.xy();
         };
 
+        // Keyboard rotation inputs
+        if body_actions.pressed(&RotationMovements::Up   ) { turn_intent.y -= 1.0; }
+        if body_actions.pressed(&RotationMovements::Down ) { turn_intent.y += 1.0; }
+        if body_actions.pressed(&RotationMovements::Left ) { turn_intent.x -= 4.0; }
+        if body_actions.pressed(&RotationMovements::Right) { turn_intent.x += 4.0; }
+
+        // Make turn intent a lot easier to use for math
+        let turn_intent = turn_intent * Vec2::new(0.002, 0.003);
+
         // Update the body's rotation
-        body_data.rotation_yaw += axis_input.x;
+        body_data.rotation_yaw += turn_intent.x;
         body_transform.rotation = body_data.yaw_quat();
 
         // Get the head component
@@ -69,7 +74,7 @@ pub(super) fn controller_rotation_system(
         };
 
         // Update the head's rotation
-        body_data.rotation_pitch += axis_input.y;
+        body_data.rotation_pitch += turn_intent.y;
         body_data.rotation_pitch = body_data.rotation_pitch.clamp(CONTROLLER_PITCH_MIN, CONTROLLER_PITCH_MAX);
         head_transform.rotation = body_data.pitch_quat();
     }
@@ -92,7 +97,7 @@ pub(super) fn grounded_movement_system(
         if body_actions.pressed(&GroundedMovements::StrafeLeft  ) { move_intent -= rgt; }
 
         // Controller movement inputs
-        if let Some(axis_pair) = body_actions.axis_pair(&GroundedMovements::MoveAxis) {
+        if let Some(axis_pair) = body_actions.axis_pair(&GroundedMovements::Axis) {
             let vect = axis_pair.xy() * fwd;
             move_intent += vect;
         }
@@ -134,6 +139,16 @@ pub(super) fn floating_movement_system(
         if body_actions.pressed(&FloatingMovements::Backward    ) { move_intent -= fwd; }
         if body_actions.pressed(&FloatingMovements::StrafeRight ) { move_intent += rgt; }
         if body_actions.pressed(&FloatingMovements::StrafeLeft  ) { move_intent -= rgt; }
+
+        // Controller movement inputs
+        if let Some(axis_pair) = body_actions.axis_pair(&FloatingMovements::Axis) {
+            let vect = Vec3::new(
+                axis_pair.x() * fwd.x,
+                axis_pair.y() * fwd.y,
+                0.0,
+            );
+            move_intent += vect;
+        }
 
         // Get movement speed value
         let speed_mult = match body_actions.pressed(&FloatingMovements::Sprint) {

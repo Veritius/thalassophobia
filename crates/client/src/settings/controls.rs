@@ -10,8 +10,8 @@ impl Default for ControlSettings<RotationMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(RotationMovements::TurnAxis, DualAxis::mouse_motion());
-        map.insert(RotationMovements::TurnAxis, DualAxis::right_stick());
+        map.insert(RotationMovements::Axis, DualAxis::mouse_motion());
+        map.insert(RotationMovements::Axis, DualAxis::right_stick());
 
         return Self(map);
     }
@@ -21,7 +21,7 @@ impl Default for ControlSettings<GroundedMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(GroundedMovements::MoveAxis, DualAxis::left_stick());
+        map.insert(GroundedMovements::Axis, DualAxis::left_stick());
 
         map.insert(GroundedMovements::Forward, KeyCode::KeyW);
         map.insert(GroundedMovements::Backward, KeyCode::KeyS);
@@ -51,7 +51,7 @@ impl Default for ControlSettings<FloatingMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(FloatingMovements::MoveAxis, DualAxis::left_stick());
+        map.insert(FloatingMovements::Axis, DualAxis::left_stick());
 
         map.insert(FloatingMovements::Forward, KeyCode::KeyW);
         map.insert(FloatingMovements::Backward, KeyCode::KeyS);
