@@ -9,8 +9,8 @@ pub(crate) struct PlayerCharacterPlugin;
 
 impl Plugin for PlayerCharacterPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(InputManagerPlugin::<movement::GroundedHumanMovements>::default());
-        app.add_plugins(InputManagerPlugin::<movement::FloatingHumanMovements>::default());
+        app.add_plugins(InputManagerPlugin::<movement::GroundedHumanMovements>::server());
+        app.add_plugins(InputManagerPlugin::<movement::FloatingHumanMovements>::server());
 
         app.add_systems(Update, (
             controller::grounded_rotation_system,
