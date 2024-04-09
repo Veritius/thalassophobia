@@ -9,7 +9,9 @@ impl Plugin for DebugSystemsPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, startup_system);
         app.add_systems(Done::<InitialLoading>::new(), loaded_system);
-        app.add_systems(Update, always_system);
+        app.add_systems(Update, update_system);
+        app.add_systems(Update, post_update_system
+            .after(PhysicsSet::Writeback));
     }
 }
 
@@ -49,13 +51,20 @@ fn loaded_system(
         ..default()
     });
 
+    // Debug camera
+    commands.spawn(Camera3dBundle {
+        transform: Transform::from_xyz(10.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
+        ..default()
+    });
+
     // Character head
     let head = commands.spawn((
         PlayerControllerHead,
-        Camera3dBundle {
-            transform: Transform::from_xyz(0.0, 0.5, 0.0),
-            ..default()
-        },
+        TransformBundle::from_transform(Transform::from_xyz(0.0, 0.5, 0.0)),
+        // Camera3dBundle {
+        //     transform: Transform::from_xyz(0.0, 0.5, 0.0),
+        //     ..default()
+        // },
     )).id();
 
     // Character body
@@ -82,8 +91,26 @@ fn loaded_system(
     )).add_child(head);
 }
 
-fn always_system(
+fn update_system(
     mut commands: Commands,
 ) {
+    
+}
 
+fn post_update_system(
+    mut commands: Commands,
+    mut gizmos: Gizmos,
+    body_query: Query<(&PlayerController, Entity, &GlobalTransform)>,
+    head_query: Query<&GlobalTransform, With<PlayerControllerHead>>,
+    t_con: PlayerControllers,
+) {
+    for (controller, entity, global_transform) in body_query.iter() {
+        gizmos.circle(global_transform.translation(), Direction3d::Y, 0.5, Color::LIME_GREEN);
+
+        let head_transform = head_query.get(controller.head_entity.unwrap()).unwrap();
+        gizmos.cuboid(*head_transform, Color::GOLD);
+
+        let ray = t_con.look_ray(entity).unwrap();
+        gizmos.ray(ray.origin, ray.get_point(5.0), Color::AQUAMARINE);
+    }
 }

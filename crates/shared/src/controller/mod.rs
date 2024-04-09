@@ -33,12 +33,12 @@ impl Plugin for PlayerCharacterPlugin {
             systems::grounded_movement_system,
         ).chain()
             .run_if(simulation_running())
-            .in_set(PlayerCharacterSystemSet::Controller));
+            .in_set(PlayerControllerSystemSet::Controller));
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, SystemSet)]
-pub enum PlayerCharacterSystemSet {
+pub enum PlayerControllerSystemSet {
     Controller,
 }
 

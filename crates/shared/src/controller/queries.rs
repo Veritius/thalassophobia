@@ -1,6 +1,7 @@
 use bevy::{ecs::{query::QueryEntityError, system::SystemParam}, prelude::*};
 use super::{PlayerController, PlayerControllerHead};
 
+/// Helpful shorthand for various controller-related operations.
 #[derive(SystemParam)]
 pub struct PlayerControllers<'w, 's> {
     pub bodies: Query<'w, 's, (&'static PlayerController, &'static GlobalTransform)>,
@@ -11,14 +12,27 @@ impl<'w, 's> PlayerControllers<'w, 's> {
     /// Returns a ray showing the direction of where they are looking.
     pub fn look_ray(&self, entity: Entity) -> Result<Ray3d, QueryEntityError> {
         let (body_data, body_transform) = self.bodies.get(entity)?;
+        let head_query = match body_data.head_entity {
+            Some(head_id) => Some(self.heads.get(head_id)?),
+            None => None,
+        };
 
-        match body_data.head_entity {
-            Some(head_id) => todo!(),
-            None => todo!(),
+        let origin;
+        let direction;
+
+        match head_query {
+            Some((_, head_transform)) => {
+                origin = head_transform.translation();
+                // direction = Direction3d::new_unchecked(body_data.look_quat().to_axis_angle().0);
+                direction = Direction3d::Y;
+            },
+            None => {
+                origin = body_transform.translation();
+                // direction = Direction3d::new_unchecked(body_data.yaw_quat().to_axis_angle().0);
+                direction = Direction3d::Y;
+            },
         }
 
-        // let (head_data, head_transform) = self.heads.get()?;
-
-        todo!()
+        return Ok(Ray3d { origin, direction })
     }
 }
