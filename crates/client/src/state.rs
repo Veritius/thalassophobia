@@ -17,4 +17,24 @@ pub enum ClientState {
 
     /// In the main menu.
     MainMenu,
+
+    /// In a singleplayer campaign.
+    Singleplayer,
+
+    /// In a multiplayer campaign.
+    #[cfg(feature="multiplayer")]
+    Multiplayer,
+}
+
+impl ClientState {
+    /// Returns `true` if a campaign is loaded.
+    pub fn in_campaign(&self) -> bool {
+        match self {
+            Self::Singleplayer => true,
+            #[cfg(feature="multiplayer")]
+            Self::Multiplayer => true,
+
+            _ => false,
+        }
+    }
 }
