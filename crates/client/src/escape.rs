@@ -49,6 +49,7 @@ fn on_escape(
     primary_window.cursor.visible = true;
 
     // Disable movement inputs
+    commands.insert_resource(ToggleActions::<RotationMovements>::DISABLED);
     commands.insert_resource(ToggleActions::<GroundedMovements>::DISABLED);
     commands.insert_resource(ToggleActions::<FloatingMovements>::DISABLED);
 
@@ -98,6 +99,7 @@ fn on_reenter(
     primary_window.cursor.visible = false;
 
     // Enable movement inputs
+    commands.insert_resource(ToggleActions::<RotationMovements>::ENABLED);
     commands.insert_resource(ToggleActions::<GroundedMovements>::ENABLED);
     commands.insert_resource(ToggleActions::<FloatingMovements>::ENABLED);
 
