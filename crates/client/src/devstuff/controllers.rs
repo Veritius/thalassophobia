@@ -2,13 +2,14 @@ use bevy_egui::*;
 use shared::{bevy::prelude::*, bevy_ecs, bevy_reflect, controller::{PlayerController, PlayerControllers}};
 
 #[derive(Resource, Default, Reflect)]
+#[reflect(Resource)]
 pub struct PlayerControllerGizmos {
     pub config_window: bool,
     pub show_pos_ring: bool,
     pub show_look_ray: bool,
 }
 
-pub(super) fn config_window(
+pub(super) fn controller_window(
     mut ctx: EguiContexts,
     mut config: ResMut<PlayerControllerGizmos>,
 ) {
@@ -19,7 +20,7 @@ pub(super) fn config_window(
     });
 }
 
-pub(super) fn draw_gizmos(
+pub(super) fn draw_controllers(
     config: Res<PlayerControllerGizmos>,
     mut gizmos: Gizmos,
     controllers: Query<(Entity, &PlayerController, &GlobalTransform)>,
