@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use bevy::prelude::*;
 
 pub(crate) struct GameStatePlugin;
@@ -47,6 +49,18 @@ impl GameState {
 
     pub fn is_running(&self) -> bool {
         *self == GameState::Simulating
+    }
+}
+
+impl Display for GameState {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            GameState::Neutral => "Neutral",
+            GameState::Loading => "Loading",
+            GameState::Simulating => "Simulating",
+            GameState::Paused => "Paused",
+            GameState::Closing => "Closing",
+        })
     }
 }
 

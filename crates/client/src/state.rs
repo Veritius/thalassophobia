@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use shared::bevy::prelude::*;
 use shared::bevy_ecs;
 
@@ -28,16 +30,16 @@ pub enum ClientState {
     Multiplayer,
 }
 
-impl ClientState {
-    /// Returns `true` if a campaign is loaded.
-    pub fn in_campaign(&self) -> bool {
-        match self {
-            Self::Singleplayer => true,
-            #[cfg(feature="multiplayer")]
-            Self::Multiplayer => true,
+impl Display for ClientState {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            ClientState::Initial => "Initial",
+            ClientState::MainMenu => "Main menu",
+            ClientState::Singleplayer => "Singleplayer",
 
-            _ => false,
-        }
+            #[cfg(feature="multiplayer")]
+            ClientState::Multiplayer => "Multiplayer",
+        })
     }
 }
 
