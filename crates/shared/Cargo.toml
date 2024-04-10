@@ -58,7 +58,6 @@ default = [
 render = [
     "bevy/bevy_audio",
     "bevy/bevy_core_pipeline",
-    "bevy/bevy_gizmos",
     "bevy/bevy_gltf",
     "bevy/bevy_pbr",
     "bevy/bevy_render",
@@ -70,6 +69,10 @@ render = [
     "bevy/tonemapping_luts",
     "bevy/vorbis",
     "bevy/x11"
+]
+gizmos = [
+    "render",
+    "bevy/bevy_gizmos"
 ]
 multiplayer = [
     "bevy_stardust",

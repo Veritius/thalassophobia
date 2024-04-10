@@ -14,7 +14,12 @@ package = "thalassophobia_server"
 path = "../server"
 optional = true
 
+[dependencies.bevy_egui]
+version = "0.26"
+optional = true
+
 [features]
-default = ["multiplayer", "hosting"]
+default = ["multiplayer", "hosting", "devstuff"]
+devstuff = ["shared/gizmos", "bevy_egui"]
 multiplayer = ["shared/multiplayer"]
 hosting = ["multiplayer", "dep:server"]
