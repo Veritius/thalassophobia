@@ -1,4 +1,3 @@
-mod controllers;
 mod infodump;
 mod input;
 
@@ -6,7 +5,6 @@ use bevy_egui::EguiPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use shared::{bevy::{prelude::*, diagnostic::*}, bevy_ecs, bevy_reflect};
 use infodump::*;
-use controllers::*;
 
 pub(crate) struct DevStuffPlugin;
 
@@ -25,15 +23,12 @@ impl Plugin for DevStuffPlugin {
         }
 
         app.add_systems(Update, input::show_hide_toggles_system);
-        app.add_systems(Update, infodump_window);
-        app.add_systems(Update, (controller_window, draw_controllers));
+        app.add_systems(Update, infodump::infodump_window);
 
         app.register_type::<WorldInspectorVisibility>();
         app.init_resource::<WorldInspectorVisibility>();
         app.register_type::<InfodumpWindowVisibility>();
         app.init_resource::<InfodumpWindowVisibility>();
-        app.register_type::<PlayerControllerGizmos>();
-        app.init_resource::<PlayerControllerGizmos>();
     }
 }
 
