@@ -22,9 +22,13 @@ pub(super) fn infodump_window(
         ui.label(format!("State: {} / {}", client_state.get(), shared_state.get()));
 
         // Diagnostics panel
-        egui::CollapsingHeader::new("Diagnostics").show(ui, |ui| {
-            egui::ScrollArea::vertical().show(ui, |ui| {
-                egui::Grid::new("infodump_diagnostics").show(ui, |ui| {
+        egui::CollapsingHeader::new("Diagnostics")
+        .show(ui, |ui| {
+            egui::ScrollArea::vertical()
+            .show(ui, |ui| {
+                egui::Grid::new("infodump_diagnostics")
+                .striped(true)
+                .show(ui, |ui| {
                     let count = diagnostics.iter().count();
                     let mut vec = Vec::with_capacity(count);
     
@@ -38,7 +42,16 @@ pub(super) fn infodump_window(
                     for (name, value) in vec.drain(..) {
                         ui.label(name.as_str());
                         if let Some(value) = value {
-                            ui.label(format!("{value:.3}"));
+                            const EPSILON_A: f64 = 0.001;
+                            const EPSILON_B: f64 = 0.999;
+
+                            let frac = value % 1.0;
+
+                            if frac < EPSILON_A || frac > EPSILON_B {
+                                ui.label(format!("{value:.0}"));
+                            } else {
+                                ui.label(format!("{value:.3}"));
+                            }
                         }
                         ui.end_row();
                     }
