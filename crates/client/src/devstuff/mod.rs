@@ -22,11 +22,15 @@ impl Plugin for DevStuffPlugin {
             app.add_plugins(EguiPlugin);
         }
 
-        /*#[cfg(feature="multiplayer")]*/ {
+        #[cfg(feature="multiplayer")] {
             use shared::stardust::diagnostics::*;
+            use shared::multiplayer::udp::diagnostics::*;
+
             app.add_plugins((
-                ConnectionDiagnosticPlugin,
+                NetworkPeerDiagnosticPlugin,
                 MessageCountDiagnosticsPlugin,
+                EndpointDiagnosticsPlugin,
+                ConnectionDiagnosticsPlugin,
             ));
         }
 

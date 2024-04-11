@@ -27,7 +27,7 @@ pub fn pre_setup(app: &mut App) {
 pub fn post_setup(app: &mut App) {
     // Multiplayer functionality
     #[cfg(feature="multiplayer")] {
-        app.add_plugins(crate::multiplayer::udp::UdpTransportPlugin::balanced(crate::multiplayer::UDP_APPLICATION_VERSION));
+        app.add_plugins(crate::multiplayer::udp::prelude::UdpTransportPlugin::balanced(crate::multiplayer::UDP_APPLICATION_VERSION));
     }
 
     // Remove setup mode resource
