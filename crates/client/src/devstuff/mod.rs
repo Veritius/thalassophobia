@@ -22,6 +22,14 @@ impl Plugin for DevStuffPlugin {
             app.add_plugins(EguiPlugin);
         }
 
+        /*#[cfg(feature="multiplayer")]*/ {
+            use shared::stardust::diagnostics::*;
+            app.add_plugins((
+                ConnectionDiagnosticPlugin,
+                MessageCountDiagnosticPlugin,
+            ));
+        }
+
         app.add_systems(Update, input::show_hide_toggles_system);
         app.add_systems(Update, infodump::infodump_window);
 
