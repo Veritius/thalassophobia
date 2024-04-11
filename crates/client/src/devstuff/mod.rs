@@ -26,7 +26,7 @@ impl Plugin for DevStuffPlugin {
             use shared::stardust::diagnostics::*;
             app.add_plugins((
                 ConnectionDiagnosticPlugin,
-                MessageCountDiagnosticPlugin,
+                MessageCountDiagnosticsPlugin,
             ));
         }
 
