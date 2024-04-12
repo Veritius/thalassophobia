@@ -2,6 +2,7 @@ use shared::bevy::prelude::*;
 use shared::{bevy_ecs, bevy_reflect};
 
 #[derive(Resource, Reflect)]
+#[reflect(Resource)]
 pub struct AccessibilitySettings {
     /*
         Motor

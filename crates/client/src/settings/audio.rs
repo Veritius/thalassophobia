@@ -3,6 +3,7 @@ use shared::bevy_ecs;
 use shared::bevy_reflect;
 
 #[derive(Resource, Reflect)]
+#[reflect(Resource)]
 pub struct AudioSettings {
 
 }
