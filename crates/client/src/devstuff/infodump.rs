@@ -24,7 +24,7 @@ pub(super) fn infodump_window(
         // Game state panel
         egui::CollapsingHeader::new("State")
         .show(ui, |ui| {
-            egui::Grid::new("infodump_diagnostics")
+            egui::Grid::new("infodump_statistics")
             .striped(true)
             .show(ui, |ui| {
                 ui.label("Client state");
