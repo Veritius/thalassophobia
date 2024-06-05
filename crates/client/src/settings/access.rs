@@ -5,15 +5,15 @@ use shared::bevy::prelude::*;
 use shared::{bevy_ecs, bevy_reflect::{self, GetTypeRegistration}};
 
 pub(super) fn setup(app: &mut App) {
-    register::<GameSpeed>(app);
-    register::<Flickering>(app);
-    register::<SensoryShock>(app);
-    register::<Contrast>(app);
-    register::<Colorblindness>(app);
     register::<AudioSonar>(app);
-    register::<Dismemberment>(app);
-    register::<Gibbing>(app);
     register::<Blood>(app);
+    register::<Colorblindness>(app);
+    register::<Contrast>(app);
+    register::<Dismemberment>(app);
+    register::<Flickering>(app);
+    register::<GameSpeed>(app);
+    register::<Gibbing>(app);
+    register::<SensoryShock>(app);
 }
 
 fn register<T>(app: &mut App) where T: AccessibilitySetting {
@@ -60,46 +60,25 @@ where
     T: TypePath + GetTypeRegistration + FromReflect + Reflect,
 {}
 
-/// Speed multiplier for the game. Affects [`Virtual`] time.
+/// Visually displays sounds for the hearing impaired.
 /// 
-/// https://gameaccessibilityguidelines.com/include-an-option-to-adjust-the-game-speed/
-#[derive(Debug, Clone, Copy, Reflect)]
-pub struct GameSpeed(pub f32);
-
-impl Default for GameSpeed {
-    fn default() -> Self {
-        Self(1.0)
-    }
+/// https://gameaccessibilityguidelines.com/provide-a-pingable-sonar-style-audio-map
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum AudioSonar {
+    #[default]
+    Disabled,
+    Enabled,
 }
 
-/// Reduces flickering light effects and repetitive patterns.
+/// Alters or disables blood effects.
 /// 
-/// http://gameaccessibilityguidelines.com/avoid-flickering-images-and-repetitive-patterns
+/// https://gameaccessibilityguidelines.com/provide-an-option-to-disable-blood-and-gore/
 #[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
-pub enum Flickering {
+pub enum Blood {
     #[default]
     Standard,
-    Reduced,
-}
-
-/// Reduction of sudden sensory shocks, like explosions and gunshots.
-/// 
-/// https://gameaccessibilityguidelines.com/avoid-any-sudden-unexpected-movement-or-events/
-#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
-pub enum SensoryShock {
-    #[default]
-    Standard,
-    Reduced,
-}
-
-/// Improves the contrast of the world.
-#[derive(Debug, Clone, Copy, PartialEq, Reflect)]
-pub struct Contrast(f32);
-
-impl Default for Contrast {
-    fn default() -> Self {
-        Self(1.0)
-    }
+    Recolor(Color),
+    Disabled,
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
@@ -118,14 +97,14 @@ pub enum Colorblindness {
     Monochromia,
 }
 
-/// Visually displays sounds for the hearing impaired.
-/// 
-/// https://gameaccessibilityguidelines.com/provide-a-pingable-sonar-style-audio-map
-#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
-pub enum AudioSonar {
-    #[default]
-    Disabled,
-    Enabled,
+/// Improves the contrast of the world.
+#[derive(Debug, Clone, Copy, PartialEq, Reflect)]
+pub struct Contrast(f32);
+
+impl Default for Contrast {
+    fn default() -> Self {
+        Self(1.0)
+    }
 }
 
 /// Reduces dismemberment effects.
@@ -140,6 +119,28 @@ pub enum Dismemberment {
     Reduced,
 }
 
+/// Reduces flickering light effects and repetitive patterns.
+/// 
+/// http://gameaccessibilityguidelines.com/avoid-flickering-images-and-repetitive-patterns
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Flickering {
+    #[default]
+    Standard,
+    Reduced,
+}
+
+/// Speed multiplier for the game. Affects [`Virtual`] time.
+/// 
+/// https://gameaccessibilityguidelines.com/include-an-option-to-adjust-the-game-speed/
+#[derive(Debug, Clone, Copy, Reflect)]
+pub struct GameSpeed(pub f32);
+
+impl Default for GameSpeed {
+    fn default() -> Self {
+        Self(1.0)
+    }
+}
+
 /// Disables gibbing effects.
 /// 
 /// https://gameaccessibilityguidelines.com/provide-an-option-to-disable-blood-and-gore/
@@ -150,13 +151,12 @@ pub enum Gibbing {
     Disabled,
 }
 
-/// Alters or disables blood effects.
+/// Reduction of sudden sensory shocks, like explosions and gunshots.
 /// 
-/// https://gameaccessibilityguidelines.com/provide-an-option-to-disable-blood-and-gore/
+/// https://gameaccessibilityguidelines.com/avoid-any-sudden-unexpected-movement-or-events/
 #[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
-pub enum Blood {
+pub enum SensoryShock {
     #[default]
     Standard,
-    Recolor(Color),
-    Disabled,
+    Reduced,
 }
