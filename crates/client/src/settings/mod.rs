@@ -15,9 +15,8 @@ pub(crate) struct UserSettingsPlugin;
 
 impl Plugin for UserSettingsPlugin {
     fn build(&self, app: &mut App) {
-        // Accessibility settings
-        app.register_type::<AccessibilitySettings>();
-        app.init_resource::<AccessibilitySettings>();
+        // Accessibility
+        access::setup(app);
 
         // Audio settings
         app.register_type::<AudioSettings>();

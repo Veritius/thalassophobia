@@ -1,93 +1,113 @@
+use std::any::Any;
+use std::ops::{Deref, DerefMut};
+use std::fmt::Debug;
 use shared::bevy::prelude::*;
-use shared::{bevy_ecs, bevy_reflect};
+use shared::bevy_reflect::{self, GetTypeRegistration};
 
-#[derive(Resource, Reflect)]
-#[reflect(Resource)]
-pub struct AccessibilitySettings {
-    /*
-        Motor
-    */
-
-    /// Reduces the speed of the game to be slower.
-    /// Only applies to the host of the game.
-    /// 
-    /// https://gameaccessibilityguidelines.com/include-an-option-to-adjust-the-game-speed/
-    pub game_speed: f32,
-
-    /*
-        Cognitive
-    */
-
-    /// Disables flickering lights and images.
-    /// 
-    /// https://gameaccessibilityguidelines.com/avoid-flickering-images-and-repetitive-patterns/
-    pub disable_flicker: bool,
-
-    /// Reduces sudden sensory shocks, like loud sounds.
-    ///
-    /// https://gameaccessibilityguidelines.com/avoid-any-sudden-unexpected-movement-or-events/
-    pub reduce_shock: bool,
-
-    /*
-        Vision
-    */
-
-    /// Adjusts brightness of the world.
-    pub light_gamma: f32,
-
-    /// Color blindness config.
-    pub colorblindness: ColorblindMode,
-
-    /*
-        Hearing
-    */
-
-    /// Shows sounds as a visual representation at the center of the screen.
-    /// 
-    /// https://gameaccessibilityguidelines.com/provide-a-pingable-sonar-style-audio-map
-    pub audio_sonar: bool,
-
-    /*
-        Content
-    */
-
-    /// Doesn't actually disable dismemberment, since it affects gameplay.
-    /// Instead, limbs are greyed out to mark their disappearance.
-    pub disable_dismemberment: bool,
-
-    /// Disables gib effects alongside other gore.
-    pub disable_gibbing: bool,
-
-    /// Changes the color of blood to something else.
-    pub blood_recolor: Option<Color>,
-
-    /// Fully disables blood particle effects.
-    pub disable_blood: bool,
+pub(super) fn setup(app: &mut App) {
+    register::<GameSpeed>(app);
+    register::<Flickering>(app);
+    register::<SensoryShock>(app);
+    register::<Contrast>(app);
+    register::<Colorblindness>(app);
+    register::<AudioSonar>(app);
+    register::<Dismemberment>(app);
+    register::<Gibbing>(app);
+    register::<Blood>(app);
 }
 
-impl Default for AccessibilitySettings {
-    fn default() -> Self {
-        Self {
-            game_speed: 1.0,
+fn register<T>(app: &mut App) where T: AccessibilitySetting {
+    app.register_type::<T>();
+    app.register_type::<Accessibility<T>>();
+    app.init_resource::<Accessibility<T>>();
+}
 
-            disable_flicker: false,
-            reduce_shock: false,
+#[derive(Debug, Default, Reflect)]
+pub struct Accessibility<T: AccessibilitySetting> {
+    inner: T,
+}
 
-            audio_sonar: false,
+impl<T> Resource for Accessibility<T>
+where
+    T: AccessibilitySetting,
+{}
 
-            light_gamma: 1.0,
-            colorblindness: ColorblindMode::default(),
+impl<T> Deref for Accessibility<T>
+where
+    T: AccessibilitySetting,
+{
+    type Target = T;
 
-            disable_dismemberment: false,
-            disable_gibbing: false,
-            blood_recolor: None,
-            disable_blood: false,
-        }
+    fn deref(&self) -> &Self::Target {
+        &self.inner
     }
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect)]
-pub enum ColorblindMode {
+impl<T> DerefMut for Accessibility<T>
+where
+    T: AccessibilitySetting
+{
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.inner
+    }
+}
+
+pub trait AccessibilitySetting
+where 
+    Self: Any + Send + Sync + Debug + Default,
+    Self: TypePath + GetTypeRegistration + FromReflect + Reflect,
+{}
+
+impl<T> AccessibilitySetting for T
+where
+    T: Any + Send + Sync + Debug + Default,
+    T: TypePath + GetTypeRegistration + FromReflect + Reflect,
+{}
+
+/// Speed multiplier for the game. Affects [`Virtual`] time.
+/// 
+/// https://gameaccessibilityguidelines.com/include-an-option-to-adjust-the-game-speed/
+#[derive(Debug, Clone, Copy, Reflect)]
+pub struct GameSpeed(pub f32);
+
+impl Default for GameSpeed {
+    fn default() -> Self {
+        Self(1.0)
+    }
+}
+
+/// Reduces flickering light effects and repetitive patterns.
+/// 
+/// http://gameaccessibilityguidelines.com/avoid-flickering-images-and-repetitive-patterns
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Flickering {
+    #[default]
+    Standard,
+    Reduced,
+}
+
+/// Reduction of sudden sensory shocks, like explosions and gunshots.
+/// 
+/// https://gameaccessibilityguidelines.com/avoid-any-sudden-unexpected-movement-or-events/
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum SensoryShock {
+    #[default]
+    Standard,
+    Reduced,
+}
+
+/// Improves the contrast of the world.
+#[derive(Debug, Clone, Copy, PartialEq, Reflect)]
+pub struct Contrast(f32);
+
+impl Default for Contrast {
+    fn default() -> Self {
+        Self(1.0)
+    }
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Colorblindness {
     /// Normal color vision.
     #[default]
     FullColor,
@@ -100,4 +120,47 @@ pub enum ColorblindMode {
 
     /// Complete color vision deficiency.
     Monochromia,
+}
+
+/// Visually displays sounds for the hearing impaired.
+/// 
+/// https://gameaccessibilityguidelines.com/provide-a-pingable-sonar-style-audio-map
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum AudioSonar {
+    #[default]
+    Disabled,
+    Enabled,
+}
+
+/// Reduces dismemberment effects.
+/// Since dismemberment is a game mechanic, this cannot be done fully.
+/// Instead, the destroyed limb is just shown as partially transparent.
+/// 
+/// https://gameaccessibilityguidelines.com/provide-an-option-to-disable-blood-and-gore/
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Dismemberment {
+    #[default]
+    Standard,
+    Reduced,
+}
+
+/// Disables gibbing effects.
+/// 
+/// https://gameaccessibilityguidelines.com/provide-an-option-to-disable-blood-and-gore/
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Gibbing {
+    #[default]
+    Standard,
+    Disabled,
+}
+
+/// Alters or disables blood effects.
+/// 
+/// https://gameaccessibilityguidelines.com/provide-an-option-to-disable-blood-and-gore/
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Blood {
+    #[default]
+    Standard,
+    Recolor(Color),
+    Disabled,
 }
