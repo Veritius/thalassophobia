@@ -2,7 +2,7 @@ use std::any::Any;
 use std::ops::{Deref, DerefMut};
 use std::fmt::Debug;
 use shared::bevy::prelude::*;
-use shared::bevy_reflect::{self, GetTypeRegistration};
+use shared::{bevy_ecs, bevy_reflect::{self, GetTypeRegistration}};
 
 pub(super) fn setup(app: &mut App) {
     register::<GameSpeed>(app);
@@ -22,15 +22,11 @@ fn register<T>(app: &mut App) where T: AccessibilitySetting {
     app.init_resource::<Accessibility<T>>();
 }
 
-#[derive(Debug, Default, Reflect)]
+#[derive(Debug, Default, Resource, Reflect)]
+#[reflect(Resource)]
 pub struct Accessibility<T: AccessibilitySetting> {
     inner: T,
 }
-
-impl<T> Resource for Accessibility<T>
-where
-    T: AccessibilitySetting,
-{}
 
 impl<T> Deref for Accessibility<T>
 where
