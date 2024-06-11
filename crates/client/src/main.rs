@@ -1,4 +1,3 @@
-mod detail;
 mod escape;
 mod initial;
 mod settings;
@@ -18,7 +17,6 @@ fn main() {
     shared::pre_setup(&mut app);
 
     // Client subsystems
-    app.add_plugins(detail::LevelOfDetailPlugin);
     app.add_plugins(escape::EscapeMenuPlugin);
     app.add_plugins(initial::InitialLoadingPlugin);
     app.add_plugins(settings::UserSettingsPlugin);
