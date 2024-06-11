@@ -1,8 +1,14 @@
 use shared::bevy::prelude::*;
 use shared::bevy_reflect;
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+#[derive(Debug, Clone, Copy, PartialEq, Reflect)]
 pub struct CameraFov(pub f32);
+
+impl Default for CameraFov {
+    fn default() -> Self {
+        Self(80.0)
+    }
+}
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
 pub struct ModelQuality(pub Quality);
