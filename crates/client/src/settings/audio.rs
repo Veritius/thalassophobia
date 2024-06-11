@@ -1,17 +1,18 @@
 use shared::bevy::prelude::*;
-use shared::bevy_ecs;
 use shared::bevy_reflect;
 
-#[derive(Resource, Reflect)]
-#[reflect(Resource)]
-pub struct AudioSettings {
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub struct MasterVolume(pub f32);
 
-}
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub struct AmbientVolume(pub f32);
 
-impl Default for AudioSettings {
-    fn default() -> Self {
-        Self {
-            
-        }
-    }
+/// Visually displays sounds for the hearing impaired.
+/// 
+/// https://gameaccessibilityguidelines.com/provide-a-pingable-sonar-style-audio-map
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum AudioSonar {
+    #[default]
+    Disabled,
+    Enabled,
 }

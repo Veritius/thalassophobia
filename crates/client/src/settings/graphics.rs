@@ -1,28 +1,58 @@
 use shared::bevy::prelude::*;
-use shared::{bevy_ecs, bevy_reflect};
+use shared::bevy_reflect;
 
-#[derive(Resource, Reflect)]
-#[reflect(Resource)]
-pub struct GraphicsSettings {
-    pub camera_fov: f32,
-    pub model_detail: GraphicsLevel,
-    pub texture_detail: GraphicsLevel,
-}
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub struct CameraFov(pub f32);
 
-impl Default for GraphicsSettings {
-    fn default() -> Self {
-        Self {
-            camera_fov: 80.0,
-            model_detail: default(),
-            texture_detail: default(),
-        }
-    }
-}
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub struct ModelQuality(pub Quality);
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub struct TextureQuality(pub Quality);
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub struct ShaderQuality(pub Quality);
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect)]
-pub enum GraphicsLevel {
+pub enum Quality {
     Low,
     #[default]
     Medium,
     High,
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Colorblindness {
+    /// Normal color vision.
+    #[default]
+    FullColor,
+
+    /// Red-green color blindness.
+    RedGreen,
+
+    /// Blue-yellow color blindness.
+    BlueYellow,
+
+    /// Complete color vision deficiency.
+    Monochromia,
+}
+
+/// Improves the visual contrast of the world.
+#[derive(Debug, Clone, Copy, PartialEq, Reflect)]
+pub struct Contrast(f32);
+
+impl Default for Contrast {
+    fn default() -> Self {
+        Self(1.0)
+    }
+}
+
+/// Reduces flickering light effects and repetitive patterns.
+/// 
+/// http://gameaccessibilityguidelines.com/avoid-flickering-images-and-repetitive-patterns
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Flickering {
+    #[default]
+    Standard,
+    Reduced,
 }
