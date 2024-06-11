@@ -43,11 +43,7 @@ impl Plugin for PlayerCharacterPlugin {
             .run_if(simulation_running())
             .in_set(PlayerControllerSystemSet::Rotation));
 
-        app.add_systems(Update, systems::grounded_movement_system
-            .run_if(simulation_running())
-            .in_set(PlayerControllerSystemSet::Movements));
-
-        app.add_systems(Update, systems::floating_movement_system
+        app.add_systems(Update, (systems::grounded_movement_system, systems::floating_movement_system)
             .run_if(simulation_running())
             .in_set(PlayerControllerSystemSet::Movements));
     }
