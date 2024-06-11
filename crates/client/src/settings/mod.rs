@@ -27,6 +27,7 @@ impl Plugin for UserSettingsPlugin {
         register::<MasterVolume>(app);
         register::<AmbientVolume>(app);
         register::<AudioSonar>(app);
+        register::<Subtitles>(app);
 
         // Graphics settings
         register::<CameraFov>(app);

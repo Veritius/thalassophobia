@@ -16,3 +16,11 @@ pub enum AudioSonar {
     Disabled,
     Enabled,
 }
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Subtitles {
+    #[default]
+    Disabled,
+    Minimal,
+    Verbose,
+}
