@@ -15,11 +15,11 @@ path = "../server"
 optional = true
 
 [dependencies.bevy_egui]
-version = "0.25"
+version = "0.28"
 optional = true
 
 [dependencies.bevy-inspector-egui]
-version = "0.23.4"
+version = "0.25.1"
 optional = true
 
 [features]
