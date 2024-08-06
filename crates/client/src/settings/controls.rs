@@ -88,6 +88,7 @@ impl Default for ControlSettings<VesselMovements> {
         map.insert(VesselMovements::MoveBack, KeyCode::KeyS);
 
         map.insert(VesselMovements::FwdSide, DualAxis::right_stick());
+        map.insert(VesselMovements::PitchYaw, DualAxis::mouse_motion());
         map.insert(VesselMovements::PitchYaw, DualAxis::left_stick());
 
         map.insert(VesselMovements::RollLeft, KeyCode::KeyQ);
