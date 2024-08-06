@@ -8,7 +8,7 @@ pub enum VesselMoveStyle {
     Maintain,
 
     /// The vessel will not attempt to correct any movements.
-    Drift,
+    Manual,
 }
 
 /// Movements that can be made to pilot a vessel.
