@@ -117,9 +117,9 @@ pub(super) fn vessel_controller_system(
 
         // Calculate the force to be applied
         let rotation_force = Vec3::new(
-            rotation_intent.x * if rotation_intent.x > 0.0 { controller.rotation_force.pitch_up  } else { controller.rotation_force.pitch_down },
-            rotation_intent.y * if rotation_intent.y > 0.0 { controller.rotation_force.yaw_left  } else { controller.rotation_force.yaw_right  },
-            rotation_intent.z * if rotation_intent.z > 0.0 { controller.rotation_force.roll_left } else { controller.rotation_force.roll_right },
+            rotation_intent.x * if rotation_intent.x > 0.0 { controller.rotation_force.roll_left } else { controller.rotation_force.roll_right },
+            rotation_intent.y * if rotation_intent.y > 0.0 { controller.rotation_force.pitch_up  } else { controller.rotation_force.pitch_down  },
+            rotation_intent.z * if rotation_intent.z > 0.0 { controller.rotation_force.yaw_left  } else { controller.rotation_force.yaw_right },
         );
 
         // Apply the rotation force
