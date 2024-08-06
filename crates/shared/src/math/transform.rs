@@ -14,48 +14,43 @@ pub struct TranslateSet<T> {
     pub back: T,
 }
 
-impl<T: Add> Add for TranslateSet<T> {
-    type Output = TranslateSet<<T as Add>::Output>;
+impl<T> TranslateSet<T> {
+    pub fn merge<F>(self, other: Self, mut func: F) -> Self
+    where
+        F: FnMut(T, T) -> T,
+    {
+        Self {
+            up: func(self.up, other.up),
+            down: func(self.down, other.down),
+            left: func(self.left, other.left),
+            right: func(self.right, other.right),
+            fwd: func(self.fwd, other.fwd),
+            back: func(self.back, other.back),
+        }
+    }
+}
+
+impl<T: Add<Output = T>> Add for TranslateSet<T> {
+    type Output = TranslateSet<T>;
 
     fn add(self, rhs: Self) -> Self::Output {
-        TranslateSet {
-            up: self.up + rhs.up,
-            down: self.down + rhs.down,
-            left: self.left + rhs.left,
-            right: self.right + rhs.right,
-            fwd: self.fwd + rhs.fwd,
-            back: self.back + rhs.back,
-        }
+        TranslateSet::merge(self, rhs, |a,b| a+b)
     }
 }
 
-impl<T: Sub> Sub for TranslateSet<T> {
-    type Output = TranslateSet<<T as Sub>::Output>;
+impl<T: Sub<Output = T>> Sub for TranslateSet<T> {
+    type Output = TranslateSet<T>;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        TranslateSet {
-            up: self.up - rhs.up,
-            down: self.down - rhs.down,
-            left: self.left - rhs.left,
-            right: self.right - rhs.right,
-            fwd: self.fwd - rhs.fwd,
-            back: self.back - rhs.back,
-        }
+        TranslateSet::merge(self, rhs, |a,b| a-b)
     }
 }
 
-impl<T: Mul> Mul for TranslateSet<T> {
-    type Output = TranslateSet<<T as Mul>::Output>;
+impl<T: Mul<Output = T>> Mul for TranslateSet<T> {
+    type Output = TranslateSet<T>;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        TranslateSet {
-            up: self.up * rhs.up,
-            down: self.down * rhs.down,
-            left: self.left * rhs.left,
-            right: self.right * rhs.right,
-            fwd: self.fwd * rhs.fwd,
-            back: self.back * rhs.back,
-        }
+        TranslateSet::merge(self, rhs, |a,b| a*b)
     }
 }
 
@@ -84,48 +79,43 @@ pub struct RotationSet<T> {
     pub roll_right: T,
 }
 
-impl<T: Add> Add for RotationSet<T> {
-    type Output = RotationSet<<T as Add>::Output>;
+impl<T> RotationSet<T> {
+    pub fn merge<F>(self, other: Self, mut func: F) -> Self
+    where
+        F: FnMut(T, T) -> T,
+    {
+        Self {
+            pitch_up: func(self.pitch_up, other.pitch_up),
+            pitch_down: func(self.pitch_down, other.pitch_down),
+            yaw_left: func(self.yaw_left, other.yaw_left),
+            yaw_right: func(self.yaw_right, other.yaw_right),
+            roll_left: func(self.roll_left, other.roll_left),
+            roll_right: func(self.roll_right, other.roll_right),
+        }
+    }
+}
+
+impl<T: Add<Output = T>> Add for RotationSet<T> {
+    type Output = RotationSet<T>;
 
     fn add(self, rhs: Self) -> Self::Output {
-        RotationSet {
-            pitch_up: self.pitch_up + rhs.pitch_up,
-            pitch_down: self.pitch_down + rhs.pitch_down,
-            yaw_left: self.yaw_left + rhs.yaw_left,
-            yaw_right: self.yaw_right + rhs.yaw_right,
-            roll_left: self.roll_left + rhs.roll_left,
-            roll_right: self.roll_right + rhs.roll_right,
-        }
+        RotationSet::merge(self, rhs, |a,b| a+b)
     }
 }
 
-impl<T: Sub> Sub for RotationSet<T> {
-    type Output = RotationSet<<T as Sub>::Output>;
+impl<T: Sub<Output = T>> Sub for RotationSet<T> {
+    type Output = RotationSet<T>;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        RotationSet {
-            pitch_up: self.pitch_up - rhs.pitch_up,
-            pitch_down: self.pitch_down - rhs.pitch_down,
-            yaw_left: self.yaw_left - rhs.yaw_left,
-            yaw_right: self.yaw_right - rhs.yaw_right,
-            roll_left: self.roll_left - rhs.roll_left,
-            roll_right: self.roll_right - rhs.roll_right,
-        }
+        RotationSet::merge(self, rhs, |a,b| a-b)
     }
 }
 
-impl<T: Mul> Mul for RotationSet<T> {
-    type Output = RotationSet<<T as Mul>::Output>;
+impl<T: Mul<Output = T>> Mul for RotationSet<T> {
+    type Output = RotationSet<T>;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        RotationSet {
-            pitch_up: self.pitch_up * rhs.pitch_up,
-            pitch_down: self.pitch_down * rhs.pitch_down,
-            yaw_left: self.yaw_left * rhs.yaw_left,
-            yaw_right: self.yaw_right * rhs.yaw_right,
-            roll_left: self.roll_left * rhs.roll_left,
-            roll_right: self.roll_right * rhs.roll_right,
-        }
+        RotationSet::merge(self, rhs, |a,b| a*b)
     }
 }
 
