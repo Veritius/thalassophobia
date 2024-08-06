@@ -17,11 +17,12 @@ pub fn pre_setup(app: &mut App) {
     app.add_plugins(crate::multiplayer::MultiplayerPlugin);
 
     // Subsystem plugins
-    app.add_plugins(crate::package::ContentPackagesPlugin);
     app.add_plugins(crate::campaign::CampaignPlugin);
     app.add_plugins(crate::controller::PlayerCharacterPlugin);
     app.add_plugins(crate::disabling::DisablingPlugin);
+    app.add_plugins(crate::package::ContentPackagesPlugin);
     app.add_plugins(crate::state::GameStatePlugin);
+    app.add_plugins(crate::vessel::piloting::VesselControllerPlugin);
 }
 
 pub fn post_setup(app: &mut App) {
