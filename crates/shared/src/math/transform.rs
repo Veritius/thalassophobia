@@ -1,4 +1,4 @@
-use std::ops::{Add, Mul, Sub};
+use std::ops::{Add, Div, Mul, Sub};
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -68,6 +68,15 @@ impl<T: Mul<Output = T>> Mul for TranslateSet<T> {
     #[inline]
     fn mul(self, rhs: Self) -> Self::Output {
         TranslateSet::merge(self, rhs, |a,b| a*b)
+    }
+}
+
+impl<T: Div<Output = T>> Div for TranslateSet<T> {
+    type Output = TranslateSet<T>;
+
+    #[inline]
+    fn div(self, rhs: Self) -> Self::Output {
+        TranslateSet::merge(self, rhs, |a,b| a/b)
     }
 }
 
@@ -150,6 +159,14 @@ impl<T: Mul<Output = T>> Mul for RotationSet<T> {
     #[inline]
     fn mul(self, rhs: Self) -> Self::Output {
         RotationSet::merge(self, rhs, |a,b| a*b)
+    }
+}
+
+impl<T: Div<Output = T>> Div for RotationSet<T> {
+    type Output = RotationSet<T>;
+
+    fn div(self, rhs: Self) -> Self::Output {
+        RotationSet::merge(self, rhs, |a, b| a/b)
     }
 }
 
