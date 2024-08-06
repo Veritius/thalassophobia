@@ -1,5 +1,5 @@
 use std::{any::Any, fmt::Debug, ops::{Deref, DerefMut}};
-use shared::{bevy::prelude::*, bevy_ecs, bevy_reflect::{self, GetTypeRegistration}};
+use shared::{bevy::prelude::*, bevy_ecs, bevy_reflect::{self, GetTypeRegistration}, vessel::piloting::VesselMovements};
 use shared::controller::*;
 
 mod access;
@@ -45,6 +45,8 @@ impl Plugin for UserSettingsPlugin {
         app.init_resource::<ControlSettings<GroundedMovements>>();
         app.register_type::<ControlSettings<FloatingMovements>>();
         app.init_resource::<ControlSettings<FloatingMovements>>();
+        app.register_type::<ControlSettings<VesselMovements>>();
+        app.init_resource::<ControlSettings<VesselMovements>>();
     }
 }
 

@@ -1,4 +1,5 @@
 use shared::bevy::prelude::*;
+use shared::vessel::piloting::VesselMovements;
 use shared::{bevy_ecs, bevy_reflect};
 use shared::input::prelude::*;
 use shared::controller::*;
@@ -67,6 +68,27 @@ impl Default for ControlSettings<FloatingMovements> {
 
         map.insert(FloatingMovements::Sprint, KeyCode::ShiftLeft);
         map.insert(FloatingMovements::Sprint, GamepadButtonType::LeftThumb);
+
+        return Self(map);
+    }
+}
+
+impl Default for ControlSettings<VesselMovements> {
+    fn default() -> Self {
+        let mut map = InputMap::default();
+
+        map.insert(VesselMovements::MoveUp, KeyCode::KeyE);
+        map.insert(VesselMovements::MoveUp, GamepadButtonType::North);
+        map.insert(VesselMovements::MoveDown, KeyCode::KeyQ);
+        map.insert(VesselMovements::MoveDown, GamepadButtonType::West);
+
+        map.insert(VesselMovements::MoveLeft, KeyCode::KeyA);
+        map.insert(VesselMovements::MoveRight, KeyCode::KeyD);
+        map.insert(VesselMovements::MoveFwd, KeyCode::KeyW);
+        map.insert(VesselMovements::MoveBack, KeyCode::KeyS);
+
+        map.insert(VesselMovements::MoveFwdSide, DualAxis::right_stick());
+        map.insert(VesselMovements::PitchYaw, DualAxis::left_stick());
 
         return Self(map);
     }
