@@ -2,11 +2,14 @@ use shared::bevy::prelude::*;
 use shared::bevy_reflect;
 
 #[derive(Debug, Clone, Copy, PartialEq, Reflect)]
-pub struct CameraFov(pub f32);
+pub struct CameraFov {
+    #[reflect(@60.0..120.0)]
+    pub fov: f32,
+}
 
 impl Default for CameraFov {
     fn default() -> Self {
-        Self(80.0)
+        Self { fov: 80.0 }
     }
 }
 
@@ -45,11 +48,14 @@ pub enum Colorblindness {
 
 /// Improves the visual contrast of the world.
 #[derive(Debug, Clone, Copy, PartialEq, Reflect)]
-pub struct Contrast(f32);
+pub struct Contrast {
+    #[reflect(@0.7..1.3)]
+    pub contrast: f32,
+}
 
 impl Default for Contrast {
     fn default() -> Self {
-        Self(1.0)
+        Self { contrast: 1.0 }
     }
 }
 
