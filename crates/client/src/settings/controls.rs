@@ -79,7 +79,7 @@ impl Default for ControlSettings<VesselMovements> {
 
         map.insert(VesselMovements::MoveUp, KeyCode::KeyZ);
         map.insert(VesselMovements::MoveUp, GamepadButtonType::North);
-        map.insert(VesselMovements::MoveDown, KeyCode::KeyX);
+        map.insert(VesselMovements::MoveDown, KeyCode::KeyC);
         map.insert(VesselMovements::MoveDown, GamepadButtonType::West);
 
         map.insert(VesselMovements::MoveLeft, KeyCode::KeyA);
@@ -95,7 +95,7 @@ impl Default for ControlSettings<VesselMovements> {
 
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
-        map.insert(VesselMovements::ChangeStyle, KeyCode::KeyC);
+        map.insert(VesselMovements::ChangeStyle, KeyCode::KeyX);
         map.insert(VesselMovements::ChangeStyle, GamepadButtonType::LeftTrigger);
 
         return Self(map);
