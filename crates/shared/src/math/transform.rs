@@ -42,6 +42,18 @@ impl<T> TranslateSet<T> {
             back: func(self.back, other.back)?,
         })
     }
+
+    pub fn merge_in_place<F>(&mut self, other: Self, mut func: F)
+    where
+        F: FnMut(&mut T, T),
+    {
+        func(&mut self.up, other.up);
+        func(&mut self.down, other.down);
+        func(&mut self.left, other.left);
+        func(&mut self.right, other.right);
+        func(&mut self.fwd, other.fwd);
+        func(&mut self.back, other.back);
+    }
 }
 
 impl<T: Add<Output = T>> Add for TranslateSet<T> {
@@ -162,6 +174,18 @@ impl<T> RotationSet<T> {
             roll_left: func(self.roll_left, other.roll_left)?,
             roll_right: func(self.roll_right, other.roll_right)?,
         })
+    }
+
+    pub fn merge_in_place<F>(&mut self, other: Self, mut func: F)
+    where
+        F: FnMut(&mut T, T),
+    {
+        func(&mut self.pitch_up, other.pitch_up);
+        func(&mut self.pitch_down, other.pitch_down);
+        func(&mut self.yaw_left, other.yaw_left);
+        func(&mut self.yaw_right, other.yaw_right);
+        func(&mut self.roll_left, other.roll_left);
+        func(&mut self.roll_right, other.roll_right);
     }
 }
 
