@@ -18,6 +18,7 @@ pub fn pre_setup(app: &mut App) {
     }
 
     // Subsystem plugins
+    app.add_plugins(crate::package::ContentPackagesPlugin);
     app.add_plugins(crate::campaign::CampaignPlugin);
     app.add_plugins(crate::controller::PlayerCharacterPlugin);
     app.add_plugins(crate::disabling::DisablingPlugin);

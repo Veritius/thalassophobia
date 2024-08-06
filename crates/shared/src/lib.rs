@@ -21,6 +21,7 @@ pub mod campaign;
 pub mod controller;
 pub mod disabling;
 pub mod living;
+pub mod package;
 pub mod physics;
 pub mod state;
 pub mod structure;
