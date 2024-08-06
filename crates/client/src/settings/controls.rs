@@ -48,26 +48,26 @@ impl Default for ControlSettings<GroundedMovements> {
     }
 }
 
-impl Default for ControlSettings<FloatingMovements> {
+impl Default for ControlSettings<SwimmingMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(FloatingMovements::Axis, DualAxis::left_stick());
+        map.insert(SwimmingMovements::Axis, DualAxis::left_stick());
 
-        map.insert(FloatingMovements::Forward, KeyCode::KeyW);
-        map.insert(FloatingMovements::Backward, KeyCode::KeyS);
+        map.insert(SwimmingMovements::Forward, KeyCode::KeyW);
+        map.insert(SwimmingMovements::Backward, KeyCode::KeyS);
 
-        map.insert(FloatingMovements::StrafeLeft, KeyCode::KeyA);
-        map.insert(FloatingMovements::StrafeRight, KeyCode::KeyD);
+        map.insert(SwimmingMovements::StrafeLeft, KeyCode::KeyA);
+        map.insert(SwimmingMovements::StrafeRight, KeyCode::KeyD);
 
-        map.insert(FloatingMovements::Ascend, KeyCode::Space);
-        map.insert(FloatingMovements::Ascend, GamepadButtonType::West);
+        map.insert(SwimmingMovements::Ascend, KeyCode::Space);
+        map.insert(SwimmingMovements::Ascend, GamepadButtonType::West);
 
-        map.insert(FloatingMovements::Descend, KeyCode::ControlLeft);
-        map.insert(FloatingMovements::Descend, GamepadButtonType::South);
+        map.insert(SwimmingMovements::Descend, KeyCode::ControlLeft);
+        map.insert(SwimmingMovements::Descend, GamepadButtonType::South);
 
-        map.insert(FloatingMovements::Sprint, KeyCode::ShiftLeft);
-        map.insert(FloatingMovements::Sprint, GamepadButtonType::LeftThumb);
+        map.insert(SwimmingMovements::Sprint, KeyCode::ShiftLeft);
+        map.insert(SwimmingMovements::Sprint, GamepadButtonType::LeftThumb);
 
         return Self(map);
     }

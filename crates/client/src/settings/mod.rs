@@ -43,8 +43,8 @@ impl Plugin for UserSettingsPlugin {
         app.init_resource::<ControlSettings<RotationMovements>>();
         app.register_type::<ControlSettings<GroundedMovements>>();
         app.init_resource::<ControlSettings<GroundedMovements>>();
-        app.register_type::<ControlSettings<FloatingMovements>>();
-        app.init_resource::<ControlSettings<FloatingMovements>>();
+        app.register_type::<ControlSettings<SwimmingMovements>>();
+        app.init_resource::<ControlSettings<SwimmingMovements>>();
         app.register_type::<ControlSettings<VesselMovements>>();
         app.init_resource::<ControlSettings<VesselMovements>>();
     }

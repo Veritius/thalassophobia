@@ -20,12 +20,12 @@ impl Plugin for PlayerCharacterPlugin {
             SetupMode::Full => {
                 app.add_plugins(InputManagerPlugin::<actions::RotationMovements>::default());
                 app.add_plugins(InputManagerPlugin::<actions::GroundedMovements>::default());
-                app.add_plugins(InputManagerPlugin::<actions::FloatingMovements>::default());
+                app.add_plugins(InputManagerPlugin::<actions::SwimmingMovements>::default());
             },
             SetupMode::Headless => {
                 app.add_plugins(InputManagerPlugin::<actions::RotationMovements>::server());
                 app.add_plugins(InputManagerPlugin::<actions::GroundedMovements>::server());
-                app.add_plugins(InputManagerPlugin::<actions::FloatingMovements>::server());
+                app.add_plugins(InputManagerPlugin::<actions::SwimmingMovements>::server());
             },
         }
 

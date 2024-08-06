@@ -123,7 +123,7 @@ pub(super) fn grounded_movement_system(
 }
 
 pub(super) fn floating_movement_system(
-    mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<FloatingMovements>), Without<Disabled>>,
+    mut bodies: Query<(&PlayerController, &Transform, &mut ExternalImpulse, &ActionState<SwimmingMovements>), Without<Disabled>>,
 ) {
     for (controller, body_transform, mut body_impulse, body_actions) in bodies.iter_mut() {
         let mut move_intent = Vec3::ZERO;
@@ -133,15 +133,15 @@ pub(super) fn floating_movement_system(
         let rgt = *body_transform.right();
 
         // Keyboard movement inputs
-        if body_actions.pressed(&FloatingMovements::Ascend      ) { move_intent += up;  }
-        if body_actions.pressed(&FloatingMovements::Descend     ) { move_intent -= up;  }
-        if body_actions.pressed(&FloatingMovements::Forward     ) { move_intent += fwd; }
-        if body_actions.pressed(&FloatingMovements::Backward    ) { move_intent -= fwd; }
-        if body_actions.pressed(&FloatingMovements::StrafeRight ) { move_intent += rgt; }
-        if body_actions.pressed(&FloatingMovements::StrafeLeft  ) { move_intent -= rgt; }
+        if body_actions.pressed(&SwimmingMovements::Ascend      ) { move_intent += up;  }
+        if body_actions.pressed(&SwimmingMovements::Descend     ) { move_intent -= up;  }
+        if body_actions.pressed(&SwimmingMovements::Forward     ) { move_intent += fwd; }
+        if body_actions.pressed(&SwimmingMovements::Backward    ) { move_intent -= fwd; }
+        if body_actions.pressed(&SwimmingMovements::StrafeRight ) { move_intent += rgt; }
+        if body_actions.pressed(&SwimmingMovements::StrafeLeft  ) { move_intent -= rgt; }
 
         // Controller movement inputs
-        if let Some(axis_pair) = body_actions.axis_pair(&FloatingMovements::Axis) {
+        if let Some(axis_pair) = body_actions.axis_pair(&SwimmingMovements::Axis) {
             let vect = Vec3::new(
                 axis_pair.x() * fwd.x,
                 axis_pair.y() * fwd.y,
@@ -151,7 +151,7 @@ pub(super) fn floating_movement_system(
         }
 
         // Get movement speed value
-        let speed_mult = match body_actions.pressed(&FloatingMovements::Sprint) {
+        let speed_mult = match body_actions.pressed(&SwimmingMovements::Sprint) {
             false => controller.base_swim_speed,
             true => controller.sprint_swim_speed,
         };
