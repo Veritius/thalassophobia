@@ -12,10 +12,9 @@ pub fn pre_setup(app: &mut App) {
     #[cfg(feature="phys_debug")]
     app.add_plugins(crate::rapier::render::RapierDebugRenderPlugin::default());
 
-    // Multiplayer functionality
-    #[cfg(feature="multiplayer")] {
-        /* Nothing at the moment */
-    }
+    // Multiplayer (added before subsystems)
+    #[cfg(feature="multiplayer")]
+    app.add_plugins(crate::multiplayer::MultiplayerPlugin);
 
     // Subsystem plugins
     app.add_plugins(crate::package::ContentPackagesPlugin);
@@ -26,11 +25,6 @@ pub fn pre_setup(app: &mut App) {
 }
 
 pub fn post_setup(app: &mut App) {
-    // Multiplayer functionality
-    #[cfg(feature="multiplayer")] {
-        /* Nothing at the moment */
-    }
-
     // Remove setup mode resource
     app.world_mut().remove_resource::<SetupMode>();
 }

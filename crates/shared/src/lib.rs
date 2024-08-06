@@ -6,9 +6,6 @@ pub use bevy_rapier3d as rapier;
 pub use leafwing_input_manager as input;
 pub use bevy_mod_progress as progress;
 
-#[cfg(feature="multiplayer")]
-pub use bevy_stardust as stardust;
-
 pub use smallvec;
 pub use serde;
 pub use chrono;
@@ -26,3 +23,6 @@ pub mod physics;
 pub mod state;
 pub mod structure;
 pub mod vessel;
+
+#[cfg(feature="multiplayer")]
+pub mod multiplayer;
