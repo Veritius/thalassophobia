@@ -28,6 +28,20 @@ impl<T> TranslateSet<T> {
             back: func(self.back, other.back),
         }
     }
+
+    pub fn merge_checked<F, E>(self, other: Self, mut func: F) -> Result<Self, E>
+    where
+        F: FnMut(T, T) -> Result<T, E>,
+    {
+        Ok(Self {
+            up: func(self.up, other.up)?,
+            down: func(self.down, other.down)?,
+            left: func(self.left, other.left)?,
+            right: func(self.right, other.right)?,
+            fwd: func(self.fwd, other.fwd)?,
+            back: func(self.back, other.back)?,
+        })
+    }
 }
 
 impl<T: Add<Output = T>> Add for TranslateSet<T> {
@@ -95,6 +109,20 @@ impl<T> RotationSet<T> {
             roll_left: func(self.roll_left, other.roll_left),
             roll_right: func(self.roll_right, other.roll_right),
         }
+    }
+
+    pub fn merge_checked<F, E>(self, other: Self, mut func: F) -> Result<Self, E>
+    where
+        F: FnMut(T, T) -> Result<T, E>,
+    {
+        Ok(Self {
+            pitch_up: func(self.pitch_up, other.pitch_up)?,
+            pitch_down: func(self.pitch_down, other.pitch_down)?,
+            yaw_left: func(self.yaw_left, other.yaw_left)?,
+            yaw_right: func(self.yaw_right, other.yaw_right)?,
+            roll_left: func(self.roll_left, other.roll_left)?,
+            roll_right: func(self.roll_right, other.roll_right)?,
+        })
     }
 }
 
