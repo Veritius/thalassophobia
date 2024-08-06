@@ -15,6 +15,20 @@ pub struct TranslateSet<T> {
 }
 
 impl<T> TranslateSet<T> {
+    pub const fn splat(value: T) -> Self
+    where
+        T: Copy,
+    {
+        Self {
+            up: value,
+            down: value,
+            left: value,
+            right: value,
+            fwd: value,
+            back: value,
+        }
+    }
+
     pub fn merge<F>(self, other: Self, mut func: F) -> Self
     where
         F: FnMut(T, T) -> T,
@@ -176,6 +190,20 @@ pub struct RotationSet<T> {
 }
 
 impl<T> RotationSet<T> {
+    pub const fn splat(value: T) -> Self
+    where
+        T: Copy,
+    {
+        Self {
+            pitch_up: value,
+            pitch_down: value,
+            yaw_left: value,
+            yaw_right: value,
+            roll_left: value,
+            roll_right: value,
+        }
+    }
+
     pub fn merge<F>(self, other: Self, mut func: F) -> Self
     where
         F: FnMut(T, T) -> T,
