@@ -80,6 +80,36 @@ impl<T: Div<Output = T>> Div for TranslateSet<T> {
     }
 }
 
+impl Mul<Vec3> for TranslateSet<f32> {
+    type Output = TranslateSet<f32>;
+
+    fn mul(self, rhs: Vec3) -> Self::Output {
+        Self {
+            up: self.up * rhs.y,
+            down: self.down * rhs.y,
+            left: self.left * rhs.z,
+            right: self.left * rhs.z,
+            fwd: self.fwd * rhs.x,
+            back: self.fwd * rhs.x,
+        }
+    }
+}
+
+impl Div<Vec3> for TranslateSet<f32> {
+    type Output = TranslateSet<f32>;
+
+    fn div(self, rhs: Vec3) -> Self::Output {
+        Self {
+            up: self.up / rhs.y,
+            down: self.down / rhs.y,
+            left: self.left / rhs.z,
+            right: self.left / rhs.z,
+            fwd: self.fwd / rhs.x,
+            back: self.fwd / rhs.x,
+        }
+    }
+}
+
 impl From<Vec3> for TranslateSet<f32> {
     fn from(value: Vec3) -> Self {
         Self {
@@ -167,6 +197,36 @@ impl<T: Div<Output = T>> Div for RotationSet<T> {
 
     fn div(self, rhs: Self) -> Self::Output {
         RotationSet::merge(self, rhs, |a, b| a/b)
+    }
+}
+
+impl Mul<Vec3> for RotationSet<f32> {
+    type Output = RotationSet<f32>;
+
+    fn mul(self, rhs: Vec3) -> Self::Output {
+        Self {
+            pitch_up: self.pitch_up * rhs.y,
+            pitch_down: self.pitch_down * rhs.y,
+            yaw_left: self.yaw_left * rhs.z,
+            yaw_right: self.yaw_right * rhs.z,
+            roll_left: self.roll_left * rhs.x,
+            roll_right: self.roll_right * rhs.x,
+        }
+    }
+}
+
+impl Div<Vec3> for RotationSet<f32> {
+    type Output = RotationSet<f32>;
+
+    fn div(self, rhs: Vec3) -> Self::Output {
+        Self {
+            pitch_up: self.pitch_up / rhs.y,
+            pitch_down: self.pitch_down / rhs.y,
+            yaw_left: self.yaw_left / rhs.z,
+            yaw_right: self.yaw_right / rhs.z,
+            roll_left: self.roll_left / rhs.x,
+            roll_right: self.roll_right / rhs.x,
+        }
     }
 }
 
