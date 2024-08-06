@@ -1,5 +1,6 @@
 pub use bevy;
 pub use bevy::ecs as bevy_ecs;
+pub use bevy::state as bevy_state;
 pub use bevy::reflect as bevy_reflect;
 pub use bevy_rapier3d as rapier;
 pub use leafwing_input_manager as input;
@@ -22,6 +23,3 @@ pub mod disabling;
 pub mod living;
 pub mod physics;
 pub mod state;
-
-#[cfg(feature="multiplayer")]
-pub mod multiplayer;

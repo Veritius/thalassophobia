@@ -14,7 +14,7 @@ pub fn pre_setup(app: &mut App) {
 
     // Multiplayer functionality
     #[cfg(feature="multiplayer")] {
-        app.add_plugins(crate::multiplayer::StardustPlugin);
+        /* Nothing at the moment */
     }
 
     // Subsystem plugins
@@ -27,9 +27,9 @@ pub fn pre_setup(app: &mut App) {
 pub fn post_setup(app: &mut App) {
     // Multiplayer functionality
     #[cfg(feature="multiplayer")] {
-        app.add_plugins(crate::multiplayer::udp::prelude::UdpTransportPlugin::balanced(crate::multiplayer::UDP_APPLICATION_VERSION));
+        /* Nothing at the moment */
     }
 
     // Remove setup mode resource
-    app.world.remove_resource::<SetupMode>();
+    app.world_mut().remove_resource::<SetupMode>();
 }

@@ -14,7 +14,7 @@ pub(crate) struct PlayerCharacterPlugin;
 
 impl Plugin for PlayerCharacterPlugin {
     fn build(&self, app: &mut App) {
-        let setup_mode = app.world.resource::<SetupMode>();
+        let setup_mode = app.world_mut().resource::<SetupMode>();
 
         match setup_mode {
             SetupMode::Full => {

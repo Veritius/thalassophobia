@@ -27,7 +27,7 @@ pub(super) fn spawn_loading_screen(
     .spawn((
         InitialLoadingUiElement,
         NodeBundle {
-            background_color: BackgroundColor(Color::DARK_GRAY),
+            background_color: BackgroundColor::DEFAULT, // TODO: Make DARK_GRAY
             style: Style {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
@@ -63,7 +63,7 @@ pub(super) fn spawn_loading_screen(
 
             // Loading bar back
             parent.spawn(NodeBundle {
-                background_color: BackgroundColor(Color::GRAY),
+                background_color: BackgroundColor::DEFAULT, // TODO: Make GRAY
                 style: Style {
                     margin: UiRect {
                         top: Val::Px(12.0),
@@ -80,7 +80,7 @@ pub(super) fn spawn_loading_screen(
                 parent.spawn((
                     InitialLoadingUiBar,
                     NodeBundle {
-                        background_color: BackgroundColor(Color::LIME_GREEN),
+                        background_color: BackgroundColor::DEFAULT, // TODO: Make LIME_GREEN
                         style: Style {
                             height: Val::Percent(100.0),
                             ..default()

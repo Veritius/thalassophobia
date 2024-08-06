@@ -23,11 +23,11 @@ impl<'w, 's> PlayerControllers<'w, 's> {
         match head_query {
             Some((_, head_transform)) => {
                 origin = head_transform.translation();
-                direction = Direction3d::new_unchecked(body_data.look_quat() * -Vec3::Z);
+                direction = Dir3::new_unchecked(body_data.look_quat() * -Vec3::Z);
             },
             None => {
                 origin = body_transform.translation();
-                direction = Direction3d::new_unchecked(body_data.yaw_quat() * -Vec3::Z);
+                direction = Dir3::new_unchecked(body_data.yaw_quat() * -Vec3::Z);
             },
         }
 

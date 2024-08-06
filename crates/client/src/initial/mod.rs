@@ -8,7 +8,7 @@ pub(crate) struct InitialLoadingPlugin;
 
 impl Plugin for InitialLoadingPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(ProgressTrackerPlugin::<InitialLoading>::default());
+        app.add_plugins(ScheduleProgressTrackerPlugin::<InitialLoading>::default());
 
         // Run at app start
         app.add_systems(OnEnter(ClientState::Initial), (

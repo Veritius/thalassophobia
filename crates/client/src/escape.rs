@@ -1,4 +1,4 @@
-use shared::{bevy::{prelude::*, window::{CursorGrabMode, PrimaryWindow}}, bevy_ecs, input::prelude::*, controller::*};
+use shared::{bevy::{prelude::*, window::{CursorGrabMode, PrimaryWindow}}, bevy_ecs, bevy_state, input::prelude::*, controller::*};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, States)]
 pub enum Escaped {
@@ -56,7 +56,7 @@ fn on_escape(
     // Spawn some text saying the game is paused
     let font_handle = assets.load("fonts/FiraSans-Medium.ttf");
     commands.spawn((EscapeMenuUiRoot, NodeBundle {
-        background_color: BackgroundColor(Color::DARK_GRAY),
+        background_color: BackgroundColor::DEFAULT, // TODO: Make DARK_GRAY
         style: Style {
             justify_self: JustifySelf::Center,
             justify_items: JustifyItems::Center,

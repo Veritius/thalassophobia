@@ -24,13 +24,10 @@ impl Plugin for DevStuffPlugin {
 
         #[cfg(feature="multiplayer")] {
             use shared::stardust::diagnostics::*;
-            use shared::multiplayer::udp::diagnostics::*;
 
             app.add_plugins((
-                NetworkPeerDiagnosticPlugin,
+                PeerDiagnosticPlugin,
                 MessageCountDiagnosticsPlugin,
-                EndpointDiagnosticsPlugin,
-                ConnectionDiagnosticsPlugin,
             ));
         }
 

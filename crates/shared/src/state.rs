@@ -1,5 +1,4 @@
 use std::fmt::Display;
-
 use bevy::prelude::*;
 
 pub(crate) struct GameStatePlugin;
