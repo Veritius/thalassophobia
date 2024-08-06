@@ -23,7 +23,7 @@ impl Plugin for DevStuffPlugin {
         }
 
         #[cfg(feature="multiplayer")] {
-            use shared::stardust::diagnostics::*;
+            use shared::multiplayer::stardust::diagnostics::*;
 
             app.add_plugins((
                 PeerDiagnosticPlugin,
