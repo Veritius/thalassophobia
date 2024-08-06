@@ -42,6 +42,15 @@ pub(super) fn vessel_controller_system(
         mut impulse,
         actions
     ) in bodies.iter_mut() {
+        // Let the person change the control style ahead of time
+        if actions.pressed(&VesselMovements::ChangeStyle) {
+            controller.move_style = match controller.move_style {
+                VesselMoveStyle::Manual => VesselMoveStyle::Maintain,
+                VesselMoveStyle::Maintain => VesselMoveStyle::Manual,
+            }
+        }
+
+        // Some values for maths we use later on
         let fwd: Vec3 = transform.forward().into();
         let rgt: Vec3 = transform.right().into();
         let up: Vec3 = transform.up().into();
