@@ -40,6 +40,32 @@ impl<T> TranslateSet<T> {
         }
     }
 
+    pub fn alter<F>(self, mut func: F) -> Self
+    where
+        F: FnMut(T) -> T,
+    {
+        Self {
+            xn: func(self.xn),
+            xp: func(self.xp),
+            yn: func(self.yn),
+            yp: func(self.yp),
+            zn: func(self.zn),
+            zp: func(self.zp),
+        }
+    }
+
+    pub fn alter_in_place<F>(&mut self, mut func: F)
+    where
+        F: FnMut(&mut T),
+    {
+        func(&mut self.xn);
+        func(&mut self.xp);
+        func(&mut self.yn);
+        func(&mut self.yp);
+        func(&mut self.zn);
+        func(&mut self.zp);
+    }
+
     pub fn merge<F>(self, other: Self, mut func: F) -> Self
     where
         F: FnMut(T, T) -> T,
@@ -142,6 +168,38 @@ impl<T: DivAssign> DivAssign for TranslateSet<T> {
     #[inline]
     fn div_assign(&mut self, rhs: Self) {
         self.merge_in_place(rhs, T::div_assign)
+    }
+}
+
+impl<T: Mul<Output = T> + Copy> Mul<T> for TranslateSet<T> {
+    type Output = TranslateSet<T>;
+
+    #[inline]
+    fn mul(self, rhs: T) -> Self::Output {
+        self.alter(|v| T::mul(v, rhs))
+    }
+}
+
+impl<T: MulAssign + Copy> MulAssign<T> for TranslateSet<T> {
+    #[inline]
+    fn mul_assign(&mut self, rhs: T) {
+        self.alter_in_place(|v| *v *= rhs);
+    }
+}
+
+impl<T: Div<Output = T> + Copy> Div<T> for TranslateSet<T> {
+    type Output = TranslateSet<T>;
+
+    #[inline]
+    fn div(self, rhs: T) -> Self::Output {
+        self.alter(|v| T::div(v, rhs))
+    }
+}
+
+impl<T: DivAssign + Copy> DivAssign<T> for TranslateSet<T> {
+    #[inline]
+    fn div_assign(&mut self, rhs: T) {
+        self.alter_in_place(|v| *v /= rhs);
     }
 }
 
