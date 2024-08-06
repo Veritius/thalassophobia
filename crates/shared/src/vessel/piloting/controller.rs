@@ -82,9 +82,9 @@ pub(super) fn vessel_controller_system(
 
         // Calculate the force to be applied
         let translate_force = Vec3::new(
-            translate_intent.x * if translate_intent.x > 0.0 { controller.translate_force.left } else { controller.translate_force.right },
-            translate_intent.y * if translate_intent.y > 0.0 { controller.translate_force.up   } else { controller.translate_force.down  },
-            translate_intent.z * if translate_intent.z > 0.0 { controller.translate_force.fwd  } else { controller.translate_force.back  },
+            translate_intent.x * if translate_intent.x > 0.0 { controller.translate_force.xn } else { controller.translate_force.xp },
+            translate_intent.y * if translate_intent.y > 0.0 { controller.translate_force.yp   } else { controller.translate_force.yn  },
+            translate_intent.z * if translate_intent.z > 0.0 { controller.translate_force.zn  } else { controller.translate_force.zp  },
         );
 
         // Apply the translation force
@@ -117,9 +117,9 @@ pub(super) fn vessel_controller_system(
 
         // Calculate the force to be applied
         let rotation_force = Vec3::new(
-            rotation_intent.x * if rotation_intent.x > 0.0 { controller.rotation_force.left } else { controller.rotation_force.right },
-            rotation_intent.y * if rotation_intent.y > 0.0 { controller.rotation_force.up   } else { controller.rotation_force.down  },
-            rotation_intent.z * if rotation_intent.z > 0.0 { controller.rotation_force.fwd  } else { controller.rotation_force.back  },
+            rotation_intent.x * if rotation_intent.x > 0.0 { controller.rotation_force.xn } else { controller.rotation_force.xp },
+            rotation_intent.y * if rotation_intent.y > 0.0 { controller.rotation_force.yp   } else { controller.rotation_force.yn  },
+            rotation_intent.z * if rotation_intent.z > 0.0 { controller.rotation_force.zn  } else { controller.rotation_force.zp  },
         );
 
         // Apply the rotation force

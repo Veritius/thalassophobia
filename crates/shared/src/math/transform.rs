@@ -6,12 +6,23 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct TranslateSet<T> {
-    pub up: T,
-    pub down: T,
-    pub left: T,
-    pub right: T,
-    pub fwd: T,
-    pub back: T,
+    #[doc(alias("left"))]
+    pub xn: T,
+
+    #[doc(alias("right"))]
+    pub xp: T,
+
+    #[doc(alias("descent", "down"))]
+    pub yn: T,
+
+    #[doc(alias("ascent", "up"))]
+    pub yp: T,
+
+    #[doc(alias("far", "forward"))]
+    pub zn: T,
+
+    #[doc(alias("near", "backward"))]
+    pub zp: T,
 }
 
 impl<T> TranslateSet<T> {
@@ -20,12 +31,12 @@ impl<T> TranslateSet<T> {
         T: Copy,
     {
         Self {
-            up: value,
-            down: value,
-            left: value,
-            right: value,
-            fwd: value,
-            back: value,
+            xn: value,
+            xp: value,
+            yn: value,
+            yp: value,
+            zn: value,
+            zp: value,
         }
     }
 
@@ -34,12 +45,12 @@ impl<T> TranslateSet<T> {
         F: FnMut(T, T) -> T,
     {
         Self {
-            up: func(self.up, other.up),
-            down: func(self.down, other.down),
-            left: func(self.left, other.left),
-            right: func(self.right, other.right),
-            fwd: func(self.fwd, other.fwd),
-            back: func(self.back, other.back),
+            xn: func(self.xn, other.xn),
+            xp: func(self.xp, other.xp),
+            yn: func(self.yn, other.yn),
+            yp: func(self.yp, other.yp),
+            zn: func(self.zn, other.zn),
+            zp: func(self.zp, other.zp),
         }
     }
 
@@ -48,12 +59,12 @@ impl<T> TranslateSet<T> {
         F: FnMut(T, T) -> Result<T, E>,
     {
         Ok(Self {
-            up: func(self.up, other.up)?,
-            down: func(self.down, other.down)?,
-            left: func(self.left, other.left)?,
-            right: func(self.right, other.right)?,
-            fwd: func(self.fwd, other.fwd)?,
-            back: func(self.back, other.back)?,
+            yp: func(self.yp, other.yp)?,
+            yn: func(self.yn, other.yn)?,
+            xn: func(self.xn, other.xn)?,
+            xp: func(self.xp, other.xp)?,
+            zn: func(self.zn, other.zn)?,
+            zp: func(self.zp, other.zp)?,
         })
     }
 
@@ -61,12 +72,12 @@ impl<T> TranslateSet<T> {
     where
         F: FnMut(&mut T, T),
     {
-        func(&mut self.up, other.up);
-        func(&mut self.down, other.down);
-        func(&mut self.left, other.left);
-        func(&mut self.right, other.right);
-        func(&mut self.fwd, other.fwd);
-        func(&mut self.back, other.back);
+        func(&mut self.yp, other.yp);
+        func(&mut self.yn, other.yn);
+        func(&mut self.xn, other.xn);
+        func(&mut self.xp, other.xp);
+        func(&mut self.zn, other.zn);
+        func(&mut self.zp, other.zp);
     }
 }
 
@@ -139,12 +150,12 @@ impl Mul<Vec3> for TranslateSet<f32> {
 
     fn mul(self, rhs: Vec3) -> Self::Output {
         Self {
-            up: self.up * rhs.y,
-            down: self.down * rhs.y,
-            left: self.left * rhs.z,
-            right: self.left * rhs.z,
-            fwd: self.fwd * rhs.x,
-            back: self.fwd * rhs.x,
+            xn: self.xn * rhs.z,
+            xp: self.xp * rhs.z,
+            yn: self.yn * rhs.y,
+            yp: self.yp * rhs.y,
+            zn: self.zn * rhs.x,
+            zp: self.zp * rhs.x,
         }
     }
 }
@@ -154,12 +165,12 @@ impl Div<Vec3> for TranslateSet<f32> {
 
     fn div(self, rhs: Vec3) -> Self::Output {
         Self {
-            up: self.up / rhs.y,
-            down: self.down / rhs.y,
-            left: self.left / rhs.z,
-            right: self.left / rhs.z,
-            fwd: self.fwd / rhs.x,
-            back: self.fwd / rhs.x,
+            xn: self.xn / rhs.x,
+            xp: self.xp / rhs.x,
+            yn: self.yn / rhs.y,
+            yp: self.yp / rhs.y,
+            zn: self.zn / rhs.z,
+            zp: self.zp / rhs.z,
         }
     }
 }
@@ -167,12 +178,12 @@ impl Div<Vec3> for TranslateSet<f32> {
 impl From<Vec3> for TranslateSet<f32> {
     fn from(value: Vec3) -> Self {
         Self {
-            up: value.y,
-            down: value.y,
-            left: value.z,
-            right: value.z,
-            fwd: value.x,
-            back: value.x,
+            xn: value.x,
+            xp: value.x,
+            yn: value.y,
+            yp: value.y,
+            zn: value.z,
+            zp: value.z,
         }
     }
 }
