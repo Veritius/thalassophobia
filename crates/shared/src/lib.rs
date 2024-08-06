@@ -23,3 +23,5 @@ pub mod disabling;
 pub mod living;
 pub mod physics;
 pub mod state;
+pub mod structure;
+pub mod vessel;
