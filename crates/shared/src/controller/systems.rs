@@ -25,7 +25,7 @@ pub(super) fn touching_ground_system(
         // Cast a ray to see if there's anything below us to jump off of
         let raycast = rapier_context.cast_ray(
             global_transform.translation(),
-            -Vec3::Y,
+            Vec3::NEG_Y,
             body_data.ground_raycast_len,
             false,
             QueryFilter::default().exclude_collider(body_entity).groups(group),
