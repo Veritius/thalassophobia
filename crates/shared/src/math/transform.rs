@@ -6,22 +6,11 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct TranslateSet<T> {
-    /// Up (Positive Y)
     pub up: T,
-
-    /// Down (Negative Y)
     pub down: T,
-
-    /// Left (Negative X)
     pub left: T,
-
-    /// Right (Positive X)
     pub right: T,
-
-    /// Forward (Positive Z)
     pub fwd: T,
-
-    /// Backward (Negative Z)
     pub back: T,
 }
 
@@ -87,9 +76,12 @@ impl From<Vec3> for TranslateSet<f32> {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct RotationSet<T> {
-    pub pitch: T,
-    pub yaw: T,
-    pub roll: T,
+    pub pitch_up: T,
+    pub pitch_down: T,
+    pub yaw_left: T,
+    pub yaw_right: T,
+    pub roll_left: T,
+    pub roll_right: T,
 }
 
 impl<T: Add> Add for RotationSet<T> {
@@ -97,9 +89,12 @@ impl<T: Add> Add for RotationSet<T> {
 
     fn add(self, rhs: Self) -> Self::Output {
         RotationSet {
-            pitch: self.pitch + rhs.pitch,
-            yaw: self.yaw + rhs.yaw,
-            roll: self.roll + rhs.roll,
+            pitch_up: self.pitch_up + rhs.pitch_up,
+            pitch_down: self.pitch_down + rhs.pitch_down,
+            yaw_left: self.yaw_left + rhs.yaw_left,
+            yaw_right: self.yaw_right + rhs.yaw_right,
+            roll_left: self.roll_left + rhs.roll_left,
+            roll_right: self.roll_right + rhs.roll_right,
         }
     }
 }
@@ -109,9 +104,12 @@ impl<T: Sub> Sub for RotationSet<T> {
 
     fn sub(self, rhs: Self) -> Self::Output {
         RotationSet {
-            pitch: self.pitch - rhs.pitch,
-            yaw: self.yaw - rhs.yaw,
-            roll: self.roll - rhs.roll,
+            pitch_up: self.pitch_up - rhs.pitch_up,
+            pitch_down: self.pitch_down - rhs.pitch_down,
+            yaw_left: self.yaw_left - rhs.yaw_left,
+            yaw_right: self.yaw_right - rhs.yaw_right,
+            roll_left: self.roll_left - rhs.roll_left,
+            roll_right: self.roll_right - rhs.roll_right,
         }
     }
 }
@@ -121,20 +119,12 @@ impl<T: Mul> Mul for RotationSet<T> {
 
     fn mul(self, rhs: Self) -> Self::Output {
         RotationSet {
-            pitch: self.pitch * rhs.pitch,
-            yaw: self.yaw * rhs.yaw,
-            roll: self.roll * rhs.roll,
+            pitch_up: self.pitch_up * rhs.pitch_up,
+            pitch_down: self.pitch_down * rhs.pitch_down,
+            yaw_left: self.yaw_left * rhs.yaw_left,
+            yaw_right: self.yaw_right * rhs.yaw_right,
+            roll_left: self.roll_left * rhs.roll_left,
+            roll_right: self.roll_right * rhs.roll_right,
         }
-    }
-}
-
-impl From<RotationSet<f32>> for Quat {
-    fn from(value: RotationSet<f32>) -> Self {
-        Quat::from_euler(
-            EulerRot::YXZ,
-            value.roll, 
-            value.yaw,
-            value.pitch,
-        )
     }
 }
