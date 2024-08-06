@@ -11,6 +11,7 @@ pub enum VesselMovements {
     MoveRight,
     MoveFwd,
     MoveBack,
+    Brake,
 
     PitchYaw,
     PitchLeft,

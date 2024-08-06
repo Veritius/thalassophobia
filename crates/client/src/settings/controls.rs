@@ -81,6 +81,8 @@ impl Default for ControlSettings<VesselMovements> {
         map.insert(VesselMovements::MoveUp, GamepadButtonType::North);
         map.insert(VesselMovements::MoveDown, KeyCode::KeyQ);
         map.insert(VesselMovements::MoveDown, GamepadButtonType::West);
+        map.insert(VesselMovements::Brake, KeyCode::Space);
+        map.insert(VesselMovements::Brake, GamepadButtonType::South);
 
         map.insert(VesselMovements::MoveLeft, KeyCode::KeyA);
         map.insert(VesselMovements::MoveRight, KeyCode::KeyD);
