@@ -2,14 +2,26 @@ use std::ops::{Add, Mul, Sub};
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 
+/// A set of values corresponding to each direction in all three translational axes.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct TranslateSet<T> {
+    /// Up (Positive Y)
     pub up: T,
+
+    /// Down (Negative Y)
     pub down: T,
+
+    /// Left (Negative X)
     pub left: T,
+
+    /// Right (Positive X)
     pub right: T,
+
+    /// Forward (Positive Z)
     pub fwd: T,
+
+    /// Backward (Negative Z)
     pub back: T,
 }
 
@@ -58,6 +70,7 @@ impl<T: Mul> Mul for TranslateSet<T> {
     }
 }
 
+/// A set of values corresponding to each direction in all three rotational axes.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct RotationSet<T> {
