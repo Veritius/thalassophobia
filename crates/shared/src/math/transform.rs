@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -65,12 +65,26 @@ impl<T: Add<Output = T>> Add for TranslateSet<T> {
     }
 }
 
+impl<T: AddAssign> AddAssign for TranslateSet<T> {
+    #[inline]
+    fn add_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::add_assign)
+    }
+}
+
 impl<T: Sub<Output = T>> Sub for TranslateSet<T> {
     type Output = TranslateSet<T>;
 
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
         TranslateSet::merge(self, rhs, |a,b| a-b)
+    }
+}
+
+impl<T: SubAssign> SubAssign for TranslateSet<T> {
+    #[inline]
+    fn sub_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::sub_assign)
     }
 }
 
@@ -83,12 +97,26 @@ impl<T: Mul<Output = T>> Mul for TranslateSet<T> {
     }
 }
 
+impl<T: MulAssign> MulAssign for TranslateSet<T> {
+    #[inline]
+    fn mul_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::mul_assign)
+    }
+}
+
 impl<T: Div<Output = T>> Div for TranslateSet<T> {
     type Output = TranslateSet<T>;
 
     #[inline]
     fn div(self, rhs: Self) -> Self::Output {
         TranslateSet::merge(self, rhs, |a,b| a/b)
+    }
+}
+
+impl<T: DivAssign> DivAssign for TranslateSet<T> {
+    #[inline]
+    fn div_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::div_assign)
     }
 }
 
@@ -198,12 +226,26 @@ impl<T: Add<Output = T>> Add for RotationSet<T> {
     }
 }
 
+impl<T: AddAssign> AddAssign for RotationSet<T> {
+    #[inline]
+    fn add_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::add_assign)
+    }
+}
+
 impl<T: Sub<Output = T>> Sub for RotationSet<T> {
     type Output = RotationSet<T>;
 
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
         RotationSet::merge(self, rhs, |a,b| a-b)
+    }
+}
+
+impl<T: SubAssign> SubAssign for RotationSet<T> {
+    #[inline]
+    fn sub_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::sub_assign)
     }
 }
 
@@ -216,11 +258,25 @@ impl<T: Mul<Output = T>> Mul for RotationSet<T> {
     }
 }
 
+impl<T: MulAssign> MulAssign for RotationSet<T> {
+    #[inline]
+    fn mul_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::mul_assign)
+    }
+}
+
 impl<T: Div<Output = T>> Div for RotationSet<T> {
     type Output = RotationSet<T>;
 
     fn div(self, rhs: Self) -> Self::Output {
         RotationSet::merge(self, rhs, |a, b| a/b)
+    }
+}
+
+impl<T: DivAssign> DivAssign for RotationSet<T> {
+    #[inline]
+    fn div_assign(&mut self, rhs: Self) {
+        self.merge_in_place(rhs, T::div_assign)
     }
 }
 
