@@ -1,17 +1,6 @@
 use bevy::prelude::*;
 use leafwing_input_manager::Actionlike;
 
-/// The 'style' of movement for vessels.
-#[derive(Default, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
-pub enum VesselMoveStyle {
-    /// The vessel will not attempt to correct any movements.
-    #[default]
-    Manual,
-
-    /// The vessel will maintain speed and course.
-    Maintain,
-}
-
 /// Movements that can be made to pilot a vessel.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum VesselMovements {
