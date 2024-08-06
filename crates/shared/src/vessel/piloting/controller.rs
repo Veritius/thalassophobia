@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::*;
 use leafwing_input_manager::prelude::*;
-use crate::{disabling::Disabled, vessel::{RotationSet, TranslateSet}};
+use crate::{disabling::Disabled, math::transform::{RotationSet, TranslateSet}};
 use super::VesselMovements;
 
 /// The 'style' of movement for vessels.

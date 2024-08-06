@@ -18,6 +18,7 @@ pub mod campaign;
 pub mod controller;
 pub mod disabling;
 pub mod living;
+pub mod math;
 pub mod package;
 pub mod physics;
 pub mod state;
