@@ -1,6 +1,16 @@
 use bevy::prelude::*;
 use leafwing_input_manager::Actionlike;
 
+/// The 'style' of movement for vessels.
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
+pub enum VesselMoveStyle {
+    /// The vessel will maintain speed and course.
+    Maintain,
+
+    /// The vessel will not attempt to correct any movements.
+    Drift,
+}
+
 /// Movements that can be made to pilot a vessel.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum VesselMovements {
@@ -25,9 +35,6 @@ pub enum VesselMovements {
     /// Button input for translating backward.
     MoveBack,
 
-    /// Button input for halting all translation.
-    Brake,
-
     /// Axis input for pitch and yaw rotation.
     PitchYaw,
 
@@ -48,4 +55,10 @@ pub enum VesselMovements {
 
     /// Axis input for rolling to the right.
     RollRight,
+
+    /// Button input for halting all translation and rotation.
+    Brake,
+
+    /// Button input for changing the [`VesselMoveStyle`].
+    ChangeStyle,
 }
