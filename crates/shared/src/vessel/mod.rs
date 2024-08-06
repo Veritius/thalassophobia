@@ -1,4 +1,3 @@
-pub mod controller;
 pub mod piloting;
 
 mod bearings;
