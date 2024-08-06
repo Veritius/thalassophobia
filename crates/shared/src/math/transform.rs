@@ -54,6 +54,20 @@ impl<T> TranslateSet<T> {
         }
     }
 
+    pub fn alter_checked<F, E>(self, mut func: F) -> Result<Self, E>
+    where
+        F: FnMut(T) -> Result<T, E>,
+    {
+        Ok(Self {
+            xn: func(self.xn)?,
+            xp: func(self.xp)?,
+            yn: func(self.yn)?,
+            yp: func(self.yp)?,
+            zn: func(self.zn)?,
+            zp: func(self.zp)?,
+        })
+    }
+
     pub fn alter_in_place<F>(&mut self, mut func: F)
     where
         F: FnMut(&mut T),
