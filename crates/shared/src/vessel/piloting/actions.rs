@@ -38,22 +38,22 @@ pub enum VesselMovements {
     /// Axis input for pitch and yaw rotation.
     PitchYaw,
 
-    /// Axis input for pitching upwards.
+    /// Button input for pitching upwards.
     PitchUp,
 
-    /// Axis input for pitching downwards.
+    /// Button input for pitching downwards.
     PitchDown,
 
-    /// Axis input for yawing to the left.
+    /// Button input for yawing to the left.
     YawLeft,
 
-    /// Axis input for yawing to the right.
+    /// Button input for yawing to the right.
     YawRight,
 
-    /// Axis input for rolling to the left.
+    /// Button input for rolling to the left.
     RollLeft,
 
-    /// Axis input for rolling to the right.
+    /// Button input for rolling to the right.
     RollRight,
 
     /// Button input for halting all translation and rotation.
