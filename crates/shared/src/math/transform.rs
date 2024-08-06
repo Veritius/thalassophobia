@@ -61,7 +61,7 @@ impl<T: Add<Output = T>> Add for TranslateSet<T> {
 
     #[inline]
     fn add(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, |a,b| a+b)
+        TranslateSet::merge(self, rhs, T::add)
     }
 }
 
@@ -77,7 +77,7 @@ impl<T: Sub<Output = T>> Sub for TranslateSet<T> {
 
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, |a,b| a-b)
+        TranslateSet::merge(self, rhs, T::sub)
     }
 }
 
@@ -93,7 +93,7 @@ impl<T: Mul<Output = T>> Mul for TranslateSet<T> {
 
     #[inline]
     fn mul(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, |a,b| a*b)
+        TranslateSet::merge(self, rhs, T::mul)
     }
 }
 
@@ -109,7 +109,7 @@ impl<T: Div<Output = T>> Div for TranslateSet<T> {
 
     #[inline]
     fn div(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, |a,b| a/b)
+        TranslateSet::merge(self, rhs, T::div)
     }
 }
 
@@ -222,7 +222,7 @@ impl<T: Add<Output = T>> Add for RotationSet<T> {
 
     #[inline]
     fn add(self, rhs: Self) -> Self::Output {
-        RotationSet::merge(self, rhs, |a,b| a+b)
+        RotationSet::merge(self, rhs, T::add)
     }
 }
 
@@ -238,7 +238,7 @@ impl<T: Sub<Output = T>> Sub for RotationSet<T> {
 
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
-        RotationSet::merge(self, rhs, |a,b| a-b)
+        RotationSet::merge(self, rhs, T::sub)
     }
 }
 
@@ -254,7 +254,7 @@ impl<T: Mul<Output = T>> Mul for RotationSet<T> {
 
     #[inline]
     fn mul(self, rhs: Self) -> Self::Output {
-        RotationSet::merge(self, rhs, |a,b| a*b)
+        RotationSet::merge(self, rhs, T::mul)
     }
 }
 
@@ -269,7 +269,7 @@ impl<T: Div<Output = T>> Div for RotationSet<T> {
     type Output = RotationSet<T>;
 
     fn div(self, rhs: Self) -> Self::Output {
-        RotationSet::merge(self, rhs, |a, b| a/b)
+        RotationSet::merge(self, rhs, T::div)
     }
 }
 
