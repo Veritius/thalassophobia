@@ -89,7 +89,7 @@ impl Default for ControlSettings<VesselMovements> {
         map.insert(VesselMovements::MoveFwd, KeyCode::KeyW);
         map.insert(VesselMovements::MoveBack, KeyCode::KeyS);
 
-        map.insert(VesselMovements::MoveFwdSide, DualAxis::right_stick());
+        map.insert(VesselMovements::FwdSide, DualAxis::right_stick());
         map.insert(VesselMovements::PitchYaw, DualAxis::left_stick());
 
         return Self(map);
