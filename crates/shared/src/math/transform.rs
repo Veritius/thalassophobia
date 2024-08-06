@@ -128,3 +128,16 @@ impl<T: Mul> Mul for RotationSet<T> {
         }
     }
 }
+
+impl From<Vec3> for RotationSet<f32> {
+    fn from(value: Vec3) -> Self {
+        Self {
+            pitch_up: value.y,
+            pitch_down: value.y,
+            yaw_left: value.z,
+            yaw_right: value.z,
+            roll_left: value.x,
+            roll_right: value.x,
+        }
+    }
+}
