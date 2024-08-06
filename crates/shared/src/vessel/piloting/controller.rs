@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::*;
 use leafwing_input_manager::prelude::*;
-use crate::{disabling::Disabled, math::transform::{RotationSet, TranslateSet}};
+use crate::{disabling::Disabled, math::transform::TranslateSet};
 use super::VesselMovements;
 
 /// The 'style' of movement for vessels.
@@ -25,7 +25,7 @@ pub struct VesselController {
     pub translate_force: TranslateSet<f32>,
 
     /// The maximum amount of force that can be applied to rotate the vessel.
-    pub rotation_force: RotationSet<f32>,
+    pub rotation_force: TranslateSet<f32>,
 }
 
 pub(super) fn vessel_controller_system(
@@ -117,9 +117,9 @@ pub(super) fn vessel_controller_system(
 
         // Calculate the force to be applied
         let rotation_force = Vec3::new(
-            rotation_intent.x * if rotation_intent.x > 0.0 { controller.rotation_force.roll_left } else { controller.rotation_force.roll_right },
-            rotation_intent.y * if rotation_intent.y > 0.0 { controller.rotation_force.pitch_up  } else { controller.rotation_force.pitch_down  },
-            rotation_intent.z * if rotation_intent.z > 0.0 { controller.rotation_force.yaw_left  } else { controller.rotation_force.yaw_right },
+            rotation_intent.x * if rotation_intent.x > 0.0 { controller.rotation_force.left } else { controller.rotation_force.right },
+            rotation_intent.y * if rotation_intent.y > 0.0 { controller.rotation_force.up   } else { controller.rotation_force.down  },
+            rotation_intent.z * if rotation_intent.z > 0.0 { controller.rotation_force.fwd  } else { controller.rotation_force.back  },
         );
 
         // Apply the rotation force
