@@ -145,6 +145,16 @@ impl<T: DivAssign> DivAssign for TranslateSet<T> {
     }
 }
 
+impl TranslateSet<f32> {
+    pub fn squash(self) -> Vec3 {
+        Vec3 {
+            x: self.xp - self.xn,
+            y: self.yp - self.yn,
+            z: self.zp - self.zn,
+        }
+    }
+}
+
 impl Mul<Vec3> for TranslateSet<f32> {
     type Output = TranslateSet<f32>;
 
