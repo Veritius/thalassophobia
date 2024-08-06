@@ -77,9 +77,9 @@ impl Default for ControlSettings<VesselMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(VesselMovements::MoveUp, KeyCode::KeyE);
+        map.insert(VesselMovements::MoveUp, KeyCode::Space);
         map.insert(VesselMovements::MoveUp, GamepadButtonType::North);
-        map.insert(VesselMovements::MoveDown, KeyCode::KeyQ);
+        map.insert(VesselMovements::MoveDown, KeyCode::ShiftLeft);
         map.insert(VesselMovements::MoveDown, GamepadButtonType::West);
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
@@ -91,6 +91,9 @@ impl Default for ControlSettings<VesselMovements> {
 
         map.insert(VesselMovements::FwdSide, DualAxis::right_stick());
         map.insert(VesselMovements::PitchYaw, DualAxis::left_stick());
+
+        map.insert(VesselMovements::RollLeft, KeyCode::KeyQ);
+        map.insert(VesselMovements::RollRight, KeyCode::KeyE);
 
         return Self(map);
     }
