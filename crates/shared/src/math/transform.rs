@@ -197,7 +197,7 @@ impl<T: Mul<Output = T> + Copy> Mul<T> for TranslateSet<T> {
 impl<T: MulAssign + Copy> MulAssign<T> for TranslateSet<T> {
     #[inline]
     fn mul_assign(&mut self, rhs: T) {
-        self.alter_in_place(|v| *v *= rhs);
+        self.alter_in_place(|v| T::mul_assign(v, rhs));
     }
 }
 
@@ -213,7 +213,7 @@ impl<T: Div<Output = T> + Copy> Div<T> for TranslateSet<T> {
 impl<T: DivAssign + Copy> DivAssign<T> for TranslateSet<T> {
     #[inline]
     fn div_assign(&mut self, rhs: T) {
-        self.alter_in_place(|v| *v /= rhs);
+        self.alter_in_place(|v| T::div_assign(v, rhs));
     }
 }
 
