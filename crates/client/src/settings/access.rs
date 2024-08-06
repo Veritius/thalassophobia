@@ -29,11 +29,14 @@ pub enum Dismemberment {
 /// 
 /// https://gameaccessibilityguidelines.com/include-an-option-to-adjust-the-game-speed/
 #[derive(Debug, Clone, Copy, Reflect)]
-pub struct GameSpeed(pub f32);
+pub struct GameSpeed {
+    #[reflect(@0.0..=1.0)]
+    pub speed: f32,
+}
 
 impl Default for GameSpeed {
     fn default() -> Self {
-        Self(1.0)
+        Self { speed: 1.0 }
     }
 }
 
