@@ -30,14 +30,14 @@ pub struct VesselController {
 
 pub(super) fn vessel_controller_system(
     mut bodies: Query<(
-        &VesselController,
+        &mut VesselController,
         &Transform,
         &mut ExternalImpulse,
         &ActionState<VesselMovements>,
     ), Without<Disabled>>,
 ) {
     for (
-        controller,
+        mut controller,
         transform,
         mut impulse,
         actions
