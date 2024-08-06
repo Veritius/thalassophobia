@@ -30,7 +30,7 @@ pub enum Dismemberment {
 /// https://gameaccessibilityguidelines.com/include-an-option-to-adjust-the-game-speed/
 #[derive(Debug, Clone, Copy, Reflect)]
 pub struct GameSpeed {
-    #[reflect(@0.0..=1.0)]
+    #[reflect(@0.1..=1.3)]
     pub speed: f32,
 }
 
