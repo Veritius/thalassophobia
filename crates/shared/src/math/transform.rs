@@ -187,3 +187,15 @@ impl From<Vec3> for TranslateSet<f32> {
         }
     }
 }
+
+impl Mul<TranslateSet<f32>> for Vec3 {
+    type Output = Vec3;
+
+    fn mul(self, rhs: TranslateSet<f32>) -> Self::Output {
+        Self {
+            x: if self.x > 0.0 { rhs.xp } else { rhs.xn },
+            y: if self.y > 0.0 { rhs.yp } else { rhs.yn },
+            z: if self.z > 0.0 { rhs.zp } else { rhs.zn },
+        }
+    }
+}
