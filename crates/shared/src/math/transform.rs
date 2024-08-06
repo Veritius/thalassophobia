@@ -6,22 +6,22 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct TranslateSet<T> {
-    #[doc(alias("left"))]
+    #[doc(alias("left", "yaw left"))]
     pub xn: T,
 
-    #[doc(alias("right"))]
+    #[doc(alias("right", "yaw right"))]
     pub xp: T,
 
-    #[doc(alias("descent", "down"))]
+    #[doc(alias("descent", "down", "pitch down"))]
     pub yn: T,
 
-    #[doc(alias("ascent", "up"))]
+    #[doc(alias("ascent", "up", "pitch up"))]
     pub yp: T,
 
-    #[doc(alias("far", "forward"))]
+    #[doc(alias("far", "forward", "roll left"))]
     pub zn: T,
 
-    #[doc(alias("near", "backward"))]
+    #[doc(alias("near", "backward", "roll right"))]
     pub zp: T,
 }
 
