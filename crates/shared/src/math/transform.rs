@@ -70,6 +70,19 @@ impl<T: Mul> Mul for TranslateSet<T> {
     }
 }
 
+impl From<Vec3> for TranslateSet<f32> {
+    fn from(value: Vec3) -> Self {
+        Self {
+            up: value.y,
+            down: value.y,
+            left: value.z,
+            right: value.z,
+            fwd: value.x,
+            back: value.x,
+        }
+    }
+}
+
 /// A set of values corresponding to each direction in all three rotational axes.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
@@ -112,5 +125,16 @@ impl<T: Mul> Mul for RotationSet<T> {
             yaw: self.yaw * rhs.yaw,
             roll: self.roll * rhs.roll,
         }
+    }
+}
+
+impl From<RotationSet<f32>> for Quat {
+    fn from(value: RotationSet<f32>) -> Self {
+        Quat::from_euler(
+            EulerRot::YXZ,
+            value.roll, 
+            value.yaw,
+            value.pitch,
+        )
     }
 }
