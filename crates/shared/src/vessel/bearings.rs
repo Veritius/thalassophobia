@@ -1,7 +1,8 @@
 use std::ops::{Add, Mul, Sub};
 use bevy::prelude::*;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct TranslateSet<T> {
     pub up: T,
@@ -57,7 +58,7 @@ impl<T: Mul> Mul for TranslateSet<T> {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
 pub struct RotationSet<T> {
     pub pitch: T,
