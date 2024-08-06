@@ -59,12 +59,12 @@ pub(super) fn vessel_controller_system(
         let mut translate_intent = Vec3::ZERO;
 
         // Keyboard movement inputs
-        if actions.pressed(&VesselMovements::MoveUp    ) { translate_intent += up;  }
-        if actions.pressed(&VesselMovements::MoveDown  ) { translate_intent -= up;  }
-        if actions.pressed(&VesselMovements::MoveLeft  ) { translate_intent += rgt; }
-        if actions.pressed(&VesselMovements::MoveRight ) { translate_intent -= rgt; }
-        if actions.pressed(&VesselMovements::MoveFwd   ) { translate_intent += fwd; }
-        if actions.pressed(&VesselMovements::MoveBack  ) { translate_intent -= fwd; }
+        if actions.pressed(&VesselMovements::MoveUp   ) { translate_intent += up;  }
+        if actions.pressed(&VesselMovements::MoveDown ) { translate_intent -= up;  }
+        if actions.pressed(&VesselMovements::MoveLeft ) { translate_intent += rgt; }
+        if actions.pressed(&VesselMovements::MoveRight) { translate_intent -= rgt; }
+        if actions.pressed(&VesselMovements::MoveFwd  ) { translate_intent += fwd; }
+        if actions.pressed(&VesselMovements::MoveBack ) { translate_intent -= fwd; }
 
         // Controller movement inputs
         if let Some(axis_pair) = actions.axis_pair(&VesselMovements::FwdSide) {
@@ -92,5 +92,37 @@ pub(super) fn vessel_controller_system(
 
         // Rotation intent value
         let mut rotation_intent = Vec3::ZERO;
+
+        // Keyboard rotation inputs
+        if actions.pressed(&VesselMovements::PitchUp  ) { rotation_intent += Vec3::Y     }
+        if actions.pressed(&VesselMovements::PitchDown) { rotation_intent += Vec3::NEG_Y }
+        if actions.pressed(&VesselMovements::YawLeft  ) { rotation_intent += Vec3::Z     }
+        if actions.pressed(&VesselMovements::YawRight ) { rotation_intent += Vec3::NEG_Z }
+        if actions.pressed(&VesselMovements::RollLeft ) { rotation_intent += Vec3::X     }
+        if actions.pressed(&VesselMovements::RollRight) { rotation_intent += Vec3::NEG_X }
+
+        // Controller/mouse movement inputs
+        if let Some(axis_pair) = actions.axis_pair(&VesselMovements::PitchYaw) {
+            let axes = axis_pair.xy();
+            let vect = Vec3::new(0.0, axes.x, axes.y) * fwd;
+            rotation_intent += vect;
+        }
+
+        // Clamp the intent to within a valid range
+        // We intentionally do not normalise this
+        rotation_intent = rotation_intent.clamp(
+            Vec3::splat(-1.0),
+            Vec3::splat(1.0),
+        );
+
+        // Calculate the force to be applied
+        let rotation_force = Vec3::new(
+            rotation_intent.x * controller.rotation_force.roll,
+            rotation_intent.y * controller.rotation_force.pitch,
+            rotation_intent.z * controller.rotation_force.yaw,
+        );
+
+        // Apply the rotation force
+        impulse.torque_impulse += rotation_force;
     }
 }
