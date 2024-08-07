@@ -261,8 +261,7 @@ fn character_controller_system(
         'position: {
             let horizontal_intent = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally)
                 .map(|v| v.xy())
-                .unwrap_or(Vec2::ZERO)
-                .normalize_or_zero();
+                .unwrap_or(Vec2::ZERO);
 
             let vertical_intent = actions.clamped_value(&CharacterMovements::MoveVertically);
 
