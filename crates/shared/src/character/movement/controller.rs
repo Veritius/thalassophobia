@@ -23,8 +23,8 @@ impl Plugin for PlayerControllerPlugin {
         app.register_type::<PlayerControllerState>();
 
         app.add_systems(Update, (
-            controller_grounding_system,
-            controller_movement_system,
+            character_ground_system,
+            character_controller_system,
         ).chain().run_if(simulation_running()));
     }
 }
@@ -90,7 +90,7 @@ pub struct PlayerControllerHead {
     pub rotation_pitch: f32,
 }
 
-pub(super) fn controller_grounding_system(
+pub(super) fn character_ground_system(
     rapier_context: Res<RapierContext>,
     // We can't filter out entities that haven't changed positions, since we can't account for other entities changing position.
     mut controllers: Query<(Entity, &mut PlayerController, &GlobalTransform, Option<&CollisionGroups>), Without<Disabled>>,
@@ -151,8 +151,7 @@ type RootAndOrHead = Or<(
     With<PlayerControllerHead>,
 )>;
 
-#[allow(private_interfaces)]
-pub(super) fn controller_movement_system(
+fn character_controller_system(
     mut shared: Query<ControllerSharedQueryData, RootAndOrHead>,
     mut roots: Query<ControllerRootQueryData, Without<Disabled>>,
     mut heads: Query<ControllerHeadQueryData,>,
