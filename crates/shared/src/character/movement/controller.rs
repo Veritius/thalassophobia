@@ -161,22 +161,14 @@ pub(super) fn controller_movement_system(
         let actions = root.action_state;
 
         // Handle rotation first, so that forces are applied correctly
-        {
+        'rotation: {
             // Store whether or not the root is the head, we use this later
             let root_is_head = root.entity == root.body_controller.head;
 
             // Intent vector to sum up inputs
-            let mut rotate_intent = Vec2::ZERO;
-
-            // Keyboard rotation inputs
-            // if actions.pressed(&CharacterMovements::LookUp   ) { rotate_intent.y -= 1.0; }
-            // if actions.pressed(&CharacterMovements::LookDown ) { rotate_intent.y += 1.0; }
-            // if actions.pressed(&CharacterMovements::LookLeft ) { rotate_intent.x -= 1.0; }
-            // if actions.pressed(&CharacterMovements::LookRight) { rotate_intent.x += 1.0; }
-
-            // Controller/mouse rotation inputs
-            if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::Turn) {
-                rotate_intent += axis_pair.xy();
+            let rotate_intent = match actions.axis_pair(&CharacterMovements::Turn) {
+                Some(axis) => axis.xy(),
+                None => break 'rotation,
             };
 
             // Get the head components
@@ -226,25 +218,14 @@ pub(super) fn controller_movement_system(
 
         // Handle horizontal movement inputs
         {
-            // Intent vectors to sum up inputs
-            let mut horizontal_intent = Vec2::default();
-            let mut vertical_intent = 0.0;
+            let horizontal_intent = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally)
+                .map(|v| v.xy())
+                .unwrap_or_default();
+
+            let vertical_intent = actions.clamped_value(&CharacterMovements::MoveVertically);
 
             // TODO: Make sprinting and crouching toggleable
             let sprinting = actions.pressed(&CharacterMovements::Sprint);
-
-            // Keyboard movement inputs
-            // if actions.pressed(&CharacterMovements::Forward     ) { horizontal_intent.x -= 1.0; }
-            // if actions.pressed(&CharacterMovements::Backward    ) { horizontal_intent.x += 1.0; }
-            // if actions.pressed(&CharacterMovements::StrafeRight ) { horizontal_intent.y += 1.0; }
-            // if actions.pressed(&CharacterMovements::StrafeLeft  ) { horizontal_intent.y -= 1.0; }
-            // if actions.pressed(&CharacterMovements::Ascend      ) { vertical_intent += 1.0;     }
-            // if actions.pressed(&CharacterMovements::Descend     ) { vertical_intent -= 1.0;     }
-
-            // Controller movement inputs
-            // if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::MoveAxis) {
-            //     horizontal_intent += axis_pair.xy();
-            // }
 
             // Get the entity's translation value
             let shared = match shared.get(root.entity) {
