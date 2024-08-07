@@ -14,7 +14,7 @@ const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
 const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 
 /// The state of a player controller.
-#[derive(Debug, Component, Reflect)]
+#[derive(Debug, Clone, Copy, Component, PartialEq, Eq, Reflect)]
 pub enum PlayerControllerState {
     Grounded,
     Floating,
