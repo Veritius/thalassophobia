@@ -259,10 +259,20 @@ fn character_controller_system(
 
         // Handle horizontal movement inputs
         'position: {
+            // Base horizontal intent constructed from movement values
             let horizontal_intent = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally)
                 .map(|v| v.xy())
                 .unwrap_or(Vec2::ZERO);
 
+            // If the overall length is greater than 1.0, normalise it
+            // This lets us have fine control over movement while still
+            // avoiding the problem of players walking diagonally to move faster
+            let horizontal_intent = match horizontal_intent.length() > 1.0 {
+                true => horizontal_intent.normalize_or_zero(),
+                false => horizontal_intent,
+            };
+
+            // Value is automatically brought within bounds by Leafwing
             let vertical_intent = actions.clamped_value(&CharacterMovements::MoveVertically);
 
             // If there's no input, early return to avoid wasting our time
