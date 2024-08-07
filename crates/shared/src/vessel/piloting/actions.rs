@@ -4,47 +4,23 @@ use leafwing_input_manager::Actionlike;
 /// Movements that can be made to pilot a vessel.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum VesselMovements {
-    /// Axis movement for forward and sideways movement.
-    FwdSide,
+    /// Single-axis input for forward engine thrust.
+    ForwardThrust,
 
-    /// Button input for translating upwards.
-    MoveUp,
+    /// Single-axis input for backward engine thrust.
+    SideThrust,
 
-    /// Button input for translating downwards.
-    MoveDown,
+    /// Single-axis input for vertical movement.
+    VerticalThrust,
 
-    /// Button input for translating left.
-    MoveLeft,
+    /// Single-axis input for pitching.
+    Pitch,
 
-    /// Button input for translating right.
-    MoveRight,
+    /// Single-axis input for yawing.
+    Yaw,
 
-    /// Button input for translating forward.
-    MoveFwd,
-
-    /// Button input for translating backward.
-    MoveBack,
-
-    /// Axis input for pitch and yaw rotation.
-    PitchYaw,
-
-    /// Button input for pitching upwards.
-    PitchUp,
-
-    /// Button input for pitching downwards.
-    PitchDown,
-
-    /// Button input for yawing to the left.
-    YawLeft,
-
-    /// Button input for yawing to the right.
-    YawRight,
-
-    /// Button input for rolling to the left.
-    RollLeft,
-
-    /// Button input for rolling to the right.
-    RollRight,
+    /// Single-axis input for rolling.
+    Roll,
 
     /// Button input for halting all translation and rotation.
     Brake,

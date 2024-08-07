@@ -59,19 +59,19 @@ pub(super) fn vessel_controller_system(
         let mut translate_intent = Vec3::ZERO;
 
         // Keyboard movement inputs
-        if actions.pressed(&VesselMovements::MoveUp   ) { translate_intent += up;  }
-        if actions.pressed(&VesselMovements::MoveDown ) { translate_intent -= up;  }
-        if actions.pressed(&VesselMovements::MoveLeft ) { translate_intent += rgt; }
-        if actions.pressed(&VesselMovements::MoveRight) { translate_intent -= rgt; }
-        if actions.pressed(&VesselMovements::MoveFwd  ) { translate_intent += fwd; }
-        if actions.pressed(&VesselMovements::MoveBack ) { translate_intent -= fwd; }
+        // if actions.pressed(&VesselMovements::MoveUp   ) { translate_intent += up;  }
+        // if actions.pressed(&VesselMovements::MoveDown ) { translate_intent -= up;  }
+        // if actions.pressed(&VesselMovements::MoveLeft ) { translate_intent += rgt; }
+        // if actions.pressed(&VesselMovements::MoveRight) { translate_intent -= rgt; }
+        // if actions.pressed(&VesselMovements::MoveFwd  ) { translate_intent += fwd; }
+        // if actions.pressed(&VesselMovements::MoveBack ) { translate_intent -= fwd; }
 
         // Controller movement inputs
-        if let Some(axis_pair) = actions.axis_pair(&VesselMovements::FwdSide) {
-            let axes = axis_pair.xy();
-            let vect = Vec3::new(axes.x, 0.0, axes.y) * fwd;
-            translate_intent += vect;
-        }
+        // if let Some(axis_pair) = actions.axis_pair(&VesselMovements::FwdSide) {
+        //     let axes = axis_pair.xy();
+        //     let vect = Vec3::new(axes.x, 0.0, axes.y) * fwd;
+        //     translate_intent += vect;
+        // }
 
         // Clamp the intent to within a valid range
         // We intentionally do not normalise this
@@ -90,19 +90,19 @@ pub(super) fn vessel_controller_system(
         let mut rotation_intent = Vec3::ZERO;
 
         // Keyboard rotation inputs
-        if actions.pressed(&VesselMovements::PitchUp  ) { rotation_intent += Vec3::Y     }
-        if actions.pressed(&VesselMovements::PitchDown) { rotation_intent += Vec3::NEG_Y }
-        if actions.pressed(&VesselMovements::YawLeft  ) { rotation_intent += Vec3::Z     }
-        if actions.pressed(&VesselMovements::YawRight ) { rotation_intent += Vec3::NEG_Z }
-        if actions.pressed(&VesselMovements::RollLeft ) { rotation_intent += Vec3::X     }
-        if actions.pressed(&VesselMovements::RollRight) { rotation_intent += Vec3::NEG_X }
+        // if actions.pressed(&VesselMovements::PitchUp  ) { rotation_intent += Vec3::Y     }
+        // if actions.pressed(&VesselMovements::PitchDown) { rotation_intent += Vec3::NEG_Y }
+        // if actions.pressed(&VesselMovements::YawLeft  ) { rotation_intent += Vec3::Z     }
+        // if actions.pressed(&VesselMovements::YawRight ) { rotation_intent += Vec3::NEG_Z }
+        // if actions.pressed(&VesselMovements::RollLeft ) { rotation_intent += Vec3::X     }
+        // if actions.pressed(&VesselMovements::RollRight) { rotation_intent += Vec3::NEG_X }
 
         // Controller/mouse movement inputs
-        if let Some(axis_pair) = actions.axis_pair(&VesselMovements::PitchYaw) {
-            let axes = axis_pair.xy();
-            let vect = Vec3::new(0.0, axes.x, axes.y) * fwd;
-            rotation_intent += vect;
-        }
+        // if let Some(axis_pair) = actions.axis_pair(&VesselMovements::PitchYaw) {
+        //     let axes = axis_pair.xy();
+        //     let vect = Vec3::new(0.0, axes.x, axes.y) * fwd;
+        //     rotation_intent += vect;
+        // }
 
         // Clamp the intent to within a valid range
         // We intentionally do not normalise this

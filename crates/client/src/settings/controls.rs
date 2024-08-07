@@ -60,25 +60,39 @@ impl Default for ControlSettings<VesselMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(VesselMovements::MoveUp, KeyCode::KeyZ);
-        map.insert(VesselMovements::MoveUp, GamepadButtonType::North);
-        map.insert(VesselMovements::MoveDown, KeyCode::KeyC);
-        map.insert(VesselMovements::MoveDown, GamepadButtonType::West);
+        // Keyboard forward thrust
+        map.insert(VesselMovements::ForwardThrust, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::PhysicalKey(KeyCode::KeyS),
+            positive: InputKind::PhysicalKey(KeyCode::KeyW),
+        }));
 
-        map.insert(VesselMovements::MoveLeft, KeyCode::KeyA);
-        map.insert(VesselMovements::MoveRight, KeyCode::KeyD);
-        map.insert(VesselMovements::MoveFwd, KeyCode::KeyW);
-        map.insert(VesselMovements::MoveBack, KeyCode::KeyS);
+        // Controller forward thrust
+        map.insert(VesselMovements::ForwardThrust, DualAxis::left_stick().x);
 
-        map.insert(VesselMovements::FwdSide, DualAxis::right_stick());
-        map.insert(VesselMovements::PitchYaw, DualAxis::mouse_motion());
-        map.insert(VesselMovements::PitchYaw, DualAxis::left_stick());
+        // Keyboard sideways thrust
+        map.insert(VesselMovements::SideThrust, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::PhysicalKey(KeyCode::KeyA),
+            positive: InputKind::PhysicalKey(KeyCode::KeyD),
+        }));
 
-        map.insert(VesselMovements::RollLeft, KeyCode::KeyQ);
-        map.insert(VesselMovements::RollRight, KeyCode::KeyE);
+        // Controller sideways thrust
+        map.insert(VesselMovements::SideThrust, DualAxis::left_stick().y);
+
+        // Keyboard vertical thrust
+        map.insert(VesselMovements::SideThrust, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::PhysicalKey(KeyCode::KeyQ),
+            positive: InputKind::PhysicalKey(KeyCode::KeyE),
+        }));
+
+        // Controller vertical thrust
+        map.insert(VesselMovements::SideThrust, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::GamepadButton(GamepadButtonType::South),
+            positive: InputKind::GamepadButton(GamepadButtonType::East),
+        }));
 
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
+
         map.insert(VesselMovements::ChangeStyle, KeyCode::KeyX);
         map.insert(VesselMovements::ChangeStyle, GamepadButtonType::LeftTrigger);
 
