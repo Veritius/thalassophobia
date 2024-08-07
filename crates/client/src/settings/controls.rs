@@ -90,6 +90,24 @@ impl Default for ControlSettings<VesselMovements> {
             positive: InputKind::GamepadButton(GamepadButtonType::East),
         }));
 
+        // Keyboard pitching
+        map.insert(VesselMovements::Pitch, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::PhysicalKey(KeyCode::KeyJ),
+            positive: InputKind::PhysicalKey(KeyCode::KeyU),
+        }));
+
+        // Controller pitching
+        map.insert(VesselMovements::Pitch, DualAxis::right_stick().x);
+
+        // Keyboard yawing
+        map.insert(VesselMovements::Yaw, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::PhysicalKey(KeyCode::KeyH),
+            positive: InputKind::PhysicalKey(KeyCode::KeyK),
+        }));
+
+        // Controller yawing
+        map.insert(VesselMovements::Yaw, DualAxis::right_stick().y);
+
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
 
