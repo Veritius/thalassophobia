@@ -13,6 +13,13 @@ const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
 /// Prevents the camera from doing backflips.
 const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 
+/// The state of a player controller.
+#[derive(Debug, Component, Reflect)]
+pub enum PlayerControllerState {
+    Grounded,
+    Floating,
+}
+
 /// A player character controller.
 #[derive(Debug, Component, Reflect)]
 pub struct PlayerController {
@@ -21,18 +28,21 @@ pub struct PlayerController {
     /// This may be the same entity that the `PlayerController` component is attached to.
     pub head: Entity,
 
+    /// The state of the player controller.
+    pub state: PlayerControllerState,
+
     /// Current rotation (yaw).
     pub rotation_yaw: f32,
 
     /// Base ground movement speed.
-    pub base_walk_speed: Vec2,
+    pub base_walk_force: Vec2,
     /// Coefficient applied to walk speed while sprinting.
     pub walk_sprint_coefficient: Vec2,
     /// Coefficient applied to walk speed while crouching.
     pub walk_crouch_coefficient: Vec2,
 
     /// Base swim speed.
-    pub base_swim_speed: TranslateSet<f32>,
+    pub base_swim_force: TranslateSet<f32>,
     /// Coefficient applied to swim speed while sprinting.
     pub swim_sprint_coefficient: TranslateSet<f32>,
 
@@ -211,11 +221,31 @@ pub(super) fn controller_movement_system(
                 Err(_) => todo!(),
             };
 
-            // Put the two intents together to get the movement direction
-            let mut move_direction = horizontal_intent.normalize_or_zero().extend(0.0) * shared.transform.forward().as_vec3();
-            move_direction.y = (move_direction.y + vertical_intent).clamp(-1.0, 1.0);
+            match root.body_controller.state {
+                PlayerControllerState::Grounded => {
+                    
+                },
 
-            todo!()
+                PlayerControllerState::Floating => {
+                    // Put the two intents together to get the movement direction
+                    let mut move_direction = horizontal_intent.normalize_or_zero().extend(0.0) * shared.transform.forward().as_vec3();
+                    move_direction.y = (move_direction.y + vertical_intent).clamp(-1.0, 1.0);
+
+                    // Movement speed coefficient
+                    let coefficient = match sprinting {
+                        true => root.body_controller.swim_sprint_coefficient,
+                        false => TranslateSet::splat(1.0), // no effect
+                    };
+
+                    // Calculate the force for the movement
+                    let move_force = move_direction * root.body_controller.base_swim_force * coefficient;
+
+                    // Apply the physics impulse
+                    if let Some(mut impulse) = root.impulse {
+                        impulse.impulse += move_force;
+                    }
+                },
+            }
         }
     }
 }
