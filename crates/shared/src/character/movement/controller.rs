@@ -75,11 +75,16 @@ pub(super) fn controller_grounding_system(
 
 #[derive(QueryData)]
 #[query_data(mutable)]
-struct MovementSystemQueryData<'w> {
-    body_controller: Option<&'w mut PlayerController>,
-    head_controller: Option<&'w mut PlayerControllerHead>,
-
+struct ControllerSharedQueryData<'w> {
     transform: &'w mut Transform,
+}
+
+#[derive(QueryData)]
+#[query_data(mutable)]
+struct ControllerRootQueryData<'w> {
+    entity: Entity,
+    body_controller: &'w mut PlayerController,
+
     impulse: Option<&'w mut ExternalImpulse>,
 
     rotation_action_state: Option<&'w ActionState<RotationMovements>>,
@@ -87,13 +92,23 @@ struct MovementSystemQueryData<'w> {
     swimming_action_state: Option<&'w ActionState<SwimmingMovements>>,
 }
 
-type MovementSystemQueryFilter = Or<(
+#[derive(QueryData)]
+#[query_data(mutable)]
+struct ControllerHeadQueryData<'w> {
+    head_controller: &'w mut PlayerControllerHead,
+}
+
+type RootAndOrHead = Or<(
     With<PlayerController>,
     With<PlayerControllerHead>,
 )>;
 
 pub(super) fn controller_movement_system(
-
+    mut shared: Query<ControllerSharedQueryData, RootAndOrHead>,
+    mut roots: Query<ControllerRootQueryData>,
+    mut heads: Query<ControllerHeadQueryData>,
 ) {
+    for root in roots.iter_mut() {
 
+    }
 }
