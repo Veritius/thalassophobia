@@ -18,10 +18,10 @@ pub struct TranslateSet<T> {
     #[doc(alias("ascent", "up", "pitch up"))]
     pub yp: T,
 
-    #[doc(alias("far", "forward", "roll left"))]
+    #[doc(alias("forward", "far", "roll left"))]
     pub zn: T,
 
-    #[doc(alias("near", "backward", "roll right"))]
+    #[doc(alias("backward", "near", "roll right"))]
     pub zp: T,
 }
 
