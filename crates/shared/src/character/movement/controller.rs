@@ -25,9 +25,11 @@ pub struct PlayerController {
     pub rotation_yaw: f32,
 
     /// Base ground movement speed.
-    pub base_walk_speed: TranslateSet<f32>,
+    pub base_walk_speed: Vec2,
     /// Coefficient applied to walk speed while sprinting.
-    pub walk_sprint_coefficient: TranslateSet<f32>,
+    pub walk_sprint_coefficient: Vec2,
+    /// Coefficient applied to walk speed while crouching.
+    pub walk_crouch_coefficient: Vec2,
 
     /// Base swim speed.
     pub base_swim_speed: TranslateSet<f32>,
@@ -179,6 +181,42 @@ pub(super) fn controller_movement_system(
                     shared.transform.rotation = pitch_quat;
                 }
             }
+        }
+
+        // Handle horizontal movement inputs
+        {
+            // Intent vector to sum up inputs
+            let mut move_intent = Vec3::default();
+
+            // TODO: Make sprinting and crouching toggleable
+            let sprinting = actions.pressed(&CharacterMovements::Sprint);
+
+            // Keyboard movement inputs
+            if actions.pressed(&CharacterMovements::Forward     ) { move_intent.z -= 1.0; }
+            if actions.pressed(&CharacterMovements::Backward    ) { move_intent.z += 1.0; }
+            if actions.pressed(&CharacterMovements::StrafeRight ) { move_intent.x += 1.0; }
+            if actions.pressed(&CharacterMovements::StrafeLeft  ) { move_intent.x -= 1.0; }
+            if actions.pressed(&CharacterMovements::Ascend      ) { move_intent.y += 1.0; }
+            if actions.pressed(&CharacterMovements::Descend     ) { move_intent.y -= 1.0; }
+
+            // Controller movement inputs
+            if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::MoveAxis) {
+                let axis = axis_pair.xy();
+
+                move_intent += Vec3 {
+                    x: axis.x,
+                    y: 0.0,
+                    z: axis.y,
+                };
+            }
+
+            // Get the entity's translation value
+            let shared = match shared.get(root.entity) {
+                Ok(shared) => shared,
+                Err(_) => todo!(),
+            };
+
+            todo!()
         }
     }
 }
