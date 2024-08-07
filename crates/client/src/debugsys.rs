@@ -63,7 +63,6 @@ fn loaded_system(
     // Character head
     let head = commands.spawn((
         PlayerControllerHead::default(),
-        TransformBundle::from_transform(Transform::from_xyz(0.0, 0.5, 0.0)),
         Camera3dBundle {
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..default()
