@@ -1,4 +1,4 @@
-use std::f32::consts::FRAC_PI_2;
+use std::{f32::consts::FRAC_PI_2, time::{Duration, Instant}};
 use bevy::ecs::query::QueryData;
 use bevy_rapier3d::{plugin::RapierContext, prelude::*};
 use leafwing_input_manager::prelude::ActionState;
@@ -46,10 +46,25 @@ pub struct PlayerController {
     /// Coefficient applied to swim speed while sprinting.
     pub swim_sprint_coefficient: TranslateSet<f32>,
 
+    /// If jumping is allowed.
+    pub allow_jumping: bool,
+    /// The force applied when jumping.
+    pub jump_force: f32,
+    /// The delay between jumps.
+    pub jump_delay: Duration,
+    /// The last time the character jumped.
+    pub last_jumped: Option<Instant>,
+
     /// The length of the raycast used to check if the controller is touching the ground.
     pub ground_raycast_len: f32,
     /// Set to `true` when touching an object that it can collide with.
     pub is_touching_ground: bool,
+}
+
+impl PlayerController {
+    pub fn reset_jump_timer(&mut self) {
+        self.last_jumped = Some(Instant::now());
+    }
 }
 
 /// The head entity of a [`PlayerController`].
@@ -232,12 +247,35 @@ pub(super) fn controller_movement_system(
                         false => Vec2::splat(1.0),
                     };
 
-                    todo!()
+                    // Extend the move force to 3D
+                    let mut move_force = move_force.extend(0.0).xzy();
+
+                    // Handle jumping calculations
+                    'jump: {
+                        // Character must be allowed to jump and be touching the ground
+                        if !root.body_controller.allow_jumping { break 'jump }
+                        if !root.body_controller.is_touching_ground { break 'jump }
+
+                        // The character can't jump until the delay is passed
+                        if !root.body_controller.last_jumped.is_some_and(|v| 
+                            v.elapsed() < root.body_controller.jump_delay) { break 'jump }
+
+                        // Reset the jump timer
+                        root.body_controller.reset_jump_timer();
+
+                        // Add the movement force to the vector
+                        move_force.y += root.body_controller.jump_force;
+                    }
+
+                    // Apply the physics impulse
+                    if let Some(mut impulse) = root.impulse {
+                        impulse.impulse += move_force;
+                    }
                 },
 
                 PlayerControllerState::Floating => {
                     // Put the two intents together to get the movement direction
-                    let mut move_direction = horizontal_intent.normalize_or_zero().extend(0.0) * shared.transform.forward().as_vec3();
+                    let mut move_direction = horizontal_intent.normalize_or_zero().extend(0.0).xzy() * shared.transform.forward().as_vec3();
                     move_direction.y = (move_direction.y + vertical_intent).clamp(-1.0, 1.0);
 
                     // Movement speed coefficient
