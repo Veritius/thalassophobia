@@ -217,12 +217,15 @@ pub(super) fn controller_movement_system(
         }
 
         // Handle horizontal movement inputs
-        {
+        'position: {
             let horizontal_intent = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally)
                 .map(|v| v.xy())
-                .unwrap_or_default();
+                .unwrap_or(Vec2::ZERO);
 
             let vertical_intent = actions.clamped_value(&CharacterMovements::MoveVertically);
+
+            // If there's no input, early return to avoid wasting our time
+            if horizontal_intent == Vec2::ZERO && vertical_intent == 0.0 { break 'position; }
 
             // TODO: Make sprinting and crouching toggleable
             let sprinting = actions.pressed(&CharacterMovements::Sprint);
