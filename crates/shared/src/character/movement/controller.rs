@@ -103,12 +103,68 @@ type RootAndOrHead = Or<(
     With<PlayerControllerHead>,
 )>;
 
+#[allow(private_interfaces)]
 pub(super) fn controller_movement_system(
     mut shared: Query<ControllerSharedQueryData, RootAndOrHead>,
     mut roots: Query<ControllerRootQueryData>,
     mut heads: Query<ControllerHeadQueryData>,
 ) {
-    for root in roots.iter_mut() {
+    for mut root in roots.iter_mut() {
+        // Handle rotation first, so that forces are applied correctly
+        if let Some(actions) = root.rotation_action_state {
+            // Store whether or not the root is the head, we use this later
+            let root_is_head = root.entity == root.body_controller.head;
 
+            // Intent vector to sum up inputs
+            let mut rotate_intent = Vec2::ZERO;
+
+            // Keyboard rotation inputs
+            if actions.pressed(&RotationMovements::Up   ) { rotate_intent.y -= 1.0; }
+            if actions.pressed(&RotationMovements::Down ) { rotate_intent.y += 1.0; }
+            if actions.pressed(&RotationMovements::Left ) { rotate_intent.x -= 1.0; }
+            if actions.pressed(&RotationMovements::Right) { rotate_intent.x += 1.0; }
+
+            // Controller/mouse rotation inputs
+            if let Some(axis_pair) = actions.axis_pair(&RotationMovements::Axis) {
+                rotate_intent += axis_pair.xy();
+            };
+
+            // Get the head components
+            let mut head = match heads.get_mut(root.body_controller.head) {
+                Ok(head) => head,
+                Err(_) => todo!(),
+            };
+
+            // Store the new rotation state in the controllers
+            root.body_controller.rotation_yaw += rotate_intent.x;
+            head.head_controller.rotation_pitch += rotate_intent.y;
+
+            let yaw_quat = Quat::from_axis_angle(
+                Vec3::Y,
+                -root.body_controller.rotation_yaw,
+            );
+
+            let pitch_quat = Quat::from_axis_angle(
+                Vec3::X,
+                -head.head_controller.rotation_pitch,
+            );
+
+            if root_is_head {
+                // The body and head are the same, apply both axes of rotation
+                if let Ok(mut shared) = shared.get_mut(root.entity) {
+                    shared.transform.rotation = yaw_quat + pitch_quat;
+                }
+            } else {
+                // Apply the yaw to the body independent of the head
+                if let Ok(mut shared) = shared.get_mut(root.entity) {
+                    shared.transform.rotation = yaw_quat;
+                }
+
+                // Apply the pitch to the head independent of the body
+                if let Ok(mut shared) = shared.get_mut(root.body_controller.head) {
+                    shared.transform.rotation = pitch_quat;
+                }
+            }
+        }
     }
 }
