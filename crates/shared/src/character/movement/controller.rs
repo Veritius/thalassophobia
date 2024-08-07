@@ -223,7 +223,16 @@ pub(super) fn controller_movement_system(
 
             match root.body_controller.state {
                 PlayerControllerState::Grounded => {
-                    
+                    // Basic movement force calculation
+                    let mut move_force = horizontal_intent * root.body_controller.base_walk_force;
+
+                    // Apply additional force for sprinting
+                    move_force *= match sprinting {
+                        true => root.body_controller.walk_sprint_coefficient,
+                        false => Vec2::splat(1.0),
+                    };
+
+                    todo!()
                 },
 
                 PlayerControllerState::Floating => {
