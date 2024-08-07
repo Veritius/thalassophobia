@@ -1,9 +1,17 @@
+use std::f32::consts::FRAC_PI_2;
 use bevy::ecs::query::QueryData;
 use bevy_rapier3d::{plugin::RapierContext, prelude::*};
 use leafwing_input_manager::prelude::ActionState;
 use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*};
-
 use super::{GroundedMovements, RotationMovements, SwimmingMovements};
+
+/// The furthest downward the controller can turn.
+/// Prevents the camera from doing frontflips.
+const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
+
+/// The furthest upward the controller can turn.
+/// Prevents the camera from doing backflips.
+const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 
 /// A player character controller.
 #[derive(Debug, Component, Reflect)]
@@ -138,6 +146,13 @@ pub(super) fn controller_movement_system(
             // Store the new rotation state in the controllers
             root.body_controller.rotation_yaw += rotate_intent.x;
             head.head_controller.rotation_pitch += rotate_intent.y;
+
+            // Clamp the rotation of the head to a valid range
+            // This stops the player character from bending over backwards at inhuman angles
+            head.head_controller.rotation_pitch = head.head_controller.rotation_pitch.clamp(
+                CONTROLLER_PITCH_MIN,
+                CONTROLLER_PITCH_MAX,
+            );
 
             let yaw_quat = Quat::from_axis_angle(
                 Vec3::Y,
