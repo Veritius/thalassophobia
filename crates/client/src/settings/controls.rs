@@ -11,12 +11,6 @@ impl Default for ControlSettings<CharacterMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        // Mouse turning
-        map.insert(CharacterMovements::Turn, DualAxis::mouse_motion());
-
-        // Controller turning
-        map.insert(CharacterMovements::Turn, DualAxis::right_stick());
-
         // Horizontal keyboard movement
         map.insert(CharacterMovements::MoveHorizontally, UserInput::VirtualDPad(VirtualDPad {
             up: InputKind::PhysicalKey(KeyCode::KeyW),
@@ -39,6 +33,12 @@ impl Default for ControlSettings<CharacterMovements> {
             negative: InputKind::GamepadButton(GamepadButtonType::East),
             positive: InputKind::GamepadButton(GamepadButtonType::South),
         }));
+
+        // Mouse turning
+        map.insert(CharacterMovements::Turn, DualAxis::mouse_motion());
+
+        // Controller turning
+        map.insert(CharacterMovements::Turn, DualAxis::right_stick());
 
         // Keyboard leaning
         map.insert(CharacterMovements::Lean, UserInput::VirtualAxis(VirtualAxis {

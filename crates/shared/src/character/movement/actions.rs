@@ -4,18 +4,16 @@ use crate::input::Actionlike;
 /// Movements that can be made by a player character.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum CharacterMovements {
-    /// Axis input for pitching and yawing.
-    Turn,
-
-    /// Axis input for horizontal movement (X and Z)
+    /// Dual-axis input for horizontal movement.
     MoveHorizontally,
 
-    /// Button input to:
-    /// - Jump if standing
-    /// - Swim up if floating
+    /// Single-axis input for vertical movement.
     MoveVertically,
 
-    /// Button input to lean to the left.
+    /// Dual-axis input for pitching and yawing.
+    Turn,
+
+    /// Single-axis input to lean to the left.
     Lean,
 
     /// Button input to vault, attempting to climb nearby objects.
