@@ -1,30 +1,26 @@
 use crate::bevy::prelude::*;
 use crate::input::Actionlike;
 
-/// Movements that can be made to turn around.
+/// Movements that can be made by a player character.
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
-pub enum RotationMovements {
+pub enum CharacterMovements {
     /// Axis input for pitching and yawing.
-    Axis,
+    LookAxis,
 
     /// Button input to pitch up.
-    Up,
+    LookUp,
 
     /// Button input to pitch down.
-    Down,
+    LookDown,
 
     /// Button input to turn left.
-    Left,
+    LookLeft,
 
     /// Button input to turn right.
-    Right,
-}
+    LookRight,
 
-/// Movements that can be made when standing on the ground.
-#[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
-pub enum GroundedMovements {
     /// Axis input for horizontal movement (X and Z)
-    Axis,
+    MoveAxis,
 
     /// Button input to move forward.
     Forward,
@@ -44,8 +40,15 @@ pub enum GroundedMovements {
     /// Button input to lean to the right.
     LeanRight,
 
-    /// Button input to jump, giving a burst of vertical speed.
-    Jump,
+    /// Button input to:
+    /// - Jump if standing
+    /// - Swim up if floating
+    Ascend,
+
+    /// Button input to:
+    /// - Crouch if standing
+    /// - Swim down if floating
+    Descend,
 
     /// Button input to vault, attempting to climb nearby objects.
     /// 
@@ -53,37 +56,6 @@ pub enum GroundedMovements {
     /// `Vault` takes precedence and the `Jump` input is ignored.
     Vault,
 
-    /// Button input to toggle crouching, or held to crouch.
-    Crouch,
-
     /// Button input (toggle or hold) to move faster.
-    Sprint,
-}
-
-/// Movements that can be made when floating in water.
-#[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
-pub enum SwimmingMovements {
-    /// Axis input for horizontal movement relative to the character's orientation.
-    Axis,
-
-    /// Button input to swim forwards.
-    Forward,
-
-    /// Button input to swim backwards.
-    Backward,
-
-    /// Button input to swim to the left.
-    StrafeLeft,
-
-    /// Button input to swim to the right.
-    StrafeRight,
-
-    /// Button input to swim upwards.
-    Ascend,
-
-    /// Button input to swim downwards.
-    Descend,
-
-    /// Button input (toggle or hold) to swim rapidly.
     Sprint,
 }

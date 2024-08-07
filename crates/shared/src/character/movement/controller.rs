@@ -3,7 +3,7 @@ use bevy::ecs::query::QueryData;
 use bevy_rapier3d::{plugin::RapierContext, prelude::*};
 use leafwing_input_manager::prelude::ActionState;
 use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*};
-use super::{GroundedMovements, RotationMovements, SwimmingMovements};
+use super::CharacterMovements;
 
 /// The furthest downward the controller can turn.
 /// Prevents the camera from doing frontflips.
@@ -92,12 +92,9 @@ struct ControllerSharedQueryData<'w> {
 struct ControllerRootQueryData<'w> {
     entity: Entity,
     body_controller: &'w mut PlayerController,
+    action_state: &'w ActionState<CharacterMovements>,
 
     impulse: Option<&'w mut ExternalImpulse>,
-
-    rotation_action_state: Option<&'w ActionState<RotationMovements>>,
-    grounded_action_state: Option<&'w ActionState<GroundedMovements>>,
-    swimming_action_state: Option<&'w ActionState<SwimmingMovements>>,
 }
 
 #[derive(QueryData)]
@@ -118,8 +115,10 @@ pub(super) fn controller_movement_system(
     mut heads: Query<ControllerHeadQueryData>,
 ) {
     for mut root in roots.iter_mut() {
+        let actions = root.action_state;
+
         // Handle rotation first, so that forces are applied correctly
-        if let Some(actions) = root.rotation_action_state {
+        {
             // Store whether or not the root is the head, we use this later
             let root_is_head = root.entity == root.body_controller.head;
 
@@ -127,13 +126,13 @@ pub(super) fn controller_movement_system(
             let mut rotate_intent = Vec2::ZERO;
 
             // Keyboard rotation inputs
-            if actions.pressed(&RotationMovements::Up   ) { rotate_intent.y -= 1.0; }
-            if actions.pressed(&RotationMovements::Down ) { rotate_intent.y += 1.0; }
-            if actions.pressed(&RotationMovements::Left ) { rotate_intent.x -= 1.0; }
-            if actions.pressed(&RotationMovements::Right) { rotate_intent.x += 1.0; }
+            if actions.pressed(&CharacterMovements::LookUp   ) { rotate_intent.y -= 1.0; }
+            if actions.pressed(&CharacterMovements::LookDown ) { rotate_intent.y += 1.0; }
+            if actions.pressed(&CharacterMovements::LookLeft ) { rotate_intent.x -= 1.0; }
+            if actions.pressed(&CharacterMovements::LookRight) { rotate_intent.x += 1.0; }
 
             // Controller/mouse rotation inputs
-            if let Some(axis_pair) = actions.axis_pair(&RotationMovements::Axis) {
+            if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::LookAxis) {
                 rotate_intent += axis_pair.xy();
             };
 
