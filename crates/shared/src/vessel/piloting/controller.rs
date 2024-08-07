@@ -50,11 +50,6 @@ pub(super) fn vessel_controller_system(
             }
         }
 
-        // Some values for maths we use later on
-        let fwd: Vec3 = transform.forward().into();
-        let rgt: Vec3 = transform.right().into();
-        let up: Vec3 = transform.up().into();
-
         // Translation intent value
         let mut translate_intent = Vec3::ZERO;
 
@@ -64,6 +59,7 @@ pub(super) fn vessel_controller_system(
         translate_intent.z -= actions.clamped_value(&VesselMovements::ForwardThrust);
 
         // Calculate the force to be applied
+        translate_intent *= transform.forward().as_vec3();
         let translate_force = translate_intent * controller.rotation_force;
 
         // Apply the translation force
