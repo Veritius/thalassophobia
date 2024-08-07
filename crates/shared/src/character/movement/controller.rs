@@ -1,4 +1,4 @@
-use bevy::ecs::query::{QueryData as BevyQueryData, QueryFilter as BevyQueryFilter};
+use bevy::ecs::query::QueryData;
 use bevy_rapier3d::{plugin::RapierContext, prelude::*};
 use leafwing_input_manager::prelude::ActionState;
 use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*};
@@ -73,7 +73,7 @@ pub(super) fn controller_grounding_system(
     }
 }
 
-#[derive(BevyQueryData)]
+#[derive(QueryData)]
 #[query_data(mutable)]
 struct MovementSystemQueryData<'w> {
     body_controller: Option<&'w mut PlayerController>,
@@ -87,11 +87,10 @@ struct MovementSystemQueryData<'w> {
     swimming_action_state: Option<&'w ActionState<SwimmingMovements>>,
 }
 
-#[derive(BevyQueryFilter)]
-struct MovementSystemQueryFilter(Or<(
+type MovementSystemQueryFilter = Or<(
     With<PlayerController>,
     With<PlayerControllerHead>,
-)>);
+)>;
 
 pub(super) fn controller_movement_system(
 
