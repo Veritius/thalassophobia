@@ -1,8 +1,8 @@
 use std::{f32::consts::FRAC_PI_2, time::{Duration, Instant}};
 use bevy::ecs::query::QueryData;
 use bevy_rapier3d::{plugin::RapierContext, prelude::*};
-use leafwing_input_manager::prelude::ActionState;
-use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*, state::simulation_running};
+use leafwing_input_manager::{plugin::InputManagerPlugin, prelude::ActionState};
+use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*, state::simulation_running, SetupMode};
 use super::CharacterMovements;
 
 /// The furthest downward the controller can turn.
@@ -17,6 +17,15 @@ pub(crate) struct PlayerControllerPlugin;
 
 impl Plugin for PlayerControllerPlugin {
     fn build(&self, app: &mut App) {
+        match app.world_mut().resource::<SetupMode>() {
+            SetupMode::Full => {
+                app.add_plugins(InputManagerPlugin::<CharacterMovements>::default());
+            },
+            SetupMode::Headless => {
+                app.add_plugins(InputManagerPlugin::<CharacterMovements>::server());
+            },
+        }
+
         app.register_type::<CharacterMovements>();
         app.register_type::<PlayerController>();
         app.register_type::<PlayerControllerHead>();

@@ -12,9 +12,7 @@ pub(crate) struct VesselControllerPlugin;
 
 impl Plugin for VesselControllerPlugin {
     fn build(&self, app: &mut App) {
-        let setup_mode = app.world_mut().resource::<SetupMode>();
-
-        match setup_mode {
+        match app.world_mut().resource::<SetupMode>() {
             SetupMode::Full => {
                 app.add_plugins(InputManagerPlugin::<actions::VesselMovements>::default());
             },
