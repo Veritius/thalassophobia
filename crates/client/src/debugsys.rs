@@ -1,6 +1,6 @@
 #![allow(unused_variables, unused_mut)]
 
-use shared::character::movement::CharacterMovements;
+use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead};
 use shared::{bevy::prelude::*, rapier::prelude::*, progress::*, input::prelude::*};
 use shared::{state::GameState, physics::*};
 use crate::initial::InitialLoading;
@@ -62,8 +62,8 @@ fn loaded_system(
 
     // Character head
     let head = commands.spawn((
-        // PlayerControllerHead,
-        // TransformBundle::from_transform(Transform::from_xyz(0.0, 0.5, 0.0)),
+        PlayerControllerHead::default(),
+        TransformBundle::from_transform(Transform::from_xyz(0.0, 0.5, 0.0)),
         Camera3dBundle {
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..default()
@@ -72,10 +72,7 @@ fn loaded_system(
 
     // Character body
     commands.spawn((
-        // PlayerController {
-        //     head_entity: Some(head),
-        //     ..default()
-        // },
+        PlayerController::new(head),
         TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
         VisibilityBundle::default(),
         InputManagerBundle::with_map(character_controls.0.clone()),

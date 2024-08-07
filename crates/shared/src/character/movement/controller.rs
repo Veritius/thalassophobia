@@ -78,6 +78,31 @@ pub struct PlayerController {
 }
 
 impl PlayerController {
+    pub fn new(head: Entity) -> Self {
+        Self {
+            head,
+
+            state: PlayerControllerState::Grounded,
+
+            rotation_yaw: 0.0,
+
+            base_walk_force: Vec2::splat(4.0),
+            walk_sprint_coefficient: Vec2::splat(1.5),
+            walk_crouch_coefficient: Vec2::splat(0.8),
+
+            base_swim_force: TranslateSet::splat(2.0),
+            swim_sprint_coefficient: TranslateSet::splat(1.3),
+
+            allow_jumping: true,
+            jump_force: 20.0,
+            jump_delay: Duration::from_millis(200),
+            last_jumped: None,
+
+            ground_raycast_len: 1.0,
+            is_touching_ground: true,
+        }
+    }
+
     pub fn reset_jump_timer(&mut self) {
         self.last_jumped = Some(Instant::now());
     }
@@ -88,6 +113,14 @@ impl PlayerController {
 pub struct PlayerControllerHead {
     /// Current rotation (pitch).
     pub rotation_pitch: f32,
+}
+
+impl Default for PlayerControllerHead {
+    fn default() -> Self {
+        Self {
+            rotation_pitch: 0.0,
+        }
+    }
 }
 
 pub(super) fn character_ground_system(
