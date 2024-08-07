@@ -1,7 +1,8 @@
 #![allow(unused_variables, unused_mut)]
 
+use shared::character::movement::CharacterMovements;
 use shared::{bevy::prelude::*, rapier::prelude::*, progress::*, input::prelude::*};
-use shared::{state::GameState, physics::*, controller::*};
+use shared::{state::GameState, physics::*};
 use crate::initial::InitialLoading;
 use crate::settings::ControlSettings;
 
@@ -27,8 +28,7 @@ fn loaded_system(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    rotation_controls: Res<ControlSettings<RotationMovements>>,
-    movement_controls: Res<ControlSettings<SwimmingMovements>>,
+    character_controls: Res<ControlSettings<CharacterMovements>>,
 ) {
     // Set game state to simulating
     commands.add(|world: &mut World| { world.resource_mut::<NextState<GameState>>().set(GameState::Simulating) });
@@ -62,7 +62,7 @@ fn loaded_system(
 
     // Character head
     let head = commands.spawn((
-        PlayerControllerHead,
+        // PlayerControllerHead,
         // TransformBundle::from_transform(Transform::from_xyz(0.0, 0.5, 0.0)),
         Camera3dBundle {
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
@@ -72,14 +72,13 @@ fn loaded_system(
 
     // Character body
     commands.spawn((
-        PlayerController {
-            head_entity: Some(head),
-            ..default()
-        },
+        // PlayerController {
+        //     head_entity: Some(head),
+        //     ..default()
+        // },
         TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
         VisibilityBundle::default(),
-        InputManagerBundle::with_map(rotation_controls.0.clone()),
-        InputManagerBundle::with_map(movement_controls.0.clone()),
+        InputManagerBundle::with_map(character_controls.0.clone()),
         RigidBody::Dynamic,
         Collider::capsule_y(0.5, 0.5),
         CollisionGroups {

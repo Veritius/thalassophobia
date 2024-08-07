@@ -2,7 +2,7 @@ use std::{f32::consts::FRAC_PI_2, time::{Duration, Instant}};
 use bevy::ecs::query::QueryData;
 use bevy_rapier3d::{plugin::RapierContext, prelude::*};
 use leafwing_input_manager::prelude::ActionState;
-use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*};
+use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*, state::simulation_running};
 use super::CharacterMovements;
 
 /// The furthest downward the controller can turn.
@@ -12,6 +12,22 @@ const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
 /// The furthest upward the controller can turn.
 /// Prevents the camera from doing backflips.
 const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
+
+pub(crate) struct PlayerControllerPlugin;
+
+impl Plugin for PlayerControllerPlugin {
+    fn build(&self, app: &mut App) {
+        app.register_type::<CharacterMovements>();
+        app.register_type::<PlayerController>();
+        app.register_type::<PlayerControllerHead>();
+        app.register_type::<PlayerControllerState>();
+
+        app.add_systems(Update, (
+            controller_grounding_system,
+            controller_movement_system,
+        ).chain().run_if(simulation_running()));
+    }
+}
 
 /// The state of a player controller.
 #[derive(Debug, Clone, Copy, Component, PartialEq, Eq, Reflect)]
@@ -138,8 +154,8 @@ type RootAndOrHead = Or<(
 #[allow(private_interfaces)]
 pub(super) fn controller_movement_system(
     mut shared: Query<ControllerSharedQueryData, RootAndOrHead>,
-    mut roots: Query<ControllerRootQueryData>,
-    mut heads: Query<ControllerHeadQueryData>,
+    mut roots: Query<ControllerRootQueryData, Without<Disabled>>,
+    mut heads: Query<ControllerHeadQueryData,>,
 ) {
     for mut root in roots.iter_mut() {
         let actions = root.action_state;

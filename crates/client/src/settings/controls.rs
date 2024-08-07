@@ -1,73 +1,37 @@
 use shared::bevy::prelude::*;
+use shared::character::movement::CharacterMovements;
 use shared::vessel::piloting::VesselMovements;
 use shared::{bevy_ecs, bevy_reflect};
 use shared::input::prelude::*;
-use shared::controller::*;
 
 #[derive(Resource, Reflect)]
 pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);
 
-impl Default for ControlSettings<RotationMovements> {
+impl Default for ControlSettings<CharacterMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(RotationMovements::Axis, DualAxis::mouse_motion());
-        map.insert(RotationMovements::Axis, DualAxis::right_stick());
+        // map.insert(GroundedMovements::Axis, DualAxis::left_stick());
 
-        return Self(map);
-    }
-}
+        // map.insert(GroundedMovements::Forward, KeyCode::KeyW);
+        // map.insert(GroundedMovements::Backward, KeyCode::KeyS);
 
-impl Default for ControlSettings<GroundedMovements> {
-    fn default() -> Self {
-        let mut map = InputMap::default();
+        // map.insert(GroundedMovements::StrafeLeft, KeyCode::KeyA);
+        // map.insert(GroundedMovements::StrafeRight, KeyCode::KeyD);
 
-        map.insert(GroundedMovements::Axis, DualAxis::left_stick());
+        // map.insert(GroundedMovements::LeanLeft, KeyCode::KeyQ);
+        // map.insert(GroundedMovements::LeanLeft, GamepadButtonType::LeftTrigger);
+        // map.insert(GroundedMovements::LeanRight, KeyCode::KeyE);
+        // map.insert(GroundedMovements::LeanRight, GamepadButtonType::RightTrigger);
 
-        map.insert(GroundedMovements::Forward, KeyCode::KeyW);
-        map.insert(GroundedMovements::Backward, KeyCode::KeyS);
+        // map.insert(GroundedMovements::Jump, KeyCode::Space);
+        // map.insert(GroundedMovements::Jump, GamepadButtonType::West);
 
-        map.insert(GroundedMovements::StrafeLeft, KeyCode::KeyA);
-        map.insert(GroundedMovements::StrafeRight, KeyCode::KeyD);
+        // map.insert(GroundedMovements::Crouch, KeyCode::ControlLeft);
+        // map.insert(GroundedMovements::Crouch, GamepadButtonType::South);
 
-        map.insert(GroundedMovements::LeanLeft, KeyCode::KeyQ);
-        map.insert(GroundedMovements::LeanLeft, GamepadButtonType::LeftTrigger);
-        map.insert(GroundedMovements::LeanRight, KeyCode::KeyE);
-        map.insert(GroundedMovements::LeanRight, GamepadButtonType::RightTrigger);
-
-        map.insert(GroundedMovements::Jump, KeyCode::Space);
-        map.insert(GroundedMovements::Jump, GamepadButtonType::West);
-
-        map.insert(GroundedMovements::Crouch, KeyCode::ControlLeft);
-        map.insert(GroundedMovements::Crouch, GamepadButtonType::South);
-
-        map.insert(GroundedMovements::Sprint, KeyCode::ShiftLeft);
-        map.insert(GroundedMovements::Sprint, GamepadButtonType::LeftThumb);
-
-        return Self(map);
-    }
-}
-
-impl Default for ControlSettings<SwimmingMovements> {
-    fn default() -> Self {
-        let mut map = InputMap::default();
-
-        map.insert(SwimmingMovements::Axis, DualAxis::left_stick());
-
-        map.insert(SwimmingMovements::Forward, KeyCode::KeyW);
-        map.insert(SwimmingMovements::Backward, KeyCode::KeyS);
-
-        map.insert(SwimmingMovements::StrafeLeft, KeyCode::KeyA);
-        map.insert(SwimmingMovements::StrafeRight, KeyCode::KeyD);
-
-        map.insert(SwimmingMovements::Ascend, KeyCode::Space);
-        map.insert(SwimmingMovements::Ascend, GamepadButtonType::West);
-
-        map.insert(SwimmingMovements::Descend, KeyCode::ControlLeft);
-        map.insert(SwimmingMovements::Descend, GamepadButtonType::South);
-
-        map.insert(SwimmingMovements::Sprint, KeyCode::ShiftLeft);
-        map.insert(SwimmingMovements::Sprint, GamepadButtonType::LeftThumb);
+        // map.insert(GroundedMovements::Sprint, KeyCode::ShiftLeft);
+        // map.insert(GroundedMovements::Sprint, GamepadButtonType::LeftThumb);
 
         return Self(map);
     }

@@ -1,6 +1,5 @@
 use std::{any::Any, fmt::Debug, ops::{Deref, DerefMut}};
-use shared::{bevy::prelude::*, bevy_ecs, bevy_reflect::{self, GetTypeRegistration}, vessel::piloting::VesselMovements};
-use shared::controller::*;
+use shared::{bevy::prelude::*, bevy_ecs, bevy_reflect::{self, GetTypeRegistration}, character::movement::CharacterMovements, vessel::piloting::VesselMovements};
 
 mod access;
 mod audio;
@@ -39,12 +38,8 @@ impl Plugin for UserSettingsPlugin {
         register::<Flickering>(app);
 
         // Controls settings
-        app.register_type::<ControlSettings<RotationMovements>>();
-        app.init_resource::<ControlSettings<RotationMovements>>();
-        app.register_type::<ControlSettings<GroundedMovements>>();
-        app.init_resource::<ControlSettings<GroundedMovements>>();
-        app.register_type::<ControlSettings<SwimmingMovements>>();
-        app.init_resource::<ControlSettings<SwimmingMovements>>();
+        app.register_type::<ControlSettings<CharacterMovements>>();
+        app.init_resource::<ControlSettings<CharacterMovements>>();
         app.register_type::<ControlSettings<VesselMovements>>();
         app.init_resource::<ControlSettings<VesselMovements>>();
     }
