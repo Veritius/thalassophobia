@@ -3,10 +3,13 @@ use crate::{bevy::prelude::*, math::transform::TranslateSet};
 /// A player character controller.
 #[derive(Debug, Component, Reflect)]
 pub struct PlayerController {
+    /// The head entity.
+    /// 
+    /// This may be the same entity that the `PlayerController` component is attached to.
+    pub head: Entity,
+
     /// Current rotation (yaw).
     pub rotation_yaw: f32,
-    /// Current rotation (pitch).
-    pub rotation_pitch: f32,
 
     /// Base ground movement speed.
     pub base_walk_speed: TranslateSet<f32>,
@@ -22,4 +25,11 @@ pub struct PlayerController {
     pub ground_raycast_len: f32,
     /// Set to `true` when touching an object that it can collide with.
     pub is_touching_ground: bool,
+}
+
+/// The head entity of a [`PlayerController`].
+#[derive(Debug, Component, Reflect)]
+pub struct PlayerControllerHead {
+    /// Current rotation (pitch).
+    pub rotation_pitch: f32,
 }
