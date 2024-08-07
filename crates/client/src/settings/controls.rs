@@ -11,27 +11,46 @@ impl Default for ControlSettings<CharacterMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        map.insert(CharacterMovements::MoveAxis, DualAxis::left_stick());
+        // Mouse turning
+        map.insert(CharacterMovements::Turn, DualAxis::mouse_motion());
 
-        map.insert(CharacterMovements::Forward, KeyCode::KeyW);
-        map.insert(CharacterMovements::Backward, KeyCode::KeyS);
+        // Controller turning
+        map.insert(CharacterMovements::Turn, DualAxis::right_stick());
 
-        map.insert(CharacterMovements::StrafeLeft, KeyCode::KeyA);
-        map.insert(CharacterMovements::StrafeRight, KeyCode::KeyD);
+        // Horizontal keyboard movement
+        map.insert(CharacterMovements::MoveHorizontally, UserInput::VirtualDPad(VirtualDPad {
+            up: InputKind::PhysicalKey(KeyCode::KeyW),
+            down: InputKind::PhysicalKey(KeyCode::KeyS),
+            left: InputKind::PhysicalKey(KeyCode::KeyA),
+            right: InputKind::PhysicalKey(KeyCode::KeyD),
+        }));
 
-        map.insert(CharacterMovements::LeanLeft, KeyCode::KeyQ);
-        map.insert(CharacterMovements::LeanLeft, GamepadButtonType::LeftTrigger);
-        map.insert(CharacterMovements::LeanRight, KeyCode::KeyE);
-        map.insert(CharacterMovements::LeanRight, GamepadButtonType::RightTrigger);
+        // Horizontal controller movement
+        map.insert(CharacterMovements::MoveHorizontally, DualAxis::left_stick());
 
-        map.insert(CharacterMovements::Ascend, KeyCode::Space);
-        map.insert(CharacterMovements::Ascend, GamepadButtonType::West);
+        // Vertical keyboard movement
+        map.insert(CharacterMovements::MoveVertically, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::PhysicalKey(KeyCode::ControlLeft),
+            positive: InputKind::PhysicalKey(KeyCode::Space),
+        }));
 
-        map.insert(CharacterMovements::Descend, KeyCode::ControlLeft);
-        map.insert(CharacterMovements::Descend, GamepadButtonType::South);
+        // Vertical controller movement
+        map.insert(CharacterMovements::MoveVertically, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::GamepadButton(GamepadButtonType::East),
+            positive: InputKind::GamepadButton(GamepadButtonType::South),
+        }));
 
-        map.insert(CharacterMovements::Sprint, KeyCode::ShiftLeft);
-        map.insert(CharacterMovements::Sprint, GamepadButtonType::LeftThumb);
+        // Keyboard leaning
+        map.insert(CharacterMovements::Lean, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::PhysicalKey(KeyCode::KeyQ),
+            positive: InputKind::PhysicalKey(KeyCode::KeyE),
+        }));
+
+        // Controller leaning
+        map.insert(CharacterMovements::Lean, UserInput::VirtualAxis(VirtualAxis {
+            negative: InputKind::GamepadButton(GamepadButtonType::LeftTrigger),
+            positive: InputKind::GamepadButton(GamepadButtonType::RightTrigger),
+        }));
 
         return Self(map);
     }

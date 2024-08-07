@@ -5,50 +5,18 @@ use crate::input::Actionlike;
 #[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum CharacterMovements {
     /// Axis input for pitching and yawing.
-    LookAxis,
-
-    /// Button input to pitch up.
-    LookUp,
-
-    /// Button input to pitch down.
-    LookDown,
-
-    /// Button input to turn left.
-    LookLeft,
-
-    /// Button input to turn right.
-    LookRight,
+    Turn,
 
     /// Axis input for horizontal movement (X and Z)
-    MoveAxis,
-
-    /// Button input to move forward.
-    Forward,
-
-    /// Button input to move backward.
-    Backward,
-
-    /// Button input to move to the left.
-    StrafeLeft,
-
-    /// Button input to move to the right.
-    StrafeRight,
-
-    /// Button input to lean to the left.
-    LeanLeft,
-
-    /// Button input to lean to the right.
-    LeanRight,
+    MoveHorizontally,
 
     /// Button input to:
     /// - Jump if standing
     /// - Swim up if floating
-    Ascend,
+    MoveVertically,
 
-    /// Button input to:
-    /// - Crouch if standing
-    /// - Swim down if floating
-    Descend,
+    /// Button input to lean to the left.
+    Lean,
 
     /// Button input to vault, attempting to climb nearby objects.
     /// 

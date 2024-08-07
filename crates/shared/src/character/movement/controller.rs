@@ -169,13 +169,13 @@ pub(super) fn controller_movement_system(
             let mut rotate_intent = Vec2::ZERO;
 
             // Keyboard rotation inputs
-            if actions.pressed(&CharacterMovements::LookUp   ) { rotate_intent.y -= 1.0; }
-            if actions.pressed(&CharacterMovements::LookDown ) { rotate_intent.y += 1.0; }
-            if actions.pressed(&CharacterMovements::LookLeft ) { rotate_intent.x -= 1.0; }
-            if actions.pressed(&CharacterMovements::LookRight) { rotate_intent.x += 1.0; }
+            // if actions.pressed(&CharacterMovements::LookUp   ) { rotate_intent.y -= 1.0; }
+            // if actions.pressed(&CharacterMovements::LookDown ) { rotate_intent.y += 1.0; }
+            // if actions.pressed(&CharacterMovements::LookLeft ) { rotate_intent.x -= 1.0; }
+            // if actions.pressed(&CharacterMovements::LookRight) { rotate_intent.x += 1.0; }
 
             // Controller/mouse rotation inputs
-            if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::LookAxis) {
+            if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::Turn) {
                 rotate_intent += axis_pair.xy();
             };
 
@@ -234,17 +234,17 @@ pub(super) fn controller_movement_system(
             let sprinting = actions.pressed(&CharacterMovements::Sprint);
 
             // Keyboard movement inputs
-            if actions.pressed(&CharacterMovements::Forward     ) { horizontal_intent.x -= 1.0; }
-            if actions.pressed(&CharacterMovements::Backward    ) { horizontal_intent.x += 1.0; }
-            if actions.pressed(&CharacterMovements::StrafeRight ) { horizontal_intent.y += 1.0; }
-            if actions.pressed(&CharacterMovements::StrafeLeft  ) { horizontal_intent.y -= 1.0; }
-            if actions.pressed(&CharacterMovements::Ascend      ) { vertical_intent += 1.0;     }
-            if actions.pressed(&CharacterMovements::Descend     ) { vertical_intent -= 1.0;     }
+            // if actions.pressed(&CharacterMovements::Forward     ) { horizontal_intent.x -= 1.0; }
+            // if actions.pressed(&CharacterMovements::Backward    ) { horizontal_intent.x += 1.0; }
+            // if actions.pressed(&CharacterMovements::StrafeRight ) { horizontal_intent.y += 1.0; }
+            // if actions.pressed(&CharacterMovements::StrafeLeft  ) { horizontal_intent.y -= 1.0; }
+            // if actions.pressed(&CharacterMovements::Ascend      ) { vertical_intent += 1.0;     }
+            // if actions.pressed(&CharacterMovements::Descend     ) { vertical_intent -= 1.0;     }
 
             // Controller movement inputs
-            if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::MoveAxis) {
-                horizontal_intent += axis_pair.xy();
-            }
+            // if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::MoveAxis) {
+            //     horizontal_intent += axis_pair.xy();
+            // }
 
             // Get the entity's translation value
             let shared = match shared.get(root.entity) {
