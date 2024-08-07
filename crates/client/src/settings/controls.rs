@@ -11,27 +11,27 @@ impl Default for ControlSettings<CharacterMovements> {
     fn default() -> Self {
         let mut map = InputMap::default();
 
-        // map.insert(GroundedMovements::Axis, DualAxis::left_stick());
+        map.insert(CharacterMovements::MoveAxis, DualAxis::left_stick());
 
-        // map.insert(GroundedMovements::Forward, KeyCode::KeyW);
-        // map.insert(GroundedMovements::Backward, KeyCode::KeyS);
+        map.insert(CharacterMovements::Forward, KeyCode::KeyW);
+        map.insert(CharacterMovements::Backward, KeyCode::KeyS);
 
-        // map.insert(GroundedMovements::StrafeLeft, KeyCode::KeyA);
-        // map.insert(GroundedMovements::StrafeRight, KeyCode::KeyD);
+        map.insert(CharacterMovements::StrafeLeft, KeyCode::KeyA);
+        map.insert(CharacterMovements::StrafeRight, KeyCode::KeyD);
 
-        // map.insert(GroundedMovements::LeanLeft, KeyCode::KeyQ);
-        // map.insert(GroundedMovements::LeanLeft, GamepadButtonType::LeftTrigger);
-        // map.insert(GroundedMovements::LeanRight, KeyCode::KeyE);
-        // map.insert(GroundedMovements::LeanRight, GamepadButtonType::RightTrigger);
+        map.insert(CharacterMovements::LeanLeft, KeyCode::KeyQ);
+        map.insert(CharacterMovements::LeanLeft, GamepadButtonType::LeftTrigger);
+        map.insert(CharacterMovements::LeanRight, KeyCode::KeyE);
+        map.insert(CharacterMovements::LeanRight, GamepadButtonType::RightTrigger);
 
-        // map.insert(GroundedMovements::Jump, KeyCode::Space);
-        // map.insert(GroundedMovements::Jump, GamepadButtonType::West);
+        map.insert(CharacterMovements::Ascend, KeyCode::Space);
+        map.insert(CharacterMovements::Ascend, GamepadButtonType::West);
 
-        // map.insert(GroundedMovements::Crouch, KeyCode::ControlLeft);
-        // map.insert(GroundedMovements::Crouch, GamepadButtonType::South);
+        map.insert(CharacterMovements::Descend, KeyCode::ControlLeft);
+        map.insert(CharacterMovements::Descend, GamepadButtonType::South);
 
-        // map.insert(GroundedMovements::Sprint, KeyCode::ShiftLeft);
-        // map.insert(GroundedMovements::Sprint, GamepadButtonType::LeftThumb);
+        map.insert(CharacterMovements::Sprint, KeyCode::ShiftLeft);
+        map.insert(CharacterMovements::Sprint, GamepadButtonType::LeftThumb);
 
         return Self(map);
     }
