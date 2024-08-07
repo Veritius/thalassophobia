@@ -185,29 +185,24 @@ pub(super) fn controller_movement_system(
 
         // Handle horizontal movement inputs
         {
-            // Intent vector to sum up inputs
-            let mut move_intent = Vec3::default();
+            // Intent vectors to sum up inputs
+            let mut horizontal_intent = Vec2::default();
+            let mut vertical_intent = 0.0;
 
             // TODO: Make sprinting and crouching toggleable
             let sprinting = actions.pressed(&CharacterMovements::Sprint);
 
             // Keyboard movement inputs
-            if actions.pressed(&CharacterMovements::Forward     ) { move_intent.z -= 1.0; }
-            if actions.pressed(&CharacterMovements::Backward    ) { move_intent.z += 1.0; }
-            if actions.pressed(&CharacterMovements::StrafeRight ) { move_intent.x += 1.0; }
-            if actions.pressed(&CharacterMovements::StrafeLeft  ) { move_intent.x -= 1.0; }
-            if actions.pressed(&CharacterMovements::Ascend      ) { move_intent.y += 1.0; }
-            if actions.pressed(&CharacterMovements::Descend     ) { move_intent.y -= 1.0; }
+            if actions.pressed(&CharacterMovements::Forward     ) { horizontal_intent.x -= 1.0; }
+            if actions.pressed(&CharacterMovements::Backward    ) { horizontal_intent.x += 1.0; }
+            if actions.pressed(&CharacterMovements::StrafeRight ) { horizontal_intent.y += 1.0; }
+            if actions.pressed(&CharacterMovements::StrafeLeft  ) { horizontal_intent.y -= 1.0; }
+            if actions.pressed(&CharacterMovements::Ascend      ) { vertical_intent += 1.0;     }
+            if actions.pressed(&CharacterMovements::Descend     ) { vertical_intent -= 1.0;     }
 
             // Controller movement inputs
             if let Some(axis_pair) = actions.axis_pair(&CharacterMovements::MoveAxis) {
-                let axis = axis_pair.xy();
-
-                move_intent += Vec3 {
-                    x: axis.x,
-                    y: 0.0,
-                    z: axis.y,
-                };
+                horizontal_intent += axis_pair.xy();
             }
 
             // Get the entity's translation value
@@ -215,6 +210,10 @@ pub(super) fn controller_movement_system(
                 Ok(shared) => shared,
                 Err(_) => todo!(),
             };
+
+            // Put the two intents together to get the movement direction
+            let mut move_direction = horizontal_intent.normalize_or_zero().extend(0.0) * shared.transform.forward().as_vec3();
+            move_direction.y = (move_direction.y + vertical_intent).clamp(-1.0, 1.0);
 
             todo!()
         }
