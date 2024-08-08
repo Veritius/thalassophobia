@@ -336,10 +336,6 @@ fn character_controller_system(
                 },
 
                 PlayerControllerState::Floating => {
-                    // Put the two intents together to get the movement direction
-                    let mut move_direction = horizontal_intent.normalize_or_zero().extend(0.0).xzy() * shared.transform.forward().as_vec3();
-                    move_direction.y = (move_direction.y + vertical_intent).clamp(-1.0, 1.0);
-
                     // Movement speed coefficient
                     let coefficient = match sprinting {
                         true => root.body_controller.swim_sprint_coefficient,
@@ -347,7 +343,7 @@ fn character_controller_system(
                     };
 
                     // Calculate the force for the movement
-                    let move_force = move_direction * root.body_controller.base_swim_force * coefficient;
+                    let move_force = horizontal_intent.extend(vertical_intent).xzy() * root.body_controller.base_swim_force * coefficient;
 
                     // Apply the physics impulse
                     if let Some(mut impulse) = root.impulse {
