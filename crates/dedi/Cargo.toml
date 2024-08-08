@@ -1,13 +1,13 @@
 [package]
-name = "thalassophobia_server"
+name = "thalassophobia_dedi"
 version = "0.1.0"
 edition = "2021"
 authors = ["veritius <veritiusgaming@gmail.com>"]
 
-[lib]
-crate-type = ["dylib"]
-
 [dependencies.shared]
 package = "thalassophobia_shared"
 path = "../shared"
-features = ["multiplayer"]
+
+[dependencies.server]
+package = "thalassophobia_server"
+path = "../server"
