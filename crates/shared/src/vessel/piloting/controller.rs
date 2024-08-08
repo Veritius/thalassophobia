@@ -5,7 +5,8 @@ use crate::{disabling::Disabled, math::transform::TranslateSet};
 use super::VesselMovements;
 
 /// A controller for a submarine.
-#[derive(Debug, Component, Reflect)]
+#[derive(Debug, Clone, Component, Reflect)]
+#[reflect(from_reflect = false, Component)]
 pub struct VesselController {
     /// The maximum amount of force that can be applied to translate the vessel.
     pub translate_force: TranslateSet<f32>,

@@ -48,7 +48,8 @@ pub enum PlayerControllerState {
 }
 
 /// A player character controller.
-#[derive(Debug, Component, Reflect)]
+#[derive(Debug, Clone, Component, Reflect)]
+#[reflect(from_reflect = false, Component)]
 pub struct PlayerController {
     /// The head entity.
     /// 
@@ -120,7 +121,8 @@ impl PlayerController {
 }
 
 /// The head entity of a [`PlayerController`].
-#[derive(Debug, Component, Reflect)]
+#[derive(Debug, Clone, Component, Reflect)]
+#[reflect(from_reflect = false, Component)]
 pub struct PlayerControllerHead {
     /// Current rotation (pitch).
     pub rotation_pitch: f32,
