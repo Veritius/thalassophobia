@@ -13,8 +13,7 @@ fn main() {
     // Create app and add shared setup
     let mut app = App::new();
     app.add_plugins(DefaultPlugins);
-    app.insert_resource(SetupMode::Full);
-    shared::pre_setup(&mut app);
+    shared::setup(&mut app, SetupMode::Full);
 
     // Client subsystems
     app.add_plugins(escape::EscapeMenuPlugin);
@@ -27,7 +26,6 @@ fn main() {
 
     app.add_plugins(debugsys::DebugSystemsPlugin);
 
-    // Final shared setup and run app
-    shared::post_setup(&mut app);
+    // Run the client
     app.run();
 }

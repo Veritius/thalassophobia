@@ -8,11 +8,13 @@ use bevy::prelude::*;
 use controller::VesselController;
 use crate::{input::plugin::InputManagerPlugin, state::simulation_running, SetupMode};
 
-pub(crate) struct VesselControllerPlugin;
+pub(crate) struct VesselControllerPlugin {
+    pub mode: SetupMode,
+}
 
 impl Plugin for VesselControllerPlugin {
     fn build(&self, app: &mut App) {
-        match app.world_mut().resource::<SetupMode>() {
+        match self.mode {
             SetupMode::Full => {
                 app.add_plugins(InputManagerPlugin::<actions::VesselMovements>::default());
             },

@@ -13,11 +13,13 @@ const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
 /// Prevents the camera from doing backflips.
 const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 
-pub(crate) struct PlayerControllerPlugin;
+pub(crate) struct PlayerControllerPlugin {
+    pub mode: SetupMode,
+}
 
 impl Plugin for PlayerControllerPlugin {
     fn build(&self, app: &mut App) {
-        match app.world_mut().resource::<SetupMode>() {
+        match self.mode {
             SetupMode::Full => {
                 app.add_plugins(InputManagerPlugin::<CharacterMovements>::default());
             },

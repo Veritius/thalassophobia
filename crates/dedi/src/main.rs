@@ -4,15 +4,8 @@ fn main() {
     // Create app and add shared setup
     let mut app = App::new();
     app.add_plugins(MinimalPlugins);
-    app.insert_resource(SetupMode::Headless);
-    shared::pre_setup(&mut app);
+    shared::setup(&mut app, SetupMode::Headless);
 
-    // Client subsystems
-    /*
-        Nothing yet.
-    */
-
-    // Final shared setup and run app
-    shared::post_setup(&mut app);
+    // Run the server
     app.run();
 }

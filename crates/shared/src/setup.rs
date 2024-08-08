@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 
-#[derive(Resource, Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum SetupMode {
     Full,
     Headless,
 }
 
-pub fn pre_setup(app: &mut App) {
+pub fn setup(app: &mut App, mode: SetupMode) {
     // Physics engine
     app.add_plugins(crate::rapier::plugin::RapierPhysicsPlugin::<()>::default());
     #[cfg(feature="phys_debug")]
@@ -18,14 +18,9 @@ pub fn pre_setup(app: &mut App) {
 
     // Subsystem plugins
     app.add_plugins(crate::campaign::CampaignPlugin);
-    app.add_plugins(crate::character::movement::PlayerControllerPlugin);
+    app.add_plugins(crate::character::movement::PlayerControllerPlugin { mode });
     app.add_plugins(crate::disabling::DisablingPlugin);
     app.add_plugins(crate::package::ContentPackagesPlugin);
     app.add_plugins(crate::state::GameStatePlugin);
-    app.add_plugins(crate::vessel::piloting::VesselControllerPlugin);
-}
-
-pub fn post_setup(app: &mut App) {
-    // Remove setup mode resource
-    app.world_mut().remove_resource::<SetupMode>();
+    app.add_plugins(crate::vessel::piloting::VesselControllerPlugin { mode });
 }
