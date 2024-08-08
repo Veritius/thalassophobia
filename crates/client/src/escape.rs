@@ -1,4 +1,4 @@
-use shared::{bevy::{prelude::*, window::{CursorGrabMode, PrimaryWindow}}, bevy_ecs, bevy_state, input::prelude::*, controller::*};
+use shared::{bevy::{prelude::*, window::{CursorGrabMode, PrimaryWindow}}, bevy_ecs, bevy_state, character::movement::CharacterMovements, input::prelude::*};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, States)]
 pub enum Escaped {
@@ -49,9 +49,7 @@ fn on_escape(
     primary_window.cursor.visible = true;
 
     // Disable movement inputs
-    commands.insert_resource(ToggleActions::<RotationMovements>::DISABLED);
-    commands.insert_resource(ToggleActions::<GroundedMovements>::DISABLED);
-    commands.insert_resource(ToggleActions::<SwimmingMovements>::DISABLED);
+    commands.insert_resource(ToggleActions::<CharacterMovements>::DISABLED);
 
     // Spawn some text saying the game is paused
     let font_handle = assets.load("fonts/FiraSans-Medium.ttf");
@@ -99,9 +97,7 @@ fn on_reenter(
     primary_window.cursor.visible = false;
 
     // Enable movement inputs
-    commands.insert_resource(ToggleActions::<RotationMovements>::ENABLED);
-    commands.insert_resource(ToggleActions::<GroundedMovements>::ENABLED);
-    commands.insert_resource(ToggleActions::<SwimmingMovements>::ENABLED);
+    commands.insert_resource(ToggleActions::<CharacterMovements>::ENABLED);
 
     // Despawn the escape menu ui
     if let Ok(entity) = ui_root_query.get_single() {

@@ -15,7 +15,7 @@ mod setup;
 pub use setup::*;
 
 pub mod campaign;
-pub mod controller;
+pub mod character;
 pub mod disabling;
 pub mod living;
 pub mod math;
