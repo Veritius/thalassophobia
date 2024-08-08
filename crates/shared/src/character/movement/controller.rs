@@ -292,12 +292,6 @@ fn character_controller_system(
             // TODO: Make sprinting and crouching toggleable
             let sprinting = actions.pressed(&CharacterMovements::Sprint);
 
-            // Get the entity's translation value
-            let shared = match shared.get(root.entity) {
-                Ok(shared) => shared,
-                Err(_) => todo!(),
-            };
-
             match root.body_controller.state {
                 PlayerControllerState::Grounded => {
                     // Basic movement force calculation
