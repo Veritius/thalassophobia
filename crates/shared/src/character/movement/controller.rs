@@ -260,16 +260,27 @@ fn character_controller_system(
         // Handle horizontal movement inputs
         'position: {
             // Base horizontal intent constructed from movement values
-            let horizontal_intent = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally)
+            let horizontal_inputs = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally)
                 .map(|v| v.xy())
                 .unwrap_or(Vec2::ZERO);
 
-            // If the overall length is greater than 1.0, normalise it
-            // This lets us have fine control over movement while still
-            // avoiding the problem of players walking diagonally to move faster
-            let horizontal_intent = match horizontal_intent.length() > 1.0 {
-                true => horizontal_intent.normalize_or_zero(),
-                false => horizontal_intent,
+            // Constrain the magnitude to 1.0 to prevent a movement exploit
+            // that gives greater horizontal speed when moving diagonally
+            let input_magnitude = horizontal_inputs.length().min(1.0);
+
+            // Calculate the angle the player is trying to move in
+            let input_angle = f32::atan2(
+                horizontal_inputs.y * -1.0, // Forward is -Z in Bevy
+                horizontal_inputs.x,
+            );
+
+            // Calculate overall direction of movement, this lets us
+            let intent_angle = input_angle + root.body_controller.rotation_yaw;
+
+            // Create the horizontal intent vector from the angle and magnitude
+            let horizontal_intent = Vec2 {
+                x: intent_angle.cos() * input_magnitude,
+                y: intent_angle.sin() * input_magnitude,
             };
 
             // Value is automatically brought within bounds by Leafwing
