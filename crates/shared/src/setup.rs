@@ -16,6 +16,9 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     #[cfg(feature="multiplayer")]
     app.add_plugins(crate::multiplayer::MultiplayerPlugin);
 
+    // Custom schedules
+    app.add_plugins(crate::schedules::SimulationSchedulesPlugin);
+
     // Subsystem plugins
     app.add_plugins(crate::campaign::CampaignPlugin);
     app.add_plugins(crate::character::movement::PlayerControllerPlugin { mode });
