@@ -7,7 +7,7 @@ pub enum VesselMovements {
     /// Single-axis input for forward engine thrust.
     ForwardThrust,
 
-    /// Single-axis input for backward engine thrust.
+    /// Single-axis input for sideways engine thrust.
     SideThrust,
 
     /// Single-axis input for vertical movement.
