@@ -4,6 +4,16 @@ use shared::vessel::piloting::VesselMovements;
 use shared::{bevy_ecs, bevy_reflect};
 use shared::input::prelude::*;
 
+/// Mouse sensitivity configuration.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub struct MouseSensitivity {
+    /// Horizontal (left-right) sensitivity coefficient.
+    pub horizontal: f32,
+
+    /// Vertical (up-down) sensitivity coefficient.
+    pub vertical: f32,
+}
+
 #[derive(Resource, Reflect)]
 pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);
 
