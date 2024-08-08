@@ -91,15 +91,15 @@ impl PlayerController {
         Self {
             head,
 
-            state: PlayerControllerState::Grounded,
+            state: PlayerControllerState::Floating,
 
             rotation_yaw: 0.0,
 
-            base_walk_force: Vec2::splat(4.0),
+            base_walk_force: Vec2::splat(1.0),
             walk_sprint_coefficient: Vec2::splat(1.5),
             walk_crouch_coefficient: Vec2::splat(0.8),
 
-            base_swim_force: TranslateSet::splat(2.0),
+            base_swim_force: TranslateSet::splat(0.6),
             swim_sprint_coefficient: TranslateSet::splat(1.3),
 
             allow_jumping: true,
@@ -208,7 +208,7 @@ fn character_controller_system(
 
             // Intent vector to sum up inputs
             let rotate_intent = match actions.axis_pair(&CharacterMovements::Turn) {
-                Some(axis) => axis.xy(),
+                Some(axis) => axis.xy() * Vec2::splat(0.01),
                 None => break 'rotation,
             };
 
