@@ -1,11 +1,11 @@
 use shared::{bevy::prelude::*, SetupMode};
 
 fn main() {
-    // Create app and add shared setup
+    // Create app and do shared setup
     let mut app = App::new();
-    app.add_plugins(MinimalPlugins);
+    app.add_plugins(DefaultPlugins);
     shared::setup(&mut app, SetupMode::Headless);
 
-    // Run the server
+    // Run the app
     app.run();
 }
