@@ -6,7 +6,7 @@ pub use actions::*;
 
 use bevy::prelude::*;
 use controller::VesselController;
-use crate::{input::plugin::InputManagerPlugin, state::simulation_running, SetupMode};
+use crate::{input::plugin::InputManagerPlugin, schedules::SimulationUpdate, SetupMode};
 
 pub(crate) struct VesselControllerPlugin {
     pub mode: SetupMode,
@@ -25,7 +25,6 @@ impl Plugin for VesselControllerPlugin {
 
         app.register_type::<VesselController>();
 
-        app.add_systems(Update, controller::vessel_controller_system
-            .run_if(simulation_running()));
+        app.add_systems(SimulationUpdate, controller::vessel_controller_system);
     }
 }

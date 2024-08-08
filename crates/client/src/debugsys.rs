@@ -1,8 +1,9 @@
 #![allow(unused_variables, unused_mut)]
 
 use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead};
+use shared::schedules::Simulating;
 use shared::{bevy::prelude::*, rapier::prelude::*, progress::*, input::prelude::*};
-use shared::{state::GameState, physics::*};
+use shared::physics::*;
 use crate::initial::InitialLoading;
 use crate::settings::ControlSettings;
 
@@ -26,12 +27,13 @@ fn startup_system(
 
 fn loaded_system(
     mut commands: Commands,
+    mut state: ResMut<Simulating>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     character_controls: Res<ControlSettings<CharacterMovements>>,
 ) {
     // Set game state to simulating
-    commands.add(|world: &mut World| { world.resource_mut::<NextState<GameState>>().set(GameState::Simulating) });
+    *state = Simulating::Enabled;
 
     // Spawn the floor
     commands.spawn(PbrBundle {

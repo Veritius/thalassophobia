@@ -22,7 +22,6 @@ pub mod math;
 pub mod package;
 pub mod physics;
 pub mod schedules;
-pub mod state;
 pub mod structure;
 pub mod vessel;
 
