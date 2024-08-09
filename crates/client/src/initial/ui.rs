@@ -1,3 +1,4 @@
+use shared::bevy::color::palettes::tailwind::{LIME_600, NEUTRAL_400, NEUTRAL_700};
 use shared::bevy::prelude::*;
 use shared::bevy_ecs;
 use shared::progress::OverallProgress;
@@ -27,7 +28,7 @@ pub(super) fn spawn_loading_screen(
     .spawn((
         InitialLoadingUiElement,
         NodeBundle {
-            background_color: BackgroundColor::DEFAULT, // TODO: Make DARK_GRAY
+            background_color: BackgroundColor::from(NEUTRAL_700),
             style: Style {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
@@ -63,7 +64,7 @@ pub(super) fn spawn_loading_screen(
 
             // Loading bar back
             parent.spawn(NodeBundle {
-                background_color: BackgroundColor::DEFAULT, // TODO: Make GRAY
+                background_color: BackgroundColor::from(NEUTRAL_400),
                 style: Style {
                     margin: UiRect {
                         top: Val::Px(12.0),
@@ -80,7 +81,7 @@ pub(super) fn spawn_loading_screen(
                 parent.spawn((
                     InitialLoadingUiBar,
                     NodeBundle {
-                        background_color: BackgroundColor::DEFAULT, // TODO: Make LIME_GREEN
+                        background_color: BackgroundColor::from(LIME_600),
                         style: Style {
                             height: Val::Percent(100.0),
                             ..default()
