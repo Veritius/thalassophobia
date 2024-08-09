@@ -1,8 +1,10 @@
+use leafwing_input_manager::InputControlKind;
+
 use crate::bevy::prelude::*;
 use crate::input::Actionlike;
 
 /// Movements that can be made by a player character.
-#[derive(Actionlike, PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, Reflect)]
 pub enum CharacterMovements {
     /// Dual-axis input for horizontal movement.
     MoveHorizontally,
@@ -24,4 +26,17 @@ pub enum CharacterMovements {
 
     /// Button input (toggle or hold) to move faster.
     Sprint,
+}
+
+impl Actionlike for CharacterMovements {
+    fn input_control_kind(&self) -> leafwing_input_manager::InputControlKind {
+        match self {
+            CharacterMovements::MoveHorizontally => InputControlKind::Axis,
+            CharacterMovements::MoveVertically => InputControlKind::Axis,
+            CharacterMovements::Turn => InputControlKind::Axis,
+            CharacterMovements::Lean => InputControlKind::Axis,
+            CharacterMovements::Vault => InputControlKind::Button,
+            CharacterMovements::Sprint => InputControlKind::Button,
+        }
+    }
 }
