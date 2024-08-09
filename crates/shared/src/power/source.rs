@@ -2,8 +2,8 @@ use crate::prelude::*;
 use super::Joule;
 
 /// A source of electricity.
-#[derive(Debug, Default, Clone, Component, Reflect)]
-#[reflect(Component)]
+#[derive(Debug, Default, Clone, Component, Reflect, Serialize, Deserialize)]
+#[reflect(Component, Serialize, Deserialize)]
 pub struct PowerSource {
     /// The amount of energy the power source supplies.
     pub supply: Joule,

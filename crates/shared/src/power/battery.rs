@@ -2,8 +2,8 @@ use crate::prelude::*;
 use super::Joule;
 
 /// A device that stores electricity.
-#[derive(Debug, Default, Clone, Component, Reflect)]
-#[reflect(Component)]
+#[derive(Debug, Default, Clone, Component, Reflect, Serialize, Deserialize)]
+#[reflect(Component, Serialize, Deserialize)]
 pub struct Battery {
     /// The amount of currently stored energy.
     pub stored: Joule,

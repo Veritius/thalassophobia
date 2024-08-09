@@ -2,7 +2,8 @@ use std::ops::{Add, Div, Mul, Sub};
 use crate::prelude::*;
 
 /// A measure of electrical energy.
-#[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd, Hash, Reflect)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd, Hash, Reflect, Serialize, Deserialize)]
+#[reflect(Serialize, Deserialize)]
 pub struct Joule(u32);
 
 impl From<u32> for Joule {
