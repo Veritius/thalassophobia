@@ -31,9 +31,9 @@ pub enum CharacterMovements {
 impl Actionlike for CharacterMovements {
     fn input_control_kind(&self) -> InputControlKind {
         match self {
-            CharacterMovements::MoveHorizontally => InputControlKind::Axis,
+            CharacterMovements::MoveHorizontally => InputControlKind::DualAxis,
             CharacterMovements::MoveVertically => InputControlKind::Axis,
-            CharacterMovements::Turn => InputControlKind::Axis,
+            CharacterMovements::Turn => InputControlKind::DualAxis,
             CharacterMovements::Lean => InputControlKind::Axis,
             CharacterMovements::Vault => InputControlKind::Button,
             CharacterMovements::Sprint => InputControlKind::Button,
