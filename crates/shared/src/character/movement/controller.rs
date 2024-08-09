@@ -1,8 +1,9 @@
 use std::{f32::consts::FRAC_PI_2, time::{Duration, Instant}};
-use bevy::ecs::query::QueryData;
-use bevy_rapier3d::{plugin::RapierContext, prelude::*};
-use leafwing_input_manager::{plugin::InputManagerPlugin, prelude::ActionState};
-use crate::{bevy::prelude::*, disabling::Disabled, math::transform::TranslateSet, physics::*, schedules::SimulationUpdate, SetupMode};
+use bevy_ecs::query::QueryData;
+use leafwing_input_manager::plugin::InputManagerPlugin;
+
+use crate::{math::transform::TranslateSet, prelude::*, SetupMode};
+
 use super::CharacterMovements;
 
 /// The furthest downward the controller can turn.
@@ -140,37 +141,37 @@ impl Default for PlayerControllerHead {
 }
 
 pub(super) fn character_ground_system(
-    rapier_context: Res<RapierContext>,
-    // We can't filter out entities that haven't changed positions, since we can't account for other entities changing position.
-    mut controllers: Query<(Entity, &mut PlayerController, &GlobalTransform, Option<&CollisionGroups>), Without<Disabled>>,
+    // rapier_context: Res<RapierContext>,
+    // // We can't filter out entities that haven't changed positions, since we can't account for other entities changing position.
+    // mut controllers: Query<(Entity, &mut PlayerController, &GlobalTransform, Option<&CollisionGroups>), Without<Disabled>>,
 ) {
-    for (entity, mut controller, transform, groups) in controllers.iter_mut() {
-        // Get membership data from a component if present, otherwise use a default
-        let group = if let Some(groups) = groups {
-            groups.clone()
-        } else {
-            // Default collision group
-            CollisionGroups {
-                memberships: PHYS_GROUP_CHARACTER,
-                filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE
-            }
-        };
+    // for (entity, mut controller, transform, groups) in controllers.iter_mut() {
+    //     // Get membership data from a component if present, otherwise use a default
+    //     let group = if let Some(groups) = groups {
+    //         groups.clone()
+    //     } else {
+    //         // Default collision group
+    //         CollisionGroups {
+    //             memberships: PHYS_GROUP_CHARACTER,
+    //             filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE
+    //         }
+    //     };
 
-        // Cast a ray to see if there's anything below us to jump off of
-        let raycast = rapier_context.cast_ray(
-            transform.translation(),
-            Vec3::NEG_Y,
-            controller.ground_raycast_len,
-            false,
-            QueryFilter::default().exclude_collider(entity).groups(group),
-        );
+    //     // Cast a ray to see if there's anything below us to jump off of
+    //     let raycast = rapier_context.cast_ray(
+    //         transform.translation(),
+    //         Vec3::NEG_Y,
+    //         controller.ground_raycast_len,
+    //         false,
+    //         QueryFilter::default().exclude_collider(entity).groups(group),
+    //     );
 
-        // Apply the raycast result to the controller
-        match raycast {
-            Some(_) => { controller.is_touching_ground = true; },
-            None => { controller.is_touching_ground = false; },
-        }
-    }
+    //     // Apply the raycast result to the controller
+    //     match raycast {
+    //         Some(_) => { controller.is_touching_ground = true; },
+    //         None => { controller.is_touching_ground = false; },
+    //     }
+    // }
 }
 
 #[derive(QueryData)]
@@ -186,7 +187,7 @@ struct ControllerRootQueryData<'w> {
     body_controller: &'w mut PlayerController,
     action_state: &'w ActionState<CharacterMovements>,
 
-    impulse: Option<&'w mut ExternalImpulse>,
+    forces: Option<&'w mut ExternalForce>,
 }
 
 #[derive(QueryData)]
@@ -331,8 +332,8 @@ fn character_controller_system(
                     }
 
                     // Apply the physics impulse
-                    if let Some(mut impulse) = root.impulse {
-                        impulse.impulse += move_force;
+                    if let Some(mut forces) = root.forces {
+                        forces.apply_force(move_force);
                     }
                 },
 
@@ -347,8 +348,8 @@ fn character_controller_system(
                     let move_force = horizontal_intent.extend(vertical_intent).xzy() * root.body_controller.base_swim_force * coefficient;
 
                     // Apply the physics impulse
-                    if let Some(mut impulse) = root.impulse {
-                        impulse.impulse += move_force;
+                    if let Some(mut forces) = root.forces {
+                        forces.apply_force(move_force);
                     }
                 },
             }

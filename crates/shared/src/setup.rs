@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use crate::prelude::*;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum SetupMode {
@@ -8,9 +9,7 @@ pub enum SetupMode {
 
 pub fn setup(app: &mut App, mode: SetupMode) {
     // Physics engine
-    app.add_plugins(crate::rapier::plugin::RapierPhysicsPlugin::<()>::default());
-    #[cfg(feature="phys_debug")]
-    app.add_plugins(crate::rapier::render::RapierDebugRenderPlugin::default());
+    app.add_plugins(crate::avian::PhysicsPlugins::new(SimulationUpdate));
 
     // Multiplayer (added before subsystems)
     #[cfg(feature="multiplayer")]

@@ -17,9 +17,8 @@ features = [
     "bevy_state"
 ]
 
-[dependencies.bevy_rapier3d]
-version = "0.27"
-features = ["parallel"]
+[dependencies.avian3d]
+version = "0.1"
 
 [dependencies.leafwing-input-manager]
 version = "0.15"
@@ -53,6 +52,7 @@ version = "1.1"
 default = [
     "bevy_dylib"
 ]
+
 render = [
     "bevy/bevy_audio",
     "bevy/bevy_core_pipeline",
@@ -68,12 +68,14 @@ render = [
     "bevy/vorbis",
     "bevy/x11"
 ]
+
 gizmos = [
     "render",
     "bevy/bevy_gizmos"
 ]
+
 multiplayer = [
     "bevy_stardust"
 ]
-phys_debug = ["bevy_rapier3d/debug-render"]
+
 bevy_dylib = ["bevy/dynamic_linking"]

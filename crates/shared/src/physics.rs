@@ -1,9 +1,19 @@
-use crate::rapier::{geometry::Group, dynamics::Dominance};
+pub use crate::avian::prelude::*;
 
-pub const PHYS_GROUP_TERRAIN:   Group = Group::GROUP_1;
-pub const PHYS_GROUP_STRUCTURE: Group = Group::GROUP_2;
-pub const PHYS_GROUP_CHARACTER: Group = Group::GROUP_3;
+pub const PHYS_LAYER_TERRAIN:   LayerMask = LayerMask(1);
+pub const PHYS_LAYER_STRUCTURE: LayerMask = LayerMask(2);
+pub const PHYS_LAYER_CHARACTER: LayerMask = LayerMask(4);
 
-pub const PHYS_DOM_TERRAIN:   Dominance = Dominance { groups: 127 };
-pub const PHYS_DOM_STRUCTURE: Dominance = Dominance { groups: 111 };
-pub const PHYS_DOM_CHARACTER: Dominance = Dominance { groups: 95  };
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[repr(i8)]
+pub enum DominancePreset {
+    Terrain = 126,
+    Structures = 110,
+}
+
+impl From<DominancePreset> for Dominance {
+    #[inline]
+    fn from(value: DominancePreset) -> Self {
+        Dominance(value as i8)
+    }
+}

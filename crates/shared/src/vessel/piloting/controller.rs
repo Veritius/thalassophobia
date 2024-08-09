@@ -1,7 +1,4 @@
-use bevy::prelude::*;
-use bevy_rapier3d::prelude::*;
-use leafwing_input_manager::prelude::*;
-use crate::{disabling::Disabled, math::transform::TranslateSet};
+use crate::{math::transform::TranslateSet, prelude::*};
 use super::VesselMovements;
 
 /// A controller for a submarine.
@@ -19,7 +16,8 @@ pub(super) fn vessel_controller_system(
     mut bodies: Query<(
         &VesselController,
         &Transform,
-        &mut ExternalImpulse,
+        &mut ExternalForce,
+        &mut ExternalTorque,
         &ActionState<VesselMovements>,
     ), Without<Disabled>>,
 ) {
@@ -27,6 +25,7 @@ pub(super) fn vessel_controller_system(
         controller,
         transform,
         mut impulse,
+        mut torque,
         actions
     ) in bodies.iter_mut() {
         // Translation intent value
@@ -42,7 +41,7 @@ pub(super) fn vessel_controller_system(
         let translate_force = translate_intent * controller.rotation_force;
 
         // Apply the translation force
-        impulse.impulse += translate_force;
+        impulse.apply_force(translate_force);
 
         // Rotation intent value
         let mut rotation_intent = Vec3::ZERO;
@@ -56,6 +55,6 @@ pub(super) fn vessel_controller_system(
         let rotation_force = rotation_intent * controller.rotation_force;
 
         // Apply the rotation force
-        impulse.torque_impulse += rotation_force;
+        torque.apply_torque(rotation_force);
     }
 }

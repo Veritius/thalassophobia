@@ -1,9 +1,11 @@
 #![allow(unused_variables, unused_mut)]
 
 use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead, PlayerControllerState};
+use shared::input::InputManagerBundle;
+use shared::physics::{DominancePreset, PHYS_LAYER_CHARACTER, PHYS_LAYER_STRUCTURE, PHYS_LAYER_TERRAIN};
+use shared::progress::Done;
 use shared::schedules::Simulating;
-use shared::{bevy::prelude::*, rapier::prelude::*, progress::*, input::prelude::*};
-use shared::physics::*;
+use shared::prelude::*;
 use crate::initial::InitialLoading;
 use crate::settings::ControlSettings;
 
@@ -15,7 +17,7 @@ impl Plugin for DebugSystemsPlugin {
         app.add_systems(Done::<InitialLoading>::new(), loaded_system);
         app.add_systems(Update, update_system);
         app.add_systems(Update, post_update_system
-            .after(PhysicsSet::Writeback));
+            .after(PhysicsSet::Sync));
     }
 }
 
@@ -41,13 +43,13 @@ fn loaded_system(
         material: materials.add(StandardMaterial::default()),
         ..default()
     }).insert((
-        RigidBody::Fixed,
+        RigidBody::Static,
         Collider::cuboid(10.0, 0.1, 10.0),
-        CollisionGroups {
-            memberships: PHYS_GROUP_STRUCTURE,
-            filters: Group::all(),
+        CollisionLayers {
+            memberships: PHYS_LAYER_TERRAIN,
+            filters: LayerMask::ALL,
         },
-        PHYS_DOM_TERRAIN,
+        Dominance::from(DominancePreset::Terrain),
     ));
 
     // Spawn a light
@@ -81,16 +83,15 @@ fn loaded_system(
         VisibilityBundle::default(),
         InputManagerBundle::with_map(character_controls.0.clone()),
         RigidBody::Dynamic,
-        Collider::capsule_y(0.5, 0.5),
-        CollisionGroups {
-            memberships: PHYS_GROUP_CHARACTER,
-            filters: PHYS_GROUP_TERRAIN | PHYS_GROUP_STRUCTURE,
+        Collider::capsule(0.5, 0.5),
+        CollisionLayers {
+            memberships: PHYS_LAYER_CHARACTER,
+            filters: PHYS_LAYER_TERRAIN | PHYS_LAYER_STRUCTURE,
         },
-        PHYS_DOM_CHARACTER,
+        Dominance::from(DominancePreset::Terrain),
         LockedAxes::ROTATION_LOCKED,
-        Damping { linear_damping: 5.0, angular_damping: 1.0 },
-        GravityScale(1.0),
-        Ccd::enabled(),
+        LinearDamping(5.0),
+        SweptCcd::NON_LINEAR,
         ExternalImpulse::default(),
     )).add_child(head);
 }
