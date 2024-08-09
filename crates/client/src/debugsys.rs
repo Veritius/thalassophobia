@@ -44,7 +44,7 @@ fn loaded_system(
         ..default()
     }).insert((
         RigidBody::Static,
-        Collider::cuboid(10.0, 0.1, 10.0),
+        Collider::cuboid(200.0, 0.1, 20.0),
         CollisionLayers {
             memberships: PHYS_LAYER_TERRAIN,
             filters: LayerMask::ALL,
