@@ -27,3 +27,5 @@ pub mod vessel;
 
 #[cfg(feature="multiplayer")]
 pub mod multiplayer;
+
+pub mod prelude;
