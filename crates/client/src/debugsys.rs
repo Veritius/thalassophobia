@@ -92,7 +92,7 @@ fn loaded_system(
         LockedAxes::ROTATION_LOCKED,
         LinearDamping(5.0),
         SweptCcd::NON_LINEAR,
-        ExternalImpulse::default(),
+        ExternalImpulse::default().with_persistence(false),
     )).add_child(head);
 }
 

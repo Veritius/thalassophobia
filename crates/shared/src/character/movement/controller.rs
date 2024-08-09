@@ -78,7 +78,7 @@ pub struct PlayerController {
     /// If jumping is allowed.
     pub allow_jumping: bool,
     /// The force applied when jumping.
-    pub jump_force: f32,
+    pub jump_impulse: f32,
     /// The delay between jumps.
     pub jump_delay: Duration,
     /// The last time the character jumped.
@@ -110,7 +110,7 @@ impl PlayerController {
             swim_sprint_coefficient: TranslateSet::splat(1.3),
 
             allow_jumping: true,
-            jump_force: 20.0,
+            jump_impulse: 20.0,
             jump_delay: Duration::from_millis(200),
             last_jumped: None,
 
@@ -187,7 +187,7 @@ struct ControllerRootQueryData<'w> {
     body_controller: &'w mut PlayerController,
     action_state: &'w ActionState<CharacterMovements>,
 
-    forces: Option<&'w mut ExternalForce>,
+    impulse: Option<&'w mut ExternalImpulse>,
 }
 
 #[derive(QueryData)]
@@ -308,7 +308,7 @@ fn character_controller_system(
                     };
 
                     // Extend the move force to 3D
-                    let mut move_force = move_force.extend(0.0).xzy();
+                    let mut move_impulse = move_force.extend(0.0).xzy();
 
                     // Handle jumping calculations
                     'jump: {
@@ -328,12 +328,12 @@ fn character_controller_system(
                         root.body_controller.reset_jump_timer();
 
                         // Add the movement force to the vector
-                        move_force.y += root.body_controller.jump_force;
+                        move_impulse.y += root.body_controller.jump_impulse;
                     }
 
                     // Apply the physics impulse
-                    if let Some(mut forces) = root.forces {
-                        forces.apply_force(move_force);
+                    if let Some(mut impulse) = root.impulse {
+                        impulse.apply_impulse(move_impulse);
                     }
                 },
 
@@ -345,11 +345,11 @@ fn character_controller_system(
                     };
 
                     // Calculate the force for the movement
-                    let move_force = horizontal_intent.extend(vertical_intent).xzy() * root.body_controller.base_swim_force * coefficient;
+                    let move_impulse = horizontal_intent.extend(vertical_intent).xzy() * root.body_controller.base_swim_force * coefficient;
 
                     // Apply the physics impulse
-                    if let Some(mut forces) = root.forces {
-                        forces.apply_force(move_force);
+                    if let Some(mut impulse) = root.impulse {
+                        impulse.apply_impulse(move_impulse);
                     }
                 },
             }
