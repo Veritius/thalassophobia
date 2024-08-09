@@ -4,8 +4,11 @@ use bevy::{app::MainScheduleOrder, ecs::schedule::ScheduleLabel, prelude::*};
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Resource, Reflect)]
 #[reflect(Resource)]
 pub enum Simulating {
+    /// Systems in [`SimulationUpdate`] will be run.
     #[default]
     Enabled,
+
+    /// Systems in [`SimulationUpdate`] will not run.
     Disabled,
 }
 
@@ -34,8 +37,10 @@ impl Plugin for SimulationSchedulesPlugin {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, ScheduleLabel)]
 struct TryUpdateSimulation;
 
+/// A schedule run to tick the simulation.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, ScheduleLabel)]
 pub struct SimulationUpdate;
 
+/// A schedule run to delete all simulation data from the `World`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, ScheduleLabel)]
 pub struct SimulationCleanup;
