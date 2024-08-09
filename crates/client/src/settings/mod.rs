@@ -19,7 +19,7 @@ impl Plugin for UserSettingsPlugin {
         register::<Blood>(app);
         register::<Dismemberment>(app);
         register::<GameSpeed>(app);
-        register::<Gibbing>(app);
+        register::<Giblets>(app);
         register::<SensoryShock>(app);
 
         // Audio settings

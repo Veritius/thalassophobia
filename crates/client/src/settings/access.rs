@@ -45,11 +45,11 @@ impl Default for GameSpeed {
     }
 }
 
-/// Disables gibbing effects.
+/// Disables giblets and viscera effects.
 /// 
 /// https://gameaccessibilityguidelines.com/provide-an-option-to-disable-blood-and-gore/
 #[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
-pub enum Gibbing {
+pub enum Giblets {
     #[default]
     Standard,
     Disabled,
