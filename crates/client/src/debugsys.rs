@@ -1,6 +1,6 @@
 #![allow(unused_variables, unused_mut)]
 
-use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead};
+use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead, PlayerControllerState};
 use shared::schedules::Simulating;
 use shared::{bevy::prelude::*, rapier::prelude::*, progress::*, input::prelude::*};
 use shared::physics::*;
@@ -73,7 +73,10 @@ fn loaded_system(
 
     // Character body
     commands.spawn((
-        PlayerController::new(head),
+        PlayerController::new(
+            head,
+            PlayerControllerState::Grounded,
+        ),
         TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
         VisibilityBundle::default(),
         InputManagerBundle::with_map(character_controls.0.clone()),
@@ -86,7 +89,7 @@ fn loaded_system(
         PHYS_DOM_CHARACTER,
         LockedAxes::ROTATION_LOCKED,
         Damping { linear_damping: 5.0, angular_damping: 1.0 },
-        GravityScale(0.0),
+        GravityScale(1.0),
         Ccd::enabled(),
         ExternalImpulse::default(),
     )).add_child(head);

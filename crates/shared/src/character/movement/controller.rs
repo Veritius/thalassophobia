@@ -90,11 +90,14 @@ pub struct PlayerController {
 }
 
 impl PlayerController {
-    pub fn new(head: Entity) -> Self {
+    pub fn new(
+        head: Entity,
+        state: PlayerControllerState,
+    ) -> Self {
         Self {
             head,
 
-            state: PlayerControllerState::Floating,
+            state,
 
             rotation_yaw: 0.0,
 
