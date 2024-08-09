@@ -211,10 +211,8 @@ fn character_controller_system(
             let root_is_head = root.entity == root.body_controller.head;
 
             // Intent vector to sum up inputs
-            let rotate_intent = match actions.axis_pair(&CharacterMovements::Turn) {
-                Some(axis) => axis.xy() * Vec2::splat(0.01),
-                None => break 'rotation,
-            };
+            let rotate_intent = actions.axis_pair(&CharacterMovements::Turn) * Vec2::splat(0.01);
+            if rotate_intent == Vec2::splat(0.0) { break 'rotation } // Don't waste our time
 
             // Get the head components
             let mut head = match heads.get_mut(root.body_controller.head) {
@@ -264,9 +262,7 @@ fn character_controller_system(
         // Handle horizontal movement inputs
         'position: {
             // Base horizontal intent constructed from movement values
-            let horizontal_inputs = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally)
-                .map(|v| v.xy())
-                .unwrap_or(Vec2::ZERO);
+            let horizontal_inputs = actions.clamped_axis_pair(&CharacterMovements::MoveHorizontally);
 
             // Constrain the magnitude to 1.0 to prevent a movement exploit
             // that gives greater horizontal speed when moving diagonally

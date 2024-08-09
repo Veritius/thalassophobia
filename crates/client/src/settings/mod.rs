@@ -38,9 +38,6 @@ impl Plugin for UserSettingsPlugin {
         register::<Flickering>(app);
 
         // Controls settings
-        register::<MouseSensitivity>(app);
-
-        // Input layouts
         app.register_type::<ControlSettings<CharacterMovements>>();
         app.init_resource::<ControlSettings<CharacterMovements>>();
         app.register_type::<ControlSettings<VesselMovements>>();

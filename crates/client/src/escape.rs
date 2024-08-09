@@ -48,8 +48,8 @@ fn on_escape(
     primary_window.cursor.grab_mode = CursorGrabMode::None;
     primary_window.cursor.visible = true;
 
-    // Disable movement inputs
-    commands.insert_resource(ToggleActions::<CharacterMovements>::DISABLED);
+    // // Disable movement inputs
+    // commands.insert_resource(ToggleActions::<CharacterMovements>::DISABLED);
 
     // Spawn some text saying the game is paused
     let font_handle = assets.load("fonts/FiraSans-Medium.ttf");
@@ -96,8 +96,8 @@ fn on_reenter(
     primary_window.cursor.grab_mode = CursorGrabMode::Locked;
     primary_window.cursor.visible = false;
 
-    // Enable movement inputs
-    commands.insert_resource(ToggleActions::<CharacterMovements>::ENABLED);
+    // // Enable movement inputs
+    // commands.insert_resource(ToggleActions::<CharacterMovements>::ENABLED);
 
     // Despawn the escape menu ui
     if let Ok(entity) = ui_root_query.get_single() {

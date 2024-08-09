@@ -4,16 +4,6 @@ use shared::vessel::piloting::VesselMovements;
 use shared::{bevy_ecs, bevy_reflect};
 use shared::input::prelude::*;
 
-/// Mouse sensitivity configuration.
-#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
-pub struct MouseSensitivity {
-    /// Horizontal (left-right) sensitivity coefficient.
-    pub horizontal: f32,
-
-    /// Vertical (up-down) sensitivity coefficient.
-    pub vertical: f32,
-}
-
 #[derive(Resource, Reflect)]
 pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);
 
@@ -22,45 +12,45 @@ impl Default for ControlSettings<CharacterMovements> {
         let mut map = InputMap::default();
 
         // Horizontal keyboard movement
-        map.insert(CharacterMovements::MoveHorizontally, UserInput::VirtualDPad(VirtualDPad {
-            up: InputKind::PhysicalKey(KeyCode::KeyW),
-            down: InputKind::PhysicalKey(KeyCode::KeyS),
-            left: InputKind::PhysicalKey(KeyCode::KeyA),
-            right: InputKind::PhysicalKey(KeyCode::KeyD),
-        }));
+        map.insert_dual_axis(CharacterMovements::MoveHorizontally, KeyboardVirtualDPad::new(
+            KeyCode::KeyW,
+            KeyCode::KeyS,
+            KeyCode::KeyA,
+            KeyCode::KeyD,
+        ).with_circle_bounds(1.0));
 
         // Horizontal controller movement
-        map.insert(CharacterMovements::MoveHorizontally, DualAxis::left_stick());
+        map.insert_dual_axis(CharacterMovements::MoveHorizontally, GamepadStick::LEFT);
 
         // Vertical keyboard movement
-        map.insert(CharacterMovements::MoveVertically, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::PhysicalKey(KeyCode::ControlLeft),
-            positive: InputKind::PhysicalKey(KeyCode::Space),
-        }));
+        map.insert_axis(CharacterMovements::MoveVertically, KeyboardVirtualAxis::new(
+            KeyCode::ControlLeft,
+            KeyCode::Space,
+        ));
 
         // Vertical controller movement
-        map.insert(CharacterMovements::MoveVertically, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::GamepadButton(GamepadButtonType::East),
-            positive: InputKind::GamepadButton(GamepadButtonType::South),
-        }));
+        map.insert_axis(CharacterMovements::MoveVertically, GamepadVirtualAxis::new(
+            GamepadButtonType::East,
+            GamepadButtonType::South,
+        ));
 
         // Mouse turning
-        map.insert(CharacterMovements::Turn, DualAxis::mouse_motion());
+        map.insert_dual_axis(CharacterMovements::Turn, MouseMove::default());
 
         // Controller turning
-        map.insert(CharacterMovements::Turn, DualAxis::right_stick());
+        map.insert_dual_axis(CharacterMovements::Turn, GamepadStick::RIGHT);
 
         // Keyboard leaning
-        map.insert(CharacterMovements::Lean, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::PhysicalKey(KeyCode::KeyQ),
-            positive: InputKind::PhysicalKey(KeyCode::KeyE),
-        }));
+        map.insert_axis(CharacterMovements::Lean, KeyboardVirtualAxis::new(
+            KeyCode::KeyQ,
+            KeyCode::KeyE,
+        ));
 
         // Controller leaning
-        map.insert(CharacterMovements::Lean, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::GamepadButton(GamepadButtonType::LeftTrigger),
-            positive: InputKind::GamepadButton(GamepadButtonType::RightTrigger),
-        }));
+        map.insert_axis(CharacterMovements::Lean, GamepadVirtualAxis::new(
+            GamepadButtonType::LeftTrigger,
+            GamepadButtonType::RightTrigger,
+        ));
 
         return Self(map);
     }
@@ -71,52 +61,52 @@ impl Default for ControlSettings<VesselMovements> {
         let mut map = InputMap::default();
 
         // Keyboard forward thrust
-        map.insert(VesselMovements::ForwardThrust, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::PhysicalKey(KeyCode::KeyS),
-            positive: InputKind::PhysicalKey(KeyCode::KeyW),
-        }));
+        map.insert_axis(VesselMovements::ForwardThrust, KeyboardVirtualAxis::new(
+            KeyCode::KeyS,
+            KeyCode::KeyW,
+        ));
 
         // Controller forward thrust
-        map.insert(VesselMovements::ForwardThrust, DualAxis::left_stick().x);
+        // map.insert_axis(VesselMovements::ForwardThrust, todo!());
 
         // Keyboard sideways thrust
-        map.insert(VesselMovements::SideThrust, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::PhysicalKey(KeyCode::KeyA),
-            positive: InputKind::PhysicalKey(KeyCode::KeyD),
-        }));
+        map.insert_axis(VesselMovements::SideThrust, KeyboardVirtualAxis::new(
+            KeyCode::KeyA,
+            KeyCode::KeyD,
+        ));
 
         // Controller sideways thrust
-        map.insert(VesselMovements::SideThrust, DualAxis::left_stick().y);
+        // map.insert_axis(VesselMovements::SideThrust, todo!());
 
         // Keyboard vertical thrust
-        map.insert(VesselMovements::SideThrust, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::PhysicalKey(KeyCode::KeyQ),
-            positive: InputKind::PhysicalKey(KeyCode::KeyE),
-        }));
+        map.insert_axis(VesselMovements::VerticalThrust, KeyboardVirtualAxis::new(
+            KeyCode::KeyQ,
+            KeyCode::KeyE,
+        ));
 
         // Controller vertical thrust
-        map.insert(VesselMovements::SideThrust, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::GamepadButton(GamepadButtonType::South),
-            positive: InputKind::GamepadButton(GamepadButtonType::East),
-        }));
+        map.insert_axis(VesselMovements::VerticalThrust, GamepadVirtualAxis::new(
+            GamepadButtonType::South,
+            GamepadButtonType::North,
+        ));
 
         // Keyboard pitching
-        map.insert(VesselMovements::Pitch, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::PhysicalKey(KeyCode::KeyJ),
-            positive: InputKind::PhysicalKey(KeyCode::KeyU),
-        }));
+        map.insert_axis(VesselMovements::Pitch, KeyboardVirtualAxis::new(
+            KeyCode::KeyJ,
+            KeyCode::KeyU,
+        ));
 
         // Controller pitching
-        map.insert(VesselMovements::Pitch, DualAxis::right_stick().x);
+        // map.insert_axis(VesselMovements::Pitch, todo!());
 
         // Keyboard yawing
-        map.insert(VesselMovements::Yaw, UserInput::VirtualAxis(VirtualAxis {
-            negative: InputKind::PhysicalKey(KeyCode::KeyH),
-            positive: InputKind::PhysicalKey(KeyCode::KeyK),
-        }));
+        map.insert_axis(VesselMovements::Yaw, KeyboardVirtualAxis::new(
+            KeyCode::KeyH,
+            KeyCode::KeyK,
+        ));
 
         // Controller yawing
-        map.insert(VesselMovements::Yaw, DualAxis::right_stick().y);
+        // map.insert_axis(VesselMovements::Yaw, todo!());
 
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
