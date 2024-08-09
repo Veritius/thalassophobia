@@ -21,6 +21,7 @@ pub mod living;
 pub mod math;
 pub mod package;
 pub mod physics;
+pub mod power;
 pub mod schedules;
 pub mod structure;
 pub mod vessel;

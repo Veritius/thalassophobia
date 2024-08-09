@@ -23,5 +23,6 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     app.add_plugins(crate::character::movement::PlayerControllerPlugin { mode });
     app.add_plugins(crate::disabling::DisablingPlugin);
     app.add_plugins(crate::package::ContentPackagesPlugin);
+    app.add_plugins(crate::power::ElectricityPlugin);
     app.add_plugins(crate::vessel::piloting::VesselControllerPlugin { mode });
 }
