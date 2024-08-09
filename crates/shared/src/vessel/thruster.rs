@@ -1,8 +1,8 @@
 use crate::{math::transform::TranslateSet, prelude::*};
 
 /// A source of force that vessels need to move.
-#[derive(Debug, Default, Clone, Component, Reflect)]
-#[reflect(Component)]
+#[derive(Debug, Default, Clone, Component, Reflect, Serialize, Deserialize)]
+#[reflect(Component, Serialize, Deserialize)]
 pub struct Thruster {
     /// Sets whether the thruster needs to be submerged to function.
     /// If set to `true`, force will be zero outside of water.
@@ -13,8 +13,8 @@ pub struct Thruster {
 }
 
 /// A source of drag that resists the movement of vessels.
-#[derive(Debug, Default, Clone, Component, Reflect)]
-#[reflect(Component)]
+#[derive(Debug, Default, Clone, Component, Reflect, Serialize, Deserialize)]
+#[reflect(Component, Serialize, Deserialize)]
 pub struct Dragger {
     /// Sets whether the dragger needs to be submerged to function.
     /// If set to `true`, force will be zero outside of water.
