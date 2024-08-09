@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use super::transfer::Joule;
+use super::Joule;
 
 /// A source of electricity.
 #[derive(Debug, Default, Clone, Component, Reflect)]

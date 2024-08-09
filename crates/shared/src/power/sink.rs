@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use super::transfer::Joule;
+use super::Joule;
 
 /// A device that uses electricity.
 #[derive(Debug, Default, Clone, Component, Reflect)]

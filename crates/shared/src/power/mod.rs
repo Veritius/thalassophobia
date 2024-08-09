@@ -1,6 +1,10 @@
-pub mod sink;
-pub mod source;
-pub mod transfer;
+mod sink;
+mod source;
+mod transfer;
+
+pub use sink::PowerSink;
+pub use source::PowerSource;
+pub use transfer::Joule;
 
 use bevy::prelude::*;
 
