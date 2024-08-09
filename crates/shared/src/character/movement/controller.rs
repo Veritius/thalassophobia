@@ -115,7 +115,7 @@ impl PlayerController {
             last_jumped: None,
 
             ground_raycast_len: 1.0,
-            is_touching_ground: true,
+            is_touching_ground: false,
         }
     }
 
