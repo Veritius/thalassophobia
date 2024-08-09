@@ -29,7 +29,7 @@ pub enum CharacterMovements {
 }
 
 impl Actionlike for CharacterMovements {
-    fn input_control_kind(&self) -> leafwing_input_manager::InputControlKind {
+    fn input_control_kind(&self) -> InputControlKind {
         match self {
             CharacterMovements::MoveHorizontally => InputControlKind::Axis,
             CharacterMovements::MoveVertically => InputControlKind::Axis,
