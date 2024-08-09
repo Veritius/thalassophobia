@@ -315,9 +315,13 @@ fn character_controller_system(
                         if !root.body_controller.allow_jumping { break 'jump }
                         if !root.body_controller.is_touching_ground { break 'jump }
 
+                        // The player must want to jump
+                        if vertical_intent < 0.5 { break 'position }
+
                         // The character can't jump until the delay is passed
-                        if !root.body_controller.last_jumped.is_some_and(|v| 
-                            v.elapsed() < root.body_controller.jump_delay) { break 'jump }
+                        if let Some(last_jumped) = root.body_controller.last_jumped {
+                            if last_jumped.elapsed() < root.body_controller.jump_delay { break 'jump }
+                        }
 
                         // Reset the jump timer
                         root.body_controller.reset_jump_timer();
