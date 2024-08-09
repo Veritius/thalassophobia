@@ -24,7 +24,4 @@ pub enum VesselMovements {
 
     /// Button input for halting all translation and rotation.
     Brake,
-
-    /// Button input for changing the [`VesselMoveStyle`].
-    ChangeStyle,
 }

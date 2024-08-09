@@ -121,9 +121,6 @@ impl Default for ControlSettings<VesselMovements> {
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
 
-        map.insert(VesselMovements::ChangeStyle, KeyCode::KeyX);
-        map.insert(VesselMovements::ChangeStyle, GamepadButtonType::LeftTrigger);
-
         return Self(map);
     }
 }
