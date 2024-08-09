@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use std::ops::RangeInclusive;
 use shared::bevy::prelude::*;
 use shared::bevy_reflect;
 
@@ -30,8 +31,12 @@ pub enum Dismemberment {
 /// https://gameaccessibilityguidelines.com/include-an-option-to-adjust-the-game-speed/
 #[derive(Debug, Clone, Copy, Reflect)]
 pub struct GameSpeed {
-    #[reflect(@0.1..=1.3)]
+    #[reflect(@Self::LIMIT)]
     pub speed: f32,
+}
+
+impl GameSpeed {
+    pub const LIMIT: RangeInclusive<f32> = 0.1 ..= 1.3;
 }
 
 impl Default for GameSpeed {

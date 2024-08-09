@@ -1,10 +1,14 @@
-use shared::bevy::prelude::*;
-use shared::bevy_reflect;
+use std::ops::RangeInclusive;
+use shared::prelude::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Reflect)]
 pub struct CameraFov {
-    #[reflect(@60.0..120.0)]
+    #[reflect(@Self::LIMIT)]
     pub fov: f32,
+}
+
+impl CameraFov {
+    pub const LIMIT: RangeInclusive<f32> = 60.0 ..= 120.0;
 }
 
 impl Default for CameraFov {
@@ -49,8 +53,12 @@ pub enum Colorblindness {
 /// Improves the visual contrast of the world.
 #[derive(Debug, Clone, Copy, PartialEq, Reflect)]
 pub struct Contrast {
-    #[reflect(@0.7..1.3)]
+    #[reflect(@Self::LIMIT)]
     pub contrast: f32,
+}
+
+impl Contrast {
+    pub const LIMIT: RangeInclusive<f32> = 0.7 ..= 1.3;
 }
 
 impl Default for Contrast {
