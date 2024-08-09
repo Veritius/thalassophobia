@@ -76,3 +76,19 @@ pub enum Flickering {
     Standard,
     Reduced,
 }
+
+/// Highlights objects of interest with a halo or mask.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
+pub enum Highlight {
+    #[default]
+    Disabled,
+    Edge {
+        #[reflect(@Self::THICKNESS_LIMIT)]
+        thickness: f32,
+    },
+    Mask,
+}
+
+impl Highlight {
+    pub const THICKNESS_LIMIT: RangeInclusive<f32> = 0.0 ..= 5.0;
+}

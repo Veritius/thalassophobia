@@ -36,6 +36,7 @@ impl Plugin for UserSettingsPlugin {
         register::<Colorblindness>(app);
         register::<Contrast>(app);
         register::<Flickering>(app);
+        register::<Highlight>(app);
 
         // Controls settings
         app.register_type::<ControlSettings<CharacterMovements>>();
