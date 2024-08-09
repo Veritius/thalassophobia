@@ -12,8 +12,9 @@ pub(crate) struct ElectricityPlugin;
 
 impl Plugin for ElectricityPlugin {
     fn build(&self, app: &mut App) {
-        app.register_type::<sink::PowerSink>();
-        app.register_type::<source::PowerSource>();
+        app.register_type::<Joule>();
+        app.register_type::<PowerSink>();
+        app.register_type::<PowerSource>();
     }
 }
 
