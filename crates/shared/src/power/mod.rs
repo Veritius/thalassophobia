@@ -1,12 +1,11 @@
 mod battery;
 mod sink;
 mod source;
-mod transfer;
 
 pub use battery::Battery;
 pub use sink::PowerSink;
 pub use source::PowerSource;
-pub use transfer::Joule;
+pub use crate::math::energy::Joule;
 
 use bevy::prelude::*;
 
