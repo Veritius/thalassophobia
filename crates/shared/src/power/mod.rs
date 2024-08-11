@@ -5,7 +5,7 @@ mod source;
 pub use battery::Battery;
 pub use sink::{PowerSink, CalculatedPowerSink, PowerSinkBundle};
 pub use source::{PowerSource, CalculatedPowerSource, PowerSourceBundle};
-pub use crate::math::energy::Joule;
+pub use crate::math::units::Joule;
 
 use bevy::prelude::*;
 
