@@ -1,4 +1,4 @@
-use crate::{math::transform::TranslateSet, prelude::*};
+use crate::{math::{transform::TranslateSet, units::Newton}, prelude::*};
 
 /// A source of force that vessels need to move.
 #[derive(Debug, Default, Clone, Component, Reflect, Serialize, Deserialize)]
@@ -9,7 +9,7 @@ pub struct Thruster {
     pub needs_water: bool,
 
     /// The maximum force that the thruster can output.
-    pub force: f32,
+    pub force: Newton,
 }
 
 /// A source of drag that resists the movement of vessels.
@@ -22,5 +22,5 @@ pub struct Dragger {
 
     /// The amount of force the dragger applies in each direction,
     /// relative to the orientation of the entity.
-    pub drag: TranslateSet<f32>,
+    pub drag: TranslateSet<Newton>,
 }
