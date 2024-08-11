@@ -40,11 +40,11 @@ impl<T> TranslateSet<T> {
         }
     }
 
-    pub fn alter<F>(self, mut func: F) -> Self
+    pub fn alter<F, N>(self, mut func: F) -> TranslateSet<N>
     where
-        F: FnMut(T) -> T,
+        F: FnMut(T) -> N,
     {
-        Self {
+        TranslateSet::<N> {
             xn: func(self.xn),
             xp: func(self.xp),
             yn: func(self.yn),
@@ -54,11 +54,11 @@ impl<T> TranslateSet<T> {
         }
     }
 
-    pub fn alter_checked<F, E>(self, mut func: F) -> Result<Self, E>
+    pub fn alter_checked<F, N, E>(self, mut func: F) -> Result<TranslateSet<N>, E>
     where
-        F: FnMut(T) -> Result<T, E>,
+        F: FnMut(T) -> Result<N, E>,
     {
-        Ok(Self {
+        Ok(TranslateSet::<N> {
             xn: func(self.xn)?,
             xp: func(self.xp)?,
             yn: func(self.yn)?,
