@@ -5,10 +5,10 @@ use bevy::{app::MainScheduleOrder, ecs::schedule::ScheduleLabel, prelude::*};
 #[reflect(Resource)]
 pub enum Simulating {
     /// Systems in [`SimulationUpdate`] will be run.
-    #[default]
     Enabled,
 
     /// Systems in [`SimulationUpdate`] will not run.
+    #[default]
     Disabled,
 }
 
