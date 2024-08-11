@@ -8,15 +8,28 @@ macro_rules! unit {
         #[reflect(Serialize, Deserialize)]
         pub struct $name(u32);
 
-        impl From<u32> for $name {
-            fn from(value: u32) -> Self {
+        impl $name {
+            #[inline]
+            pub const fn new(value: u32) -> Self {
                 Self(value)
+            }
+
+            #[inline]
+            pub const fn inner(self) -> u32 {
+                self.0
+            }
+        }
+
+        impl From<u32> for $name {
+            #[inline]
+            fn from(value: u32) -> Self {
+                Self::new(value)
             }
         }
         
         impl From<$name> for u32 {
             fn from(value: $name) -> Self {
-                value.0
+                value.inner()
             }
         }
         
