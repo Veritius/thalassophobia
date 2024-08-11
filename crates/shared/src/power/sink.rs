@@ -7,9 +7,6 @@ use super::Joule;
 pub struct PowerSink {
     /// The amount of energy the power sink uses.
     pub load: Joule,
-
-    /// The fraction of `load` which is satisfied, from `0.0` to `1.0`.
-    pub supply: f32,
 }
 
 /// The calculated values from a [`PowerSink`].
