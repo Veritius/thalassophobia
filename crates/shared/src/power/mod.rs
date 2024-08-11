@@ -3,8 +3,8 @@ mod sink;
 mod source;
 
 pub use battery::Battery;
-pub use sink::PowerSink;
-pub use source::PowerSource;
+pub use sink::{PowerSink, CalculatedPowerSink, PowerSinkBundle};
+pub use source::{PowerSource, CalculatedPowerSource, PowerSourceBundle};
 pub use crate::math::energy::Joule;
 
 use bevy::prelude::*;
@@ -16,7 +16,9 @@ impl Plugin for ElectricityPlugin {
         app.register_type::<Joule>();
         app.register_type::<Battery>();
         app.register_type::<PowerSink>();
+        app.register_type::<CalculatedPowerSink>();
         app.register_type::<PowerSource>();
+        app.register_type::<CalculatedPowerSource>();
     }
 }
 
