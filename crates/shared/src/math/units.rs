@@ -4,7 +4,7 @@ use crate::prelude::*;
 macro_rules! unit {
     ($name:ident, $doc:literal) => {
         #[doc=$doc]
-        #[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd, Hash, Reflect, Serialize, Deserialize)]
+        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Reflect, Serialize, Deserialize)]
         #[reflect(Serialize, Deserialize)]
         pub struct $name(u32);
 
