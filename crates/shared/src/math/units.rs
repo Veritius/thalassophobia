@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
 use crate::prelude::*;
 
 macro_rules! unit {
@@ -48,6 +48,13 @@ macro_rules! unit {
                 Self(self.0.saturating_add(rhs.0))
             }
         }
+
+        impl AddAssign for $name {
+            #[inline]
+            fn add_assign(&mut self, rhs: Self) {
+                self.0 += rhs.0
+            }
+        }
         
         impl Sub for $name {
             type Output = Self;
@@ -55,6 +62,13 @@ macro_rules! unit {
             #[inline]
             fn sub(self, rhs: Self) -> Self::Output {
                 Self(self.0.saturating_sub(rhs.0))
+            }
+        }
+
+        impl SubAssign for $name {
+            #[inline]
+            fn sub_assign(&mut self, rhs: Self) {
+                self.0 -= rhs.0
             }
         }
         
@@ -67,6 +81,12 @@ macro_rules! unit {
                 return Self(v as u32);
             }
         }
+
+        impl MulAssign<f32> for $name {
+            fn mul_assign(&mut self, rhs: f32) {
+                *self = *self * rhs;
+            }
+        }
         
         impl Div<f32> for $name {
             type Output = Self;
@@ -75,6 +95,12 @@ macro_rules! unit {
             fn div(self, rhs: f32) -> Self::Output {
                 let v = self.0 as f32 / rhs;
                 return Self(v as u32);
+            }
+        }
+
+        impl DivAssign<f32> for $name {
+            fn div_assign(&mut self, rhs: f32) {
+                *self = *self / rhs;
             }
         }
 
