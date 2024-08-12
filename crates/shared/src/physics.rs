@@ -1,21 +1,52 @@
+use std::ops::BitOr;
 pub use crate::avian::prelude::*;
 
-pub const PHYS_LAYER_TERRAIN   : LayerMask = LayerMask(1);
-pub const PHYS_LAYER_STRUCTURE : LayerMask = LayerMask(2);
-pub const PHYS_LAYER_VESSEL    : LayerMask = LayerMask(4);
-pub const PHYS_LAYER_CHARACTER : LayerMask = LayerMask(8);
+/// Physics layers for objects.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ObjectLayer {
+    Terrain,
+    Structure,
+    Vessel,
+    Character,
+}
 
+impl BitOr for ObjectLayer {
+    type Output = LayerMask;
+
+    fn bitor(self, rhs: Self) -> Self::Output {
+        LayerMask::from(self.to_bits() | rhs.to_bits())
+    }
+}
+
+impl PhysicsLayer for ObjectLayer {
+    fn to_bits(&self) -> u32 {
+        let offset = match self {
+            ObjectLayer::Terrain => 0,
+            ObjectLayer::Structure => 1,
+            ObjectLayer::Vessel => 2,
+            ObjectLayer::Character => 3,
+        };
+
+        return 1 << offset;
+    }
+
+    fn all_bits() -> u32 {
+        u32::MAX
+    }
+}
+
+/// Dominance values for objects.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(i8)]
-pub enum DominancePreset {
+pub enum ObjectDominance {
     Terrain = 126,
     Structure = 110,
     Vessel = 94,
 }
 
-impl From<DominancePreset> for Dominance {
+impl From<ObjectDominance> for Dominance {
     #[inline]
-    fn from(value: DominancePreset) -> Self {
+    fn from(value: ObjectDominance) -> Self {
         Dominance(value as i8)
     }
 }

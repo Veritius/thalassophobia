@@ -2,7 +2,7 @@
 
 use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead, PlayerControllerState};
 use shared::input::InputManagerBundle;
-use shared::physics::{DominancePreset, PHYS_LAYER_CHARACTER, PHYS_LAYER_STRUCTURE, PHYS_LAYER_TERRAIN};
+use shared::physics::{ObjectDominance, ObjectLayer};
 use shared::progress::Done;
 use shared::schedules::Simulating;
 use shared::prelude::*;
@@ -45,11 +45,11 @@ fn loaded_system(
     }).insert((
         RigidBody::Static,
         Collider::cuboid(20.0, 0.1, 20.0),
-        CollisionLayers {
-            memberships: PHYS_LAYER_TERRAIN,
-            filters: LayerMask::ALL,
-        },
-        Dominance::from(DominancePreset::Terrain),
+        CollisionLayers::new(
+            ObjectLayer::Terrain,
+            LayerMask::ALL,
+        ),
+        Dominance::from(ObjectDominance::Terrain),
     ));
 
     // Spawn a light
@@ -84,11 +84,11 @@ fn loaded_system(
         InputManagerBundle::with_map(character_controls.0.clone()),
         RigidBody::Dynamic,
         Collider::capsule(0.5, 0.5),
-        CollisionLayers {
-            memberships: PHYS_LAYER_CHARACTER,
-            filters: PHYS_LAYER_TERRAIN | PHYS_LAYER_STRUCTURE,
-        },
-        Dominance::from(DominancePreset::Terrain),
+        CollisionLayers::new(
+            ObjectLayer::Character,
+            ObjectLayer::Terrain | ObjectLayer::Structure,
+        ),
+        Dominance::from(ObjectDominance::Terrain),
         LockedAxes::ROTATION_LOCKED,
         LinearDamping(5.0),
         SweptCcd::NON_LINEAR,
