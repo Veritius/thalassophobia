@@ -6,6 +6,7 @@ pub use crate::input::{Actionlike, input_map::InputMap, action_state::ActionStat
 pub use crate::schedules::SimulationUpdate;
 pub use crate::math::units::*;
 pub use crate::smallvec::{smallvec, SmallVec};
+pub use crate::setup::SetupMode;
 pub use serde::{Serialize, Deserialize};
 
 #[cfg(feature="multiplayer")]

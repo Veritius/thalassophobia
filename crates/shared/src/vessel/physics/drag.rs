@@ -6,3 +6,10 @@ use crate::{math::{curve::FloatCurve, transform::TranslateSet}, prelude::*};
 pub struct VesselDrag {
     pub curves: TranslateSet<FloatCurve>,
 }
+
+/// Applies drag forces to vessels.
+pub(super) fn vessel_drag_system(
+    mut vessels: Query<(&mut VesselDrag, &mut ExternalImpulse, &LinearVelocity)>,
+) {
+
+}
