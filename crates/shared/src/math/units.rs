@@ -166,7 +166,7 @@ unit! {
 unit! {
     name: Density,
     doc: "A unit of density, derived from mass and volume.",
-    unit: "mg/mL",
+    unit: "g/L",
     aliases: [],
 }
 
@@ -188,37 +188,40 @@ impl Density {
     }
 }
 
-macro_rules! overload {
-    (mul ($a:ty, $b:ty) -> $o:ty) => {
-        impl Mul<$b> for $a {
-            type Output = $o;
+impl Mul<Volume> for Density {
+    type Output = Weight;
 
-            fn mul(self, rhs: $b) -> Self::Output {
-                <$o>::new(self.inner() * rhs.inner())
-            }
-        }
-
-        impl Mul<$a> for $b {
-            type Output = $o;
-
-            fn mul(self, rhs: $a) -> Self::Output {
-                <$o>::new(self.inner() * rhs.inner())
-            }
-        }
-    };
-
-    (div ($a:ty, $b:ty) -> $o:ty) => {
-        impl Div<$b> for $a {
-            type Output = $o;
-
-            fn div(self, rhs: $b) -> Self::Output {
-                <$o>::new(self.inner() / rhs.inner())
-            }
-        }
-    };
+    #[inline]
+    fn mul(self, rhs: Volume) -> Self::Output {
+        return Weight::new(self.0 * rhs.0);
+    }
 }
 
-overload!(div (Force, Area) -> Pressure);
-overload!(div (Weight, Volume) -> Density);
-overload!(mul (Density, Volume) -> Weight);
-overload!(mul (Pressure, Area) -> Force);
+impl Mul<Density> for Volume {
+    type Output = Weight;
+
+    #[inline]
+    fn mul(self, rhs: Density) -> Self::Output {
+        return Weight::new(self.0 * rhs.0);
+    }
+}
+
+impl Div<Area> for Force {
+    type Output = Pressure;
+
+    #[inline]
+    fn div(self, rhs: Area) -> Self::Output {
+        let value = self.0 / rhs.0;
+        return Pressure::new(value);
+    }
+}
+
+impl Div<Volume> for Weight {
+    type Output = Density;
+
+    #[inline]
+    fn div(self, rhs: Volume) -> Self::Output {
+        let value = self.0 / (rhs.0 * 1000);
+        return Density::new(value);
+    }
+}
