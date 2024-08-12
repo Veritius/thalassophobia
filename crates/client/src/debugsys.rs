@@ -95,7 +95,6 @@ fn loaded_system(
             ObjectLayer::Terrain | ObjectLayer::Structure,
         ),
         Dominance::from(ObjectDominance::Terrain),
-        LockedAxes::ROTATION_LOCKED,
         LinearDamping(5.0),
         SweptCcd::NON_LINEAR,
         ExternalImpulse::default(),
