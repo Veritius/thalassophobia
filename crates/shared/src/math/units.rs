@@ -114,49 +114,49 @@ macro_rules! unit {
 
 unit! {
     name: Energy,
-    doc: "A unit of energy.",
+    doc: "A unit of energy, corresponding to 1 joule.",
     unit: "J",
     aliases: [ "Joule" ],
 }
 
 unit! {
     name: Current,
-    doc: "A unit of current.",
+    doc: "A unit of current, corresponding to 1 ampere",
     unit: "A",
     aliases: [ "Ampere" ],
 }
 
 unit! {
     name: Force,
-    doc: "A unit of force.",
+    doc: "A unit of force, corresponding to 1 newton.",
     unit: "N",
     aliases: [ "Newton" ],
 }
 
 unit! {
     name: Length,
-    doc: "A unit of length.",
+    doc: "A unit of length, corresponding to 1 meter.",
     unit: "M",
     aliases: [ "Meter" ],
 }
 
 unit! {
     name: Area,
-    doc: "A unit of area",
+    doc: "A unit of area, corresponding to 1 square meter.",
     unit: "M^2",
     aliases: [ "Square meter" ],
 }
 
 unit! {
     name: Volume,
-    doc: "A unit of weight.",
+    doc: "A unit of volume, corresponding to 1 liter.",
     unit: "L",
     aliases: [ "Liter" ],
 }
 
 unit! {
     name: Weight,
-    doc: "A unit of weight.",
+    doc: "A unit of weight, corresponding to 1 gram",
     unit: "g",
     aliases: [ "Gram" ],
 }
