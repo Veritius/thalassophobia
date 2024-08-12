@@ -143,7 +143,7 @@ unit! {
 unit! {
     name: Area,
     doc: "A unit of area, corresponding to 1 square meter.",
-    unit: "M^2",
+    unit: "M²",
     aliases: [ "Square meter" ],
 }
 
