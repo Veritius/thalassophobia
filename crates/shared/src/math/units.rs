@@ -117,7 +117,7 @@ unit! {
 unit! {
     name: Weight,
     doc: "A unit of weight.",
-    aliases: [ "mG", "Milligram" ],
+    aliases: [ "G", "Gram" ],
 }
 
 unit! {
