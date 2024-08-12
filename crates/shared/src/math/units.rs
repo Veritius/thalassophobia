@@ -4,7 +4,7 @@ use crate::prelude::*;
 macro_rules! unit {
     {
         name: $name:ident,
-        doc: $doc:literal,
+        doc: $doc:expr,
         aliases: [$($alias:literal),*],
     } => {
         #[doc=$doc]
