@@ -152,6 +152,14 @@ macro_rules! overload {
                 <$o>::new(self.inner() * rhs.inner())
             }
         }
+
+        impl Mul<$a> for $b {
+            type Output = $o;
+
+            fn mul(self, rhs: $a) -> Self::Output {
+                <$o>::new(self.inner() * rhs.inner())
+            }
+        }
     };
 
     (div ($a:ty, $b:ty) -> $o:ty) => {
