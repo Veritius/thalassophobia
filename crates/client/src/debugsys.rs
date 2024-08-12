@@ -98,7 +98,8 @@ fn loaded_system(
         LockedAxes::ROTATION_LOCKED,
         LinearDamping(5.0),
         SweptCcd::NON_LINEAR,
-        ExternalImpulse::default().with_persistence(false),
+        ExternalImpulse::default(),
+        ExternalAngularImpulse::default(),
         GravityScale(0.0),
     ));
 }

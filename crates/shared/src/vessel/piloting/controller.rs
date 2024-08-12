@@ -16,8 +16,8 @@ pub(super) fn vessel_controller_system(
     mut bodies: Query<(
         &VesselController,
         &Transform,
-        &mut ExternalForce,
-        &mut ExternalTorque,
+        &mut ExternalImpulse,
+        &mut ExternalAngularImpulse,
         &ActionState<VesselMovements>,
     ), Without<Disabled>>,
 ) {
@@ -41,7 +41,7 @@ pub(super) fn vessel_controller_system(
         let translate_force = translate_intent * controller.rotation_force;
 
         // Apply the translation force
-        impulse.apply_force(translate_force);
+        impulse.apply_impulse(translate_force);
 
         // Rotation intent value
         let mut rotation_intent = Vec3::ZERO;
@@ -52,9 +52,9 @@ pub(super) fn vessel_controller_system(
         rotation_intent.z += actions.clamped_value(&VesselMovements::Roll);
 
         // Calculate the force to be applied
-        let rotation_torque = rotation_intent * controller.rotation_force;
+        let rotation_impulse = rotation_intent * controller.rotation_force;
 
         // Apply the rotation force
-        torque.apply_torque(rotation_torque);
+        torque.apply_impulse(rotation_impulse);
     }
 }
