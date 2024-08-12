@@ -6,7 +6,6 @@ macro_rules! unit {
         name: $name:ident,
         doc: $doc:expr,
         aliases: [$($alias:literal),*],
-        conversions: [$(($($in_nm:ident: $in_ty:ty),*) { $expr:expr }),*],
     } => {
         #[doc=$doc]
         #[doc(alias($($alias),*))]
@@ -76,22 +75,6 @@ macro_rules! unit {
                 return Self(v as u32);
             }
         }
-
-        $(
-            conv!(from ($($in_nm: $in_ty),*) for $name { $expr });
-        ),*
-    };
-}
-
-macro_rules! conv {
-    (from ($($in_nm:ident: $in_ty:ty),*) for $out:ty { $op:expr }) => {
-        impl From<($($in_ty),*)> for $out {
-            fn from(value: ($($in_ty),*)) -> $out {
-                let ($($in_nm),*) = value;
-                let ($($in_nm),*) = ($($in_nm.inner()),*);
-                return <$out>::new($op);
-            }
-        }
     };
 }
 
@@ -99,71 +82,54 @@ unit! {
     name: Energy,
     doc: "A unit of energy.",
     aliases: [ "J", "Joule" ],
-    conversions: [],
 }
 
 unit! {
     name: Current,
     doc: "A unit of current.",
     aliases: [ "mA", "Milliampere" ],
-    conversions: [],
 }
 
 unit! {
     name: Force,
     doc: "A unit of force.",
     aliases: [ "mN", "Millinewton" ],
-    conversions: [
-        (pressure: Pressure, area: Area) { pressure * area }
-    ],
 }
 
 unit! {
     name: Length,
     doc: "A unit of length.",
     aliases: [ "mm", "Millimeter" ],
-    conversions: [],
 }
 
 unit! {
     name: Area,
     doc: "A unit of area",
     aliases: [ "mL^2", "Square millimeter" ],
-    conversions: [],
 }
 
 unit! {
     name: Volume,
     doc: "A unit of weight.",
     aliases: [ "mL", "Milliliter" ],
-    conversions: [],
 }
 
 unit! {
     name: Weight,
     doc: "A unit of weight.",
     aliases: [ "mG", "Milligram" ],
-    conversions: [
-        (density: Density, volume: Volume) { density * volume }
-    ],
 }
 
 unit! {
     name: Density,
     doc: "A unit of density, derived from mass and volume.",
     aliases: [ "mG/mL" ],
-    conversions: [
-        (weight: Weight, volume: Volume) { weight.checked_div(volume).unwrap_or(0) }
-    ],
 }
 
 unit! {
     name: Pressure,
     doc: "A measurement of pressure, derived from force and area.",
     aliases: [ "mPa", "Millipascal" ],
-    conversions: [
-        (force: Force, area: Area) { force.checked_div(area).unwrap_or(0) }
-    ],
 }
 
 impl Density {
@@ -176,3 +142,30 @@ impl Density {
         return Density(value);
     }
 }
+
+macro_rules! overload {
+    (mul ($a:ty, $b:ty) -> $o:ty) => {
+        impl Mul<$b> for $a {
+            type Output = $o;
+
+            fn mul(self, rhs: $b) -> Self::Output {
+                <$o>::new(self.inner() * rhs.inner())
+            }
+        }
+    };
+
+    (div ($a:ty, $b:ty) -> $o:ty) => {
+        impl Div<$b> for $a {
+            type Output = $o;
+
+            fn div(self, rhs: $b) -> Self::Output {
+                <$o>::new(self.inner() / rhs.inner())
+            }
+        }
+    };
+}
+
+overload!(div (Force, Area) -> Pressure);
+overload!(div (Weight, Volume) -> Density);
+overload!(mul (Density, Volume) -> Weight);
+overload!(mul (Pressure, Area) -> Force);

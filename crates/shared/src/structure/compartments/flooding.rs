@@ -15,7 +15,7 @@ impl CompartmentWater {
         compartment: &Compartment,
     ) -> Weight {
         let volume = self.volume.min(compartment.volume);
-        let weight: Weight = (crate::math::water::DENSITY, volume).into();
+        let weight = crate::math::water::DENSITY * volume;
         return weight;
     }
 }
