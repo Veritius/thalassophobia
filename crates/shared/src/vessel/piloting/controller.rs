@@ -55,7 +55,7 @@ pub(super) fn vessel_controller_system(
 
         // Rotation inputs
         rotation_intent.x += actions.clamped_value(&VesselMovements::Pitch);
-        rotation_intent.y += actions.clamped_value(&VesselMovements::Yaw);
+        rotation_intent.y -= actions.clamped_value(&VesselMovements::Yaw);
         rotation_intent.z += actions.clamped_value(&VesselMovements::Roll);
 
         // Calculate the force to be applied
