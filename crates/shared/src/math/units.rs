@@ -156,6 +156,16 @@ impl From<(Density, Volume)> for Weight {
     }
 }
 
+impl From<(Force, Area)> for Pressure {
+    fn from(value: (Force, Area)) -> Self {
+        let weight = value.0.inner();
+        let area = value.1.inner();
+
+        let value = weight.checked_div(area);
+        return Pressure(value.unwrap_or(0));
+    }
+}
+
 impl From<(Pressure, Area)> for Force {
     fn from(value: (Pressure, Area)) -> Self {
         let pressure = value.0.inner();
