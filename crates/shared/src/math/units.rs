@@ -134,6 +134,13 @@ unit! {
 }
 
 unit! {
+    name: Torque,
+    doc: "A unit of torque, corresponding to 1 newton meter.",
+    unit: "Nm",
+    aliases: [ "Newton-meter" ],
+}
+
+unit! {
     name: Length,
     doc: "A unit of length, corresponding to 1 meter.",
     unit: "M",
