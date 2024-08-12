@@ -4,12 +4,13 @@ use crate::{math::{curve::FloatCurve, transform::TranslateSet}, prelude::*};
 #[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
 pub struct VesselDrag {
-    pub curves: TranslateSet<FloatCurve>,
+    pub translate: TranslateSet<FloatCurve>,
+    pub rotation: TranslateSet<FloatCurve>,
 }
 
 /// Applies drag forces to vessels.
 pub(super) fn vessel_drag_system(
-    mut vessels: Query<(&mut VesselDrag, &mut ExternalImpulse, &LinearVelocity)>,
+    mut vessels: Query<(&mut VesselDrag, &mut ExternalImpulse, &mut ExternalAngularImpulse, &LinearVelocity)>,
 ) {
 
 }
