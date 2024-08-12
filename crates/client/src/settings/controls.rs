@@ -67,7 +67,7 @@ impl Default for ControlSettings<VesselMovements> {
         ));
 
         // Controller forward thrust
-        // map.insert_axis(VesselMovements::ForwardThrust, todo!());
+        map.insert_axis(VesselMovements::ForwardThrust, GamepadControlAxis::LEFT_Y);
 
         // Keyboard sideways thrust
         map.insert_axis(VesselMovements::SideThrust, KeyboardVirtualAxis::new(
@@ -76,7 +76,7 @@ impl Default for ControlSettings<VesselMovements> {
         ));
 
         // Controller sideways thrust
-        // map.insert_axis(VesselMovements::SideThrust, todo!());
+        map.insert_axis(VesselMovements::SideThrust, GamepadControlAxis::LEFT_Y);
 
         // Keyboard vertical thrust
         map.insert_axis(VesselMovements::VerticalThrust, KeyboardVirtualAxis::new(
@@ -97,7 +97,7 @@ impl Default for ControlSettings<VesselMovements> {
         ));
 
         // Controller pitching
-        // map.insert_axis(VesselMovements::Pitch, todo!());
+        map.insert_axis(VesselMovements::Pitch, GamepadControlAxis::RIGHT_Y);
 
         // Keyboard yawing
         map.insert_axis(VesselMovements::Yaw, KeyboardVirtualAxis::new(
@@ -106,7 +106,7 @@ impl Default for ControlSettings<VesselMovements> {
         ));
 
         // Controller yawing
-        // map.insert_axis(VesselMovements::Yaw, todo!());
+        map.insert_axis(VesselMovements::Yaw, GamepadControlAxis::RIGHT_X);
 
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
