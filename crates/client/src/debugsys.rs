@@ -2,10 +2,13 @@
 
 use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead, PlayerControllerState};
 use shared::input::InputManagerBundle;
+use shared::math::transform::TranslateSet;
 use shared::physics::{ObjectDominance, ObjectLayer};
 use shared::progress::Done;
 use shared::schedules::Simulating;
 use shared::prelude::*;
+use shared::vessel::piloting::controller::VesselController;
+use shared::vessel::piloting::VesselMovements;
 use crate::initial::InitialLoading;
 use crate::settings::ControlSettings;
 
@@ -13,6 +16,8 @@ pub(crate) struct DebugSystemsPlugin;
 
 impl Plugin for DebugSystemsPlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(PhysicsDebugPlugin::default());
+
         app.add_systems(Startup, startup_system);
         app.add_systems(Done::<InitialLoading>::new(), loaded_system);
         app.add_systems(Update, update_system);
@@ -32,7 +37,7 @@ fn loaded_system(
     mut state: ResMut<Simulating>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    character_controls: Res<ControlSettings<CharacterMovements>>,
+    vessel_controls: Res<ControlSettings<VesselMovements>>,
 ) {
     // Set game state to simulating
     *state = Simulating::Enabled;
@@ -59,31 +64,32 @@ fn loaded_system(
     });
 
     // Debug camera
-    // commands.spawn(Camera3dBundle {
-    //     transform: Transform::from_xyz(10.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
-    //     ..default()
-    // });
-
-    // Character head
-    let head = commands.spawn((
-        PlayerControllerHead::default(),
-        Camera3dBundle {
-            transform: Transform::from_xyz(0.0, 0.5, 0.0),
-            ..default()
-        },
-    )).id();
+    commands.spawn(Camera3dBundle {
+        transform: Transform::from_xyz(10.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
+        ..default()
+    });
 
     // Character body
     commands.spawn((
-        PlayerController::new(
-            head,
-            PlayerControllerState::Grounded,
+        VesselController {
+            translate_force: TranslateSet::splat(1.0),
+            rotation_force: TranslateSet::splat(1.0),
+        },
+        TransformBundle::from_transform(
+            Transform::from_xyz(
+                0.0,
+                1.0,
+                0.0,
+            )
         ),
-        TransformBundle::from_transform(Transform::from_xyz(0.0, 1.0, 0.0)),
         VisibilityBundle::default(),
-        InputManagerBundle::with_map(character_controls.0.clone()),
+        InputManagerBundle::with_map(vessel_controls.0.clone()),
         RigidBody::Dynamic,
-        Collider::capsule(0.5, 0.5),
+        Collider::capsule_endpoints(
+            0.5,
+            Vec3 { x: 0.0, y: 0.0, z: 1.0  },
+            Vec3 { x: 0.0, y: 0.0, z: -1.0 },
+        ),
         CollisionLayers::new(
             ObjectLayer::Character,
             ObjectLayer::Terrain | ObjectLayer::Structure,
@@ -93,7 +99,8 @@ fn loaded_system(
         LinearDamping(5.0),
         SweptCcd::NON_LINEAR,
         ExternalImpulse::default().with_persistence(false),
-    )).add_child(head);
+        GravityScale(0.0),
+    ));
 }
 
 fn update_system(
