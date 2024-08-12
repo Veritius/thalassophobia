@@ -5,10 +5,10 @@ macro_rules! unit {
     {
         name: $name:ident,
         doc: $doc:literal,
-        aliases: [$($alias:literal),+],
+        aliases: [$($alias:literal),*],
     } => {
         #[doc=$doc]
-        #[doc(alias($($alias),+))]
+        #[doc(alias($($alias),*))]
         #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Reflect, Serialize, Deserialize)]
         #[reflect(Serialize, Deserialize)]
         pub struct $name(u32);
