@@ -15,7 +15,7 @@ impl CompartmentWater {
         compartment: &Compartment,
         gravity: Force,
     ) -> Weight {
-        let water = self.volume.min(compartment.volume);
+        let volume = self.volume.min(compartment.volume);
 
         todo!()
     }

@@ -114,6 +114,17 @@ unit! {
     aliases: [ "mg/ml" ],
 }
 
+impl Density {
+    /// Calculates density, without checking that `volume` is not zero.
+    pub const fn new_unchecked(
+        weight: Weight,
+        volume: Volume,
+    ) -> Self {
+        let value = weight.inner() / volume.inner();
+        return Density(value);
+    }
+}
+
 impl From<(Weight, Volume)> for Density {
     fn from(value: (Weight, Volume)) -> Self {
         let weight = value.0.inner();
