@@ -10,11 +10,12 @@ pub struct VesselRighting {
 /// Attempts to bring vessels into better orientations.
 pub(super) fn vessel_righting_system(
     mut vessels: Query<(
-        &Transform,
+        &VesselRighting,
+        &GlobalTransform,
         &mut ExternalAngularImpulse,
     )>,
 ) {
-    for (transform, impulse) in &mut vessels {
+    for (righting, transform, mut impulse) in &mut vessels {
 
     }
 }

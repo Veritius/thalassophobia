@@ -11,13 +11,13 @@ pub struct VesselDrag {
 /// Applies drag forces to vessels.
 pub(super) fn vessel_drag_system(
     mut vessels: Query<(
-        &LinearVelocity,
         &VesselDrag,
+        &LinearVelocity,
         &mut ExternalImpulse,
         &mut ExternalAngularImpulse,
     )>,
 ) {
-    for (velocity, drag, mut impulse, mut torque) in &mut vessels {
+    for (drag, velocity, mut impulse, mut torque) in &mut vessels {
 
     }
 }

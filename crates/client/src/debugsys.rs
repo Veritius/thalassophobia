@@ -2,11 +2,13 @@
 
 use shared::character::movement::{CharacterMovements, PlayerController, PlayerControllerHead, PlayerControllerState};
 use shared::input::InputManagerBundle;
+use shared::math::curve::FloatCurve;
 use shared::math::transform::TranslateSet;
 use shared::physics::{ObjectDominance, ObjectLayer};
 use shared::progress::Done;
 use shared::schedules::Simulating;
 use shared::prelude::*;
+use shared::vessel::physics::VesselRighting;
 use shared::vessel::piloting::controller::VesselController;
 use shared::vessel::piloting::VesselMovements;
 use crate::initial::InitialLoading;
@@ -101,6 +103,9 @@ fn loaded_system(
         ExternalImpulse::default(),
         ExternalAngularImpulse::default(),
         GravityScale(0.0),
+        VesselRighting {
+            force: FloatCurve::default(),
+        }
     ));
 }
 
