@@ -1,8 +1,10 @@
 mod actions;
+mod drag;
 
 pub mod controller;
 
 pub use actions::*;
+pub use drag::*;
 
 use bevy::prelude::*;
 use controller::VesselController;
