@@ -24,10 +24,10 @@ pub struct Battery {
 impl Default for Battery {
     fn default() -> Self {
         Self {
-            stored: Energy::new(0),
-            capacity: Energy::new(0),
-            recharge: Current::new(0),
-            discharge: Current::new(0),
+            stored: Energy::new(0.0),
+            capacity: Energy::new(0.0),
+            recharge: Current::new(0.0),
+            discharge: Current::new(0.0),
             efficiency: 1.0,
         }
     }

@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub const fn hydrostatic_pressure(
+pub fn hydrostatic_pressure(
     density: Density,
     gravity: Force,
     depth: Length,
@@ -13,12 +13,9 @@ pub mod water {
     use super::*;
 
     /// The density of water at its freezing point (0 degrees Celcius).
-    pub const DENSITY: Density = Density::new_unchecked(
-        Weight::new(999),
-        Volume::new(1000),
-    );
+    pub const DENSITY: Density = Density::new(0.999_842_83);
 
-    pub const fn water_pressure(
+    pub fn water_pressure(
         gravity: Force,
         depth: Length,
     ) -> Pressure {

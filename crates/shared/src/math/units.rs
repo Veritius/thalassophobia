@@ -11,30 +11,30 @@ macro_rules! unit {
         #[doc=$doc]
         #[doc(alias=$unit)]
         #[doc(alias($($alias),*))]
-        #[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Reflect, Serialize, Deserialize)]
+        #[derive(Default, Clone, Copy, PartialEq, PartialOrd, Reflect, Serialize, Deserialize)]
         #[reflect(Serialize, Deserialize)]
-        pub struct $name(u32);
+        pub struct $name(f32);
 
         impl $name {
             #[inline]
-            pub const fn new(value: u32) -> Self {
+            pub const fn new(value: f32) -> Self {
                 Self(value)
             }
 
             #[inline]
-            pub const fn inner(self) -> u32 {
+            pub const fn inner(self) -> f32 {
                 self.0
             }
         }
 
-        impl From<u32> for $name {
+        impl From<f32> for $name {
             #[inline]
-            fn from(value: u32) -> Self {
+            fn from(value: f32) -> Self {
                 Self::new(value)
             }
         }
         
-        impl From<$name> for u32 {
+        impl From<$name> for f32 {
             fn from(value: $name) -> Self {
                 value.inner()
             }
@@ -45,7 +45,7 @@ macro_rules! unit {
         
             #[inline]
             fn add(self, rhs: Self) -> Self::Output {
-                Self(self.0.saturating_add(rhs.0))
+                Self(self.0 + rhs.0)
             }
         }
 
@@ -61,7 +61,7 @@ macro_rules! unit {
         
             #[inline]
             fn sub(self, rhs: Self) -> Self::Output {
-                Self(self.0.saturating_sub(rhs.0))
+                Self(self.0 + rhs.0)
             }
         }
 
@@ -77,8 +77,7 @@ macro_rules! unit {
         
             #[inline]
             fn mul(self, rhs: f32) -> Self::Output {
-                let v = self.0 as f32 * rhs;
-                return Self(v as u32);
+                return Self(self.0 * rhs);
             }
         }
 
@@ -93,8 +92,7 @@ macro_rules! unit {
         
             #[inline]
             fn div(self, rhs: f32) -> Self::Output {
-                let v = self.0 as f32 / rhs;
-                return Self(v as u32);
+                return Self(self.0 * rhs);
             }
         }
 
@@ -124,36 +122,36 @@ unit! {
 unit! {
     name: Current,
     doc: "A unit of current.",
-    unit: "mA",
-    aliases: [ "Milliampere" ],
+    unit: "A",
+    aliases: [ "Ampere" ],
 }
 
 unit! {
     name: Force,
     doc: "A unit of force.",
-    unit: "mN",
-    aliases: [ "Millinewton" ],
+    unit: "N",
+    aliases: [ "Newton" ],
 }
 
 unit! {
     name: Length,
     doc: "A unit of length.",
-    unit: "mm",
-    aliases: [ "Millimeter" ],
+    unit: "M",
+    aliases: [ "Meter" ],
 }
 
 unit! {
     name: Area,
     doc: "A unit of area",
-    unit: "mL^2",
-    aliases: [ "Square millimeter" ],
+    unit: "M^2",
+    aliases: [ "Square meter" ],
 }
 
 unit! {
     name: Volume,
     doc: "A unit of weight.",
-    unit: "mL",
-    aliases: [ "Milliliter" ],
+    unit: "L",
+    aliases: [ "Liter" ],
 }
 
 unit! {
@@ -166,26 +164,15 @@ unit! {
 unit! {
     name: Density,
     doc: "A unit of density, derived from mass and volume.",
-    unit: "g/L",
+    unit: "g/mL",
     aliases: [],
 }
 
 unit! {
     name: Pressure,
     doc: "A measurement of pressure, derived from force and area.",
-    unit: "mPa",
-    aliases: [ "Millipascal" ],
-}
-
-impl Density {
-    /// Calculates density, without checking that `volume` is not zero.
-    pub const fn new_unchecked(
-        weight: Weight,
-        volume: Volume,
-    ) -> Self {
-        let value = weight.inner() / volume.inner();
-        return Density(value);
-    }
+    unit: "Pa",
+    aliases: [ "Pascal" ],
 }
 
 impl Mul<Volume> for Density {
@@ -211,8 +198,7 @@ impl Div<Area> for Force {
 
     #[inline]
     fn div(self, rhs: Area) -> Self::Output {
-        let value = self.0 / rhs.0;
-        return Pressure::new(value);
+        return Pressure::new(self.0 / rhs.0);
     }
 }
 
@@ -221,7 +207,6 @@ impl Div<Volume> for Weight {
 
     #[inline]
     fn div(self, rhs: Volume) -> Self::Output {
-        let value = self.0 / (rhs.0 * 1000);
-        return Density::new(value);
+        return Density::new(self.0 / rhs.0);
     }
 }

@@ -1,7 +1,6 @@
-use crate::prelude::*;
-use super::*;
+use crate::{math::fluids::water::DENSITY, prelude::*};
 
-/// How flooded a [`Compartment`] is.
+/// How flooded a [`Compartment`](super::Compartment) is.
 #[derive(Debug, Default, Clone, Copy, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
 pub struct CompartmentWater {
@@ -10,12 +9,7 @@ pub struct CompartmentWater {
 
 impl CompartmentWater {
     /// Returns the [weight](Weight) of the flooded compartment.
-    pub fn weight(
-        &self,
-        compartment: &Compartment,
-    ) -> Weight {
-        let volume = self.volume.min(compartment.volume);
-        let weight = crate::math::fluids::water::DENSITY * volume;
-        return weight;
+    pub fn weight(&self) -> Weight {
+        return self.volume * DENSITY;
     }
 }
