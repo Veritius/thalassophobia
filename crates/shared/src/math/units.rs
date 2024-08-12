@@ -2,8 +2,13 @@ use std::ops::{Add, Div, Mul, Sub};
 use crate::prelude::*;
 
 macro_rules! unit {
-    ($name:ident, $doc:literal) => {
+    {
+        name: $name:ident,
+        doc: $doc:literal,
+        aliases: [$($alias:literal),+],
+    } => {
         #[doc=$doc]
+        #[doc(alias($($alias),+))]
         #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Reflect, Serialize, Deserialize)]
         #[reflect(Serialize, Deserialize)]
         pub struct $name(u32);
@@ -73,7 +78,47 @@ macro_rules! unit {
     };
 }
 
-unit!(Gram, "A unit of mass.");
-unit!(Joule, "A unit of energy.");
-unit!(Litre, "A unit of volume.");
-unit!(Newton, "A unit of force.");
+unit! {
+    name: Energy,
+    doc: "A unit of energy.",
+    aliases: [ "Joule" ],
+}
+
+unit! {
+    name: Force,
+    doc: "A unit of force.",
+    aliases: [ "Newton" ],
+}
+
+unit! {
+    name: Length,
+    doc: "A unit of length.",
+    aliases: [ "Millimeter" ],
+}
+
+unit! {
+    name: Volume,
+    doc: "A unit of weight.",
+    aliases: [ "Milliliter" ],
+}
+
+unit! {
+    name: Weight,
+    doc: "A unit of weight.",
+    aliases: [ "Milligram" ],
+}
+
+unit! {
+    name: Density,
+    doc: "A unit of density, derived from mass and volume.",
+    aliases: [ "mg/ml" ],
+}
+
+impl From<(Weight, Volume)> for Density {
+    fn from(value: (Weight, Volume)) -> Self {
+        let weight = value.0.inner();
+        let volume = value.1.inner();
+        let value = weight.checked_div(volume);
+        return Density(value.unwrap_or(0));
+    }
+}

@@ -9,7 +9,7 @@ use crate::prelude::*;
 #[reflect(Component, Serialize, Deserialize)]
 pub struct Compartment {
     /// The overall volume of the compartment.
-    pub volume: Litre,
+    pub volume: Volume,
 }
 
 #[derive(Bundle)]

@@ -5,12 +5,16 @@ use super::*;
 #[derive(Debug, Default, Clone, Copy, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
 pub struct CompartmentWater {
-    volume: Litre,
+    volume: Volume,
 }
 
 impl CompartmentWater {
     /// Returns the weight of the flooded compartment.
-    pub fn weight(&self, compartment: &Compartment) -> Gram {
+    pub fn weight(
+        &self,
+        compartment: &Compartment,
+        gravity: Force,
+    ) -> Weight {
         let water = self.volume.min(compartment.volume);
 
         todo!()
