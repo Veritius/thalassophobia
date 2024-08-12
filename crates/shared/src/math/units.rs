@@ -129,7 +129,17 @@ impl From<(Weight, Volume)> for Density {
     fn from(value: (Weight, Volume)) -> Self {
         let weight = value.0.inner();
         let volume = value.1.inner();
+
         let value = weight.checked_div(volume);
         return Density(value.unwrap_or(0));
+    }
+}
+
+impl From<(Density, Volume)> for Weight {
+    fn from(value: (Density, Volume)) -> Self {
+        let density = value.0.inner();
+        let volume = value.1.inner();
+
+        return Weight(density * volume);
     }
 }

@@ -9,14 +9,13 @@ pub struct CompartmentWater {
 }
 
 impl CompartmentWater {
-    /// Returns the weight of the flooded compartment.
+    /// Returns the [weight](Weight) of the flooded compartment.
     pub fn weight(
         &self,
         compartment: &Compartment,
-        gravity: Force,
     ) -> Weight {
         let volume = self.volume.min(compartment.volume);
-
-        todo!()
+        let weight: Weight = (crate::math::water::DENSITY, volume).into();
+        return weight;
     }
 }
