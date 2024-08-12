@@ -121,7 +121,7 @@ unit! {
 
 unit! {
     name: Current,
-    doc: "A unit of current, corresponding to 1 ampere",
+    doc: "A unit of current, corresponding to 1 ampere.",
     unit: "A",
     aliases: [ "Ampere" ],
 }
@@ -156,7 +156,7 @@ unit! {
 
 unit! {
     name: Weight,
-    doc: "A unit of weight, corresponding to 1 gram",
+    doc: "A unit of weight, corresponding to 1 gram.",
     unit: "g",
     aliases: [ "Gram" ],
 }
