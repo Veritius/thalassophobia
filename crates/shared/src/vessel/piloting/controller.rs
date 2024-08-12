@@ -31,13 +31,20 @@ pub(super) fn vessel_controller_system(
         // Translation intent value
         let mut translate_intent = Vec3::ZERO;
 
-        // Keyboard movement inputs
+        // Horizontal movement inputs
         translate_intent.x += actions.clamped_value(&VesselMovements::SideThrust);
-        translate_intent.y += actions.clamped_value(&VesselMovements::VerticalThrust);
         translate_intent.z -= actions.clamped_value(&VesselMovements::ForwardThrust);
 
         // Calculate the force to be applied
         translate_intent = transform.rotation.mul_vec3(translate_intent);
+
+        // Vertical input handling
+        // This is separate so that horizontal movements are relative to the vessel's orientation,
+        // but vertical movements are not. Also clamping to avoid exploits.
+        translate_intent.y += actions.value(&VesselMovements::VerticalThrust);
+        translate_intent.y = translate_intent.y.clamp(-1.0, 1.0);
+
+        // Calculate the force to apply to the vessel
         let translate_force = translate_intent * controller.rotation_force;
 
         // Apply the translation force
