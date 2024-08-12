@@ -81,37 +81,49 @@ macro_rules! unit {
 unit! {
     name: Energy,
     doc: "A unit of energy.",
-    aliases: [ "Joule" ],
+    aliases: [ "J", "Joule" ],
 }
 
 unit! {
     name: Force,
     doc: "A unit of force.",
-    aliases: [ "Newton" ],
+    aliases: [ "N", "Newton" ],
 }
 
 unit! {
     name: Length,
     doc: "A unit of length.",
-    aliases: [ "Millimeter" ],
+    aliases: [ "mm", "Millimeter" ],
+}
+
+unit! {
+    name: Area,
+    doc: "A unit of area",
+    aliases: [ "mL^2", "Square millimeter" ],
 }
 
 unit! {
     name: Volume,
     doc: "A unit of weight.",
-    aliases: [ "Milliliter" ],
+    aliases: [ "mL", "Milliliter" ],
 }
 
 unit! {
     name: Weight,
     doc: "A unit of weight.",
-    aliases: [ "Milligram" ],
+    aliases: [ "mG", "Milligram" ],
 }
 
 unit! {
     name: Density,
     doc: "A unit of density, derived from mass and volume.",
-    aliases: [ "mg/ml" ],
+    aliases: [ "mG/mL" ],
+}
+
+unit! {
+    name: Pressure,
+    doc: "A measurement of pressure, derived from force and area.",
+    aliases: [ "mPa", "Millipascal" ],
 }
 
 impl Density {
@@ -141,5 +153,14 @@ impl From<(Density, Volume)> for Weight {
         let volume = value.1.inner();
 
         return Weight(density * volume);
+    }
+}
+
+impl From<(Pressure, Area)> for Force {
+    fn from(value: (Pressure, Area)) -> Self {
+        let pressure = value.0.inner();
+        let area = value.1.inner();
+
+        return Force(pressure * area);
     }
 }
