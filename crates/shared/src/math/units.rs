@@ -85,9 +85,15 @@ unit! {
 }
 
 unit! {
+    name: Current,
+    doc: "A unit of current.",
+    aliases: [ "mA", "Milliampere" ],
+}
+
+unit! {
     name: Force,
     doc: "A unit of force.",
-    aliases: [ "N", "Newton" ],
+    aliases: [ "mN", "Millinewton" ],
 }
 
 unit! {

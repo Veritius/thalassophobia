@@ -11,10 +11,10 @@ pub struct Battery {
     pub capacity: Energy,
 
     /// The speed at which the battery can recharge.
-    pub recharge: u32,
+    pub recharge: Current,
 
     /// The speed at which electricity can be discharged.
-    pub discharge: u32,
+    pub discharge: Current,
 
     /// The efficiency of recharging the battery.
     /// Ranges from `0.0` (0% efficient) to `1.0` (100% efficient).
@@ -24,10 +24,10 @@ pub struct Battery {
 impl Default for Battery {
     fn default() -> Self {
         Self {
-            stored: Energy::from(0),
-            capacity: Energy::from(0),
-            recharge: 1,
-            discharge: 1,
+            stored: Energy::new(0),
+            capacity: Energy::new(0),
+            recharge: Current::new(0),
+            discharge: Current::new(0),
             efficiency: 1.0,
         }
     }
