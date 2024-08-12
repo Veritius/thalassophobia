@@ -37,7 +37,7 @@ pub(super) fn vessel_controller_system(
         translate_intent.z -= actions.clamped_value(&VesselMovements::ForwardThrust);
 
         // Calculate the force to be applied
-        translate_intent *= transform.forward().as_vec3();
+        translate_intent = transform.rotation.mul_vec3(translate_intent);
         let translate_force = translate_intent * controller.rotation_force;
 
         // Apply the translation force
