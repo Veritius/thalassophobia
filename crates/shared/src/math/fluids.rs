@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub fn hydrostatic_pressure(
+pub const fn hydrostatic_pressure(
     density: Density,
     gravity: Force,
     depth: Length,
@@ -17,4 +17,15 @@ pub mod water {
         Weight::new(999),
         Volume::new(1000),
     );
+
+    pub const fn water_pressure(
+        gravity: Force,
+        depth: Length,
+    ) -> Pressure {
+        hydrostatic_pressure(
+            DENSITY,
+            gravity,
+            depth,
+        )
+    }
 }
