@@ -5,11 +5,13 @@ macro_rules! unit {
     {
         name: $name:ident,
         doc: $doc:expr,
+        unit: $unit:literal,
         aliases: [$($alias:literal),*],
     } => {
         #[doc=$doc]
+        #[doc(alias=$unit)]
         #[doc(alias($($alias),*))]
-        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Reflect, Serialize, Deserialize)]
+        #[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Reflect, Serialize, Deserialize)]
         #[reflect(Serialize, Deserialize)]
         pub struct $name(u32);
 
@@ -75,61 +77,78 @@ macro_rules! unit {
                 return Self(v as u32);
             }
         }
+
+        impl std::fmt::Debug for $name {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                self.0.fmt(f)?;
+                f.write_str($unit)?;
+                return Ok(());
+            }
+        }
     };
 }
 
 unit! {
     name: Energy,
     doc: "A unit of energy.",
-    aliases: [ "J", "Joule" ],
+    unit: "J",
+    aliases: [ "Joule" ],
 }
 
 unit! {
     name: Current,
     doc: "A unit of current.",
-    aliases: [ "mA", "Milliampere" ],
+    unit: "mA",
+    aliases: [ "Milliampere" ],
 }
 
 unit! {
     name: Force,
     doc: "A unit of force.",
-    aliases: [ "mN", "Millinewton" ],
+    unit: "mN",
+    aliases: [ "Millinewton" ],
 }
 
 unit! {
     name: Length,
     doc: "A unit of length.",
-    aliases: [ "mm", "Millimeter" ],
+    unit: "mm",
+    aliases: [ "Millimeter" ],
 }
 
 unit! {
     name: Area,
     doc: "A unit of area",
-    aliases: [ "mL^2", "Square millimeter" ],
+    unit: "mL^2",
+    aliases: [ "Square millimeter" ],
 }
 
 unit! {
     name: Volume,
     doc: "A unit of weight.",
-    aliases: [ "mL", "Milliliter" ],
+    unit: "mL",
+    aliases: [ "Milliliter" ],
 }
 
 unit! {
     name: Weight,
     doc: "A unit of weight.",
-    aliases: [ "G", "Gram" ],
+    unit: "g",
+    aliases: [ "Gram" ],
 }
 
 unit! {
     name: Density,
     doc: "A unit of density, derived from mass and volume.",
-    aliases: [ "mG/mL" ],
+    unit: "mg/mL",
+    aliases: [],
 }
 
 unit! {
     name: Pressure,
     doc: "A measurement of pressure, derived from force and area.",
-    aliases: [ "mPa", "Millipascal" ],
+    unit: "mPa",
+    aliases: [ "Millipascal" ],
 }
 
 impl Density {
