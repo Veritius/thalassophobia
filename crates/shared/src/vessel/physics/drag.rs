@@ -18,6 +18,6 @@ pub(super) fn vessel_drag_system(
     )>,
 ) {
     for (velocity, drag, mut impulse, mut torque) in &mut vessels {
-        todo!()
+
     }
 }
