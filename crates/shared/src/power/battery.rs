@@ -32,3 +32,11 @@ impl Default for Battery {
         }
     }
 }
+
+impl Battery {
+    /// Returns how full the battery is, from `0.0` to `1.0`.
+    #[inline]
+    pub fn fract(&self) -> f32 {
+        self.stored.inner() / self.capacity.inner()
+    }
+}
