@@ -30,19 +30,6 @@ pub enum ClientState {
     Multiplayer,
 }
 
-impl Display for ClientState {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(match self {
-            ClientState::Initial => "Initial",
-            ClientState::MainMenu => "Main menu",
-            ClientState::Singleplayer => "Singleplayer",
-
-            #[cfg(feature="multiplayer")]
-            ClientState::Multiplayer => "Multiplayer",
-        })
-    }
-}
-
 /// Added only when the [`Initial`](ClientState::Initial) state is passed.
 #[derive(Resource)]
 pub(crate) struct InitialPassed;

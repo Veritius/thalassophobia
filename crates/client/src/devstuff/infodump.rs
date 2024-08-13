@@ -17,6 +17,9 @@ pub(super) fn infodump_window(
     simulating: Res<Simulating>,
     client_state: Res<State<ClientState>>,
 
+    #[cfg(feature="hosting")]
+    server_state: Res<State<server::ServerState>>,
+
     diagnostics: Res<DiagnosticsStore>,
 ) {
     if *visibility == InfodumpWindowVisibility::Hide { return; }
@@ -28,12 +31,18 @@ pub(super) fn infodump_window(
             .striped(true)
             .show(ui, |ui| {
                 ui.label("Simulating");
-                ui.label(format!("{simulating:?}"));
+                ui.label(format!("{:?}", *simulating));
                 ui.end_row();
 
                 ui.label("Client state");
-                ui.label(format!("{}", client_state.get()));
+                ui.label(format!("{:?}", client_state.get()));
                 ui.end_row();
+
+                #[cfg(feature="hosting")] {
+                    ui.label("Server state");
+                    ui.label(format!("{:?}", server_state.get()));
+                    ui.end_row();
+                }
             });
         });
 
