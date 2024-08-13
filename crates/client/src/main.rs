@@ -15,6 +15,10 @@ fn main() {
     app.add_plugins(DefaultPlugins);
     shared::setup(&mut app, SetupMode::Full);
 
+    // Server setup, if hosting is enabled
+    #[cfg(feature="hosting")]
+    app.add_plugins(server::LobbyHostingPlugin);
+
     // Client subsystems
     app.add_plugins(escape::EscapeMenuPlugin);
     app.add_plugins(initial::InitialLoadingPlugin);
