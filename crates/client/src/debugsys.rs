@@ -101,7 +101,6 @@ fn loaded_system(
         ExternalImpulse::default(),
         ExternalAngularImpulse::default(),
         GravityScale(0.0),
-        LockedAxes::new().lock_rotation_z(),
     ));
 }
 
