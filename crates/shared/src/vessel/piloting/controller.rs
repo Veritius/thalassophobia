@@ -54,7 +54,8 @@ pub(super) fn vessel_controller_system(
         let mut rotation_intent = Vec3::ZERO;
 
         // Rotation inputs
-        rotation_intent.x += actions.clamped_value(&VesselMovements::Pitch);
+        // TODO: FIX THIS
+        // rotation_intent.x += actions.clamped_value(&VesselMovements::Pitch);
         rotation_intent.y -= actions.clamped_value(&VesselMovements::Yaw);
         rotation_intent.z += actions.clamped_value(&VesselMovements::Roll);
 
