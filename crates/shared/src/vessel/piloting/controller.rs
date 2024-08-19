@@ -59,7 +59,7 @@ pub(super) fn vessel_controller_system(
         rotation_intent.z += actions.clamped_value(&VesselMovements::Roll);
 
         // Calculate the force to be applied
-        let rotation_intent = rotation_intent  * controller.rotation_force;
+        let rotation_intent = rotation_intent * controller.rotation_force;
         let rotation_impulse = transform.rotation.mul_vec3(rotation_intent);
 
         // Apply the rotation force
