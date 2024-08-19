@@ -13,7 +13,7 @@ Before contributing, please read the [licensing](#license) section to understand
 
 The following table describes where you can go to contribute to specific parts of the game.
 
-| Folder          | Project component       | GitHub project link                                          |
+| Folder          | Description             | GitHub project link                                          |
 | --------------- | ----------------------- | ------------------------------------------------------------ |
 | `crates/client` | Game client source      | [Client crate](https://github.com/users/Veritius/projects/8) |
 | `crates/dedi`   | Dedicated server source | [Dedi crate](https://github.com/users/Veritius/projects/9/)  |
