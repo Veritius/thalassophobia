@@ -1,8 +1,19 @@
 mod flooding;
+mod portal;
 
 pub use flooding::CompartmentWater;
+pub use portal::CompartmentPortal;
 
 use crate::prelude::*;
+
+pub(crate) struct CompartmentsPlugin;
+
+impl Plugin for CompartmentsPlugin {
+    fn build(&self, app: &mut App) {
+        app.register_type::<CompartmentWater>();
+        app.register_type::<CompartmentPortal>();
+    }
+}
 
 /// A compartment in a structure.
 #[derive(Debug, Default, Clone, Copy, Component, Reflect, Serialize, Deserialize)]
