@@ -29,6 +29,7 @@ optional = true
 
 [dependencies.smallvec]
 version = "1.13"
+features = ["union", "serde"]
 
 [dependencies.serde]
 version = "1"
