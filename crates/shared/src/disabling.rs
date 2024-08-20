@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use crate::prelude::*;
 
 pub(crate) struct DisablingPlugin;
 
@@ -10,5 +10,5 @@ impl Plugin for DisablingPlugin {
 
 /// Disabled entities are frozen in time and will not be ticked by most game systems.
 #[derive(Debug, Default, Clone, Copy, Component, PartialEq, Eq, PartialOrd, Ord, Reflect, Hash)]
-#[reflect(Component)]
+#[reflect(Default, Component, PartialEq, Hash)]
 pub struct Disabled;
