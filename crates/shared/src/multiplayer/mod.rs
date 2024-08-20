@@ -10,6 +10,6 @@ pub(crate) struct MultiplayerPlugin;
 
 impl Plugin for MultiplayerPlugin {
     fn build(&self, app: &mut App) {
-
+        app.register_type::<player::Player>();
     }
 }
