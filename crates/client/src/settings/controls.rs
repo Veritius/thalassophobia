@@ -108,6 +108,18 @@ impl Default for ControlSettings<VesselMovements> {
         // Controller yawing
         map.insert_axis(VesselMovements::Yaw, GamepadControlAxis::RIGHT_X);
 
+        // Keyboard rolling
+        map.insert_axis(VesselMovements::Roll, KeyboardVirtualAxis::new(
+            KeyCode::KeyI,
+            KeyCode::KeyY,
+        ));
+
+        // Controller rolling
+        map.insert_axis(VesselMovements::Roll, GamepadVirtualAxis::new(
+            GamepadButtonType::LeftTrigger2,
+            GamepadButtonType::RightTrigger2,
+        ));
+
         map.insert(VesselMovements::Brake, KeyCode::Space);
         map.insert(VesselMovements::Brake, GamepadButtonType::South);
 

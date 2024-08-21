@@ -72,7 +72,11 @@ fn loaded_system(
     commands.spawn((
         VesselController {
             translate_force: TranslateSet::splat(1.0),
-            rotation_force: TranslateSet::splat(1.0),
+            rotation_force: TranslateSet::from(Vec3 {
+                x: 1.0,
+                y: 0.4,
+                z: 0.1,
+            }),
         },
         TransformBundle::from_transform(
             Transform::from_xyz(
