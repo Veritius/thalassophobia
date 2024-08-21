@@ -1,11 +1,13 @@
 #![allow(unused_variables, unused_mut)]
 
 use shared::input::InputManagerBundle;
+use shared::math::curve::FloatCurve;
 use shared::math::transform::TranslateSet;
 use shared::physics::{ObjectDominance, ObjectLayer};
 use shared::progress::Done;
 use shared::schedules::Simulating;
 use shared::prelude::*;
+use shared::vessel::physics::VesselAntiRoll;
 use shared::vessel::piloting::controller::VesselController;
 use shared::vessel::piloting::VesselMovements;
 use crate::initial::InitialLoading;
@@ -63,10 +65,10 @@ fn loaded_system(
     });
 
     // Debug camera
-    commands.spawn(Camera3dBundle {
-        transform: Transform::from_xyz(10.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    });
+    // commands.spawn(Camera3dBundle {
+    //     transform: Transform::from_xyz(10.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
+    //     ..default()
+    // });
 
     // Character body
     commands.spawn((
@@ -82,21 +84,21 @@ fn loaded_system(
                 z: 0.1,
             }),
         },
-        TransformBundle::from_transform(
-            Transform::from_xyz(
-                0.0,
-                1.0,
-                0.0,
-            ),
-        ),
-        // Camera3dBundle {
-        //     transform: Transform::from_xyz(
+        // TransformBundle::from_transform(
+        //     Transform::from_xyz(
         //         0.0,
         //         1.0,
         //         0.0,
         //     ),
-        //     ..default()
-        // },
+        // ),
+        Camera3dBundle {
+            transform: Transform::from_xyz(
+                0.0,
+                1.0,
+                0.0,
+            ),
+            ..default()
+        },
         VisibilityBundle::default(),
         InputManagerBundle::with_map(vessel_controls.0.clone()),
         RigidBody::Dynamic,
@@ -116,6 +118,9 @@ fn loaded_system(
         ExternalImpulse::default(),
         ExternalAngularImpulse::default(),
         GravityScale(0.0),
+        VesselAntiRoll {
+            force: FloatCurve::Logarithm(1.0),
+        },
     ));
 }
 
