@@ -227,6 +227,19 @@ impl TranslateSet<f32> {
     }
 }
 
+impl From<Vec3> for TranslateSet<f32> {
+    fn from(value: Vec3) -> Self {
+        Self {
+            xn: value.x,
+            xp: value.x,
+            yn: value.y,
+            yp: value.y,
+            zn: value.z,
+            zp: value.z,
+        }
+    }
+}
+
 impl Mul<Vec3> for TranslateSet<f32> {
     type Output = TranslateSet<f32>;
 
@@ -253,19 +266,6 @@ impl Div<Vec3> for TranslateSet<f32> {
             yp: self.yp / rhs.y,
             zn: self.zn / rhs.z,
             zp: self.zp / rhs.z,
-        }
-    }
-}
-
-impl From<Vec3> for TranslateSet<f32> {
-    fn from(value: Vec3) -> Self {
-        Self {
-            xn: value.x,
-            xp: value.x,
-            yn: value.y,
-            yp: value.y,
-            zn: value.z,
-            zp: value.z,
         }
     }
 }
