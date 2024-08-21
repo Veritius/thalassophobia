@@ -71,7 +71,11 @@ fn loaded_system(
     // Character body
     commands.spawn((
         VesselController {
-            translate_force: TranslateSet::splat(1.0),
+            translate_force: TranslateSet::from(Vec3 {
+                x: 1.0,
+                y: 0.5,
+                z: 0.3,
+            }),
             rotation_force: TranslateSet::from(Vec3 {
                 x: 1.0,
                 y: 0.4,
