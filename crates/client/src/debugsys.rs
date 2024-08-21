@@ -73,13 +73,13 @@ fn loaded_system(
         VesselController {
             translate_force: TranslateSet::from(Vec3 {
                 x: 0.5,
-                y: 1.0,
-                z: 0.3,
+                y: 0.3,
+                z: 1.0,
             }),
             rotation_force: TranslateSet::from(Vec3 {
                 x: 0.4,
-                y: 0.8,
-                z: 0.1,
+                y: 0.2,
+                z: 0.8,
             }),
         },
         TransformBundle::from_transform(
