@@ -79,7 +79,7 @@ fn loaded_system(
             rotation_force: TranslateSet::from(Vec3 {
                 x: 0.4,
                 y: 0.2,
-                z: 0.8,
+                z: 0.1,
             }),
         },
         TransformBundle::from_transform(
