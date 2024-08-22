@@ -125,7 +125,7 @@ fn loaded_system(
             force: 6.0,
 
             limit: Some(-0.523598776 ..= 0.523598776),
-            reset: None,
+            reset: Some(-2.094395102 ..= 2.094395102),
 
             ..default()
         },
@@ -134,7 +134,7 @@ fn loaded_system(
             force: 6.0,
 
             limit: Some(-0.523598776 ..= 0.523598776),
-            reset: None,
+            reset: Some(-2.094395102 ..= 2.094395102),
 
             ..default()
         },
