@@ -64,28 +64,28 @@ fn loaded_system(
     });
 
     // Debug camera
-    // commands.spawn(Camera3dBundle {
-    //     transform: Transform::from_xyz(10.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
-    //     ..default()
-    // });
+    commands.spawn(Camera3dBundle {
+        transform: Transform::from_xyz(10.0, 5.0, 10.0).looking_at(Vec3::ZERO, Vec3::Y),
+        ..default()
+    });
 
     // Character body
     commands.spawn((
-        // TransformBundle::from_transform(
-        //     Transform::from_xyz(
+        TransformBundle::from_transform(
+            Transform::from_xyz(
+                0.0,
+                3.0,
+                0.0,
+            ),
+        ),
+        // Camera3dBundle {
+        //     transform: Transform::from_xyz(
         //         0.0,
         //         1.0,
         //         0.0,
         //     ),
-        // ),
-        Camera3dBundle {
-            transform: Transform::from_xyz(
-                0.0,
-                1.0,
-                0.0,
-            ),
-            ..default()
-        },
+        //     ..default()
+        // },
         VisibilityBundle::default(),
         InputManagerBundle::with_map(vessel_controls.0.clone()),
         RigidBody::Dynamic,
