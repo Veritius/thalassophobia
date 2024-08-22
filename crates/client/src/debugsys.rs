@@ -118,8 +118,8 @@ fn loaded_system(
         ExternalImpulse::default(),
         ExternalAngularImpulse::default(),
         GravityScale(0.0),
-        VesselAntiRoll {
-            force: FloatCurve::Logarithm(1.0),
+        VesselAntiRoll::Adaptive {
+            coefficient: 0.1
         },
     ));
 }
