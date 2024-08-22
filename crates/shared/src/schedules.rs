@@ -19,6 +19,7 @@ impl Plugin for SimulationSchedulesPlugin {
         app.init_resource::<Simulating>();
 
         app.init_schedule(TryUpdateSimulation);
+        app.init_schedule(SimulationInit);
         app.init_schedule(SimulationUpdate);
         app.init_schedule(SimulationClear);
 
