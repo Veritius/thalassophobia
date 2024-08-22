@@ -122,7 +122,7 @@ fn loaded_system(
         },
 
         VesselAngleLimit::<X> {
-            force: 6.0,
+            force: 2.0,
 
             limit: Some(-0.523598776 ..= 0.523598776),
             reset: Some(-2.094395102 ..= 2.094395102),
@@ -131,7 +131,7 @@ fn loaded_system(
         },
 
         VesselAngleLimit::<Z> {
-            force: 6.0,
+            force: 2.0,
 
             limit: Some(-0.523598776 ..= 0.523598776),
             reset: Some(-2.094395102 ..= 2.094395102),
