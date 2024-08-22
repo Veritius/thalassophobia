@@ -1,4 +1,27 @@
-use crate::{prelude::*, math::curve::FloatCurve};
+use std::{marker::PhantomData, ops::RangeInclusive};
+use crate::{math::{curve::FloatCurve, transform::Axis}, prelude::*};
+
+/// Imposes limits to the orientation of a vessel around an axis.
+/// The component is applied only to local space.
+#[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
+#[reflect(Component, Serialize, Deserialize)]
+pub struct VesselAngleLimit<R: Axis> {
+    /// A coefficient for the amount of torque used to enforce `limit`.
+    /// Higher values will correct invalid rotations faster.
+    pub force: f32,
+
+    /// The range that the vessel will attempt to stay within.
+    /// If the range is exceeded, a counterforce is applied to return it to a valid range.
+    /// If obstructed, the force will be continually applied until it is corrected.
+    pub limit: Option<RangeInclusive<f32>>,
+
+    /// The range that the vessel must stay within.
+    /// If the range is exceeded, the vessel is immediately reset to the nearest valid point.
+    /// This ignores the physics engine and will directly alter the object's orientation.
+    pub reset: Option<RangeInclusive<f32>>,
+
+    _phantom: PhantomData<R>,
+}
 
 /// Applies a force to counteract roll in a vessel.
 #[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
