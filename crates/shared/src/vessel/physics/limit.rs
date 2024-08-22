@@ -92,7 +92,6 @@ pub(super) fn vessel_limit_system(
                 let sd = abs_diff(*range.start(), current);
                 let ed = abs_diff(*range.end(), current);
                 let diff = if ed > sd { sd } else { ed };
-                dbg!(sd, ed, diff);
 
                 // Calculate the force to apply, and apply it
                 let sign = if diff.is_sign_negative() { 1.0 } else { -1.0 };
