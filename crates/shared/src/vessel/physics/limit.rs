@@ -103,7 +103,7 @@ pub(super) fn vessel_limit_system(
 
                 // Calculate the force to apply, and apply it
                 let mass_offset = mass.0 / 1000.0;
-                let force = diff.powi(2) * mass_offset * limit.force * sign;
+                let force = diff.powi(3) * mass_offset * limit.force * sign;
                 let turned = transform.rotation * R::vect(force);
                 torque.apply_impulse(turned);
             } }
