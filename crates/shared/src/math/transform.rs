@@ -2,6 +2,83 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 
+pub trait Axis: TypePath {
+    const AX_POS: Vec3;
+    const AX_NEG: Vec3;
+
+    fn vect(val: f32) -> Vec3;
+    fn quat(val: f32) -> Quat;
+}
+
+#[derive(Debug, TypePath)]
+#[doc(alias("Width", "Left", "Pitch"))]
+pub enum X {}
+
+impl Axis for X {
+    const AX_POS: Vec3 = Vec3::X;
+    const AX_NEG: Vec3 = Vec3::NEG_X;
+
+    #[inline(always)]
+    fn vect(val: f32) -> Vec3 {
+        Vec3::new(val, 0.0, 0.0)
+    }
+
+    #[inline(always)]
+    fn quat(val: f32) -> Quat {
+        Quat::from_euler(EulerRot::YXZ, 0.0, val, 0.0)
+    }
+}
+
+pub type Width = X;
+pub type Left = X;
+pub type Pitch = X;
+
+#[derive(Debug, TypePath)]
+#[doc(alias("Height", "Up", "Yaw"))]
+pub enum Y {}
+
+impl Axis for Y {
+    const AX_POS: Vec3 = Vec3::Y;
+    const AX_NEG: Vec3 = Vec3::NEG_Y;
+
+    #[inline(always)]
+    fn vect(val: f32) -> Vec3 {
+        Vec3::new(0.0, val, 0.0)
+    }
+
+    #[inline(always)]
+    fn quat(val: f32) -> Quat {
+        Quat::from_euler(EulerRot::YXZ, val, 0.0, 0.0)
+    }
+}
+
+pub type Height = Y;
+pub type Up = Y;
+pub type Yaw = Y;
+
+#[derive(Debug, TypePath)]
+#[doc(alias("Depth", "Back", "Roll"))]
+pub enum Z {}
+
+impl Axis for Z {
+    const AX_POS: Vec3 = Vec3::Z;
+    const AX_NEG: Vec3 = Vec3::NEG_Z;
+
+    #[inline(always)]
+    fn vect(val: f32) -> Vec3 {
+        Vec3::new(0.0, 0.0, val)
+    }
+
+    #[inline(always)]
+    fn quat(val: f32) -> Quat {
+        Quat::from_euler(EulerRot::YXZ, 0.0, 0.0, val)
+    }
+}
+
+pub type Depth = Z;
+pub type Back = Z;
+pub type Roll = Z;
+
 /// A set of values corresponding to each direction in all three dimensions.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
