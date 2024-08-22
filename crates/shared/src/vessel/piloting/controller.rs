@@ -45,10 +45,10 @@ pub(super) fn vessel_controller_system(
         translate_intent.y = translate_intent.y.clamp(-1.0, 1.0);
 
         // Calculate the force to apply to the vessel
-        let translate_force = translate_intent * controller.rotation_force;
+        let translate_impulse = translate_intent * controller.rotation_force;
 
         // Apply the translation force
-        impulse.apply_impulse(translate_force);
+        impulse.apply_impulse(translate_impulse);
 
         // Rotation intent value
         let mut rotation_intent = Vec3::ZERO;
@@ -59,8 +59,10 @@ pub(super) fn vessel_controller_system(
         rotation_intent.z += actions.clamped_value(&VesselMovements::Roll);
 
         // Calculate the force to be applied
-        let rotation_intent = rotation_intent * controller.rotation_force;
-        let rotation_impulse = transform.rotation.mul_vec3(rotation_intent);
+        let rotation_impulse = {
+            let force = rotation_intent * controller.rotation_force;
+            transform.rotation.mul_vec3(force)
+        };
 
         // Apply the rotation force
         torque.apply_impulse(rotation_impulse);
