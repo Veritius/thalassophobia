@@ -94,7 +94,7 @@ pub(super) fn vessel_limit_system(
                 let diff = if ed > sd { sd } else { ed };
 
                 // Calculate the force to apply, and apply it
-                let sign = if diff.is_sign_negative() { 1.0 } else { -1.0 };
+                let sign = if current.is_sign_negative() { 1.0 } else { -1.0 };
                 let force = diff.powi(2) * limit.force * sign;
                 let turned = transform.rotation * R::vect(force);
                 torque.apply_impulse(turned);
