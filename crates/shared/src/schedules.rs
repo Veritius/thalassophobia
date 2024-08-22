@@ -20,7 +20,7 @@ impl Plugin for SimulationSchedulesPlugin {
 
         app.init_schedule(TryUpdateSimulation);
         app.init_schedule(SimulationUpdate);
-        app.init_schedule(SimulationCleanup);
+        app.init_schedule(SimulationClear);
 
         let mut schedules = app.world_mut().resource_mut::<MainScheduleOrder>();
         schedules.insert_after(Update, TryUpdateSimulation);
@@ -37,10 +37,15 @@ impl Plugin for SimulationSchedulesPlugin {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, ScheduleLabel)]
 struct TryUpdateSimulation;
 
+/// A schedule run to add data needed by simulation systems.
+/// Run once before [`SimulationStartup`] is run to completion.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, ScheduleLabel)]
+pub struct SimulationInit;
+
 /// A schedule run to tick the simulation.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, ScheduleLabel)]
 pub struct SimulationUpdate;
 
 /// A schedule run to delete all simulation data from the `World`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, ScheduleLabel)]
-pub struct SimulationCleanup;
+pub struct SimulationClear;
