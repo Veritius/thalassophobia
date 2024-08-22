@@ -38,7 +38,6 @@ impl Plugin for SimulationSchedulesPlugin {
 struct TryUpdateSimulation;
 
 /// A schedule run to add data needed by simulation systems.
-/// Run once before [`SimulationStartup`] is run to completion.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, ScheduleLabel)]
 pub struct SimulationInit;
 
