@@ -1,4 +1,4 @@
-use crate::{math::transform::TranslateSet, prelude::*};
+use crate::{math::transform::AxisSet3D, prelude::*};
 use super::VesselMovements;
 
 /// A controller for a submarine.
@@ -6,10 +6,10 @@ use super::VesselMovements;
 #[reflect(from_reflect = false, Component)]
 pub struct VesselController {
     /// The maximum amount of force that can be applied to translate the vessel.
-    pub translate_force: TranslateSet<f32>,
+    pub translate_force: AxisSet3D<f32>,
 
     /// The maximum amount of force that can be applied to rotate the vessel.
-    pub rotation_force: TranslateSet<f32>,
+    pub rotation_force: AxisSet3D<f32>,
 }
 
 pub(super) fn vessel_controller_system(

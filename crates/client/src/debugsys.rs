@@ -2,7 +2,7 @@
 
 use shared::input::InputManagerBundle;
 use shared::math::curve::FloatCurve;
-use shared::math::transform::TranslateSet;
+use shared::math::transform::AxisSet3D;
 use shared::physics::{ObjectDominance, ObjectLayer};
 use shared::progress::Done;
 use shared::schedules::Simulating;
@@ -73,12 +73,12 @@ fn loaded_system(
     // Character body
     commands.spawn((
         VesselController {
-            translate_force: TranslateSet::from(Vec3 {
+            translate_force: AxisSet3D::from(Vec3 {
                 x: 0.5,
                 y: 0.3,
                 z: 1.0,
             }),
-            rotation_force: TranslateSet::from(Vec3 {
+            rotation_force: AxisSet3D::from(Vec3 {
                 x: 0.4,
                 y: 0.2,
                 z: 0.1,

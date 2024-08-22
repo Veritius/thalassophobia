@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 /// A set of values corresponding to each direction in all three dimensions.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Reflect, Serialize, Deserialize)]
 #[reflect(where T: Reflect)]
-pub struct TranslateSet<T> {
+pub struct AxisSet3D<T> {
     #[doc(alias("left", "yaw left"))]
     pub xn: T,
 
@@ -25,7 +25,7 @@ pub struct TranslateSet<T> {
     pub zp: T,
 }
 
-impl<T> TranslateSet<T> {
+impl<T> AxisSet3D<T> {
     pub const fn splat(value: T) -> Self
     where
         T: Copy,
@@ -40,11 +40,11 @@ impl<T> TranslateSet<T> {
         }
     }
 
-    pub fn alter<F, N>(self, mut func: F) -> TranslateSet<N>
+    pub fn alter<F, N>(self, mut func: F) -> AxisSet3D<N>
     where
         F: FnMut(T) -> N,
     {
-        TranslateSet::<N> {
+        AxisSet3D::<N> {
             xn: func(self.xn),
             xp: func(self.xp),
             yn: func(self.yn),
@@ -54,11 +54,11 @@ impl<T> TranslateSet<T> {
         }
     }
 
-    pub fn alter_checked<F, N, E>(self, mut func: F) -> Result<TranslateSet<N>, E>
+    pub fn alter_checked<F, N, E>(self, mut func: F) -> Result<AxisSet3D<N>, E>
     where
         F: FnMut(T) -> Result<N, E>,
     {
-        Ok(TranslateSet::<N> {
+        Ok(AxisSet3D::<N> {
             xn: func(self.xn)?,
             xp: func(self.xp)?,
             yn: func(self.yn)?,
@@ -121,72 +121,72 @@ impl<T> TranslateSet<T> {
     }
 }
 
-impl<T: Add<Output = T>> Add for TranslateSet<T> {
-    type Output = TranslateSet<T>;
+impl<T: Add<Output = T>> Add for AxisSet3D<T> {
+    type Output = AxisSet3D<T>;
 
     #[inline]
     fn add(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, T::add)
+        AxisSet3D::merge(self, rhs, T::add)
     }
 }
 
-impl<T: AddAssign> AddAssign for TranslateSet<T> {
+impl<T: AddAssign> AddAssign for AxisSet3D<T> {
     #[inline]
     fn add_assign(&mut self, rhs: Self) {
         self.merge_in_place(rhs, T::add_assign)
     }
 }
 
-impl<T: Sub<Output = T>> Sub for TranslateSet<T> {
-    type Output = TranslateSet<T>;
+impl<T: Sub<Output = T>> Sub for AxisSet3D<T> {
+    type Output = AxisSet3D<T>;
 
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, T::sub)
+        AxisSet3D::merge(self, rhs, T::sub)
     }
 }
 
-impl<T: SubAssign> SubAssign for TranslateSet<T> {
+impl<T: SubAssign> SubAssign for AxisSet3D<T> {
     #[inline]
     fn sub_assign(&mut self, rhs: Self) {
         self.merge_in_place(rhs, T::sub_assign)
     }
 }
 
-impl<T: Mul<Output = T>> Mul for TranslateSet<T> {
-    type Output = TranslateSet<T>;
+impl<T: Mul<Output = T>> Mul for AxisSet3D<T> {
+    type Output = AxisSet3D<T>;
 
     #[inline]
     fn mul(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, T::mul)
+        AxisSet3D::merge(self, rhs, T::mul)
     }
 }
 
-impl<T: MulAssign> MulAssign for TranslateSet<T> {
+impl<T: MulAssign> MulAssign for AxisSet3D<T> {
     #[inline]
     fn mul_assign(&mut self, rhs: Self) {
         self.merge_in_place(rhs, T::mul_assign)
     }
 }
 
-impl<T: Div<Output = T>> Div for TranslateSet<T> {
-    type Output = TranslateSet<T>;
+impl<T: Div<Output = T>> Div for AxisSet3D<T> {
+    type Output = AxisSet3D<T>;
 
     #[inline]
     fn div(self, rhs: Self) -> Self::Output {
-        TranslateSet::merge(self, rhs, T::div)
+        AxisSet3D::merge(self, rhs, T::div)
     }
 }
 
-impl<T: DivAssign> DivAssign for TranslateSet<T> {
+impl<T: DivAssign> DivAssign for AxisSet3D<T> {
     #[inline]
     fn div_assign(&mut self, rhs: Self) {
         self.merge_in_place(rhs, T::div_assign)
     }
 }
 
-impl<T: Mul<Output = T> + Copy> Mul<T> for TranslateSet<T> {
-    type Output = TranslateSet<T>;
+impl<T: Mul<Output = T> + Copy> Mul<T> for AxisSet3D<T> {
+    type Output = AxisSet3D<T>;
 
     #[inline]
     fn mul(self, rhs: T) -> Self::Output {
@@ -194,15 +194,15 @@ impl<T: Mul<Output = T> + Copy> Mul<T> for TranslateSet<T> {
     }
 }
 
-impl<T: MulAssign + Copy> MulAssign<T> for TranslateSet<T> {
+impl<T: MulAssign + Copy> MulAssign<T> for AxisSet3D<T> {
     #[inline]
     fn mul_assign(&mut self, rhs: T) {
         self.alter_in_place(|v| T::mul_assign(v, rhs));
     }
 }
 
-impl<T: Div<Output = T> + Copy> Div<T> for TranslateSet<T> {
-    type Output = TranslateSet<T>;
+impl<T: Div<Output = T> + Copy> Div<T> for AxisSet3D<T> {
+    type Output = AxisSet3D<T>;
 
     #[inline]
     fn div(self, rhs: T) -> Self::Output {
@@ -210,14 +210,14 @@ impl<T: Div<Output = T> + Copy> Div<T> for TranslateSet<T> {
     }
 }
 
-impl<T: DivAssign + Copy> DivAssign<T> for TranslateSet<T> {
+impl<T: DivAssign + Copy> DivAssign<T> for AxisSet3D<T> {
     #[inline]
     fn div_assign(&mut self, rhs: T) {
         self.alter_in_place(|v| T::div_assign(v, rhs));
     }
 }
 
-impl TranslateSet<f32> {
+impl AxisSet3D<f32> {
     pub fn squash(self) -> Vec3 {
         Vec3 {
             x: self.xp - self.xn,
@@ -227,7 +227,7 @@ impl TranslateSet<f32> {
     }
 }
 
-impl From<Vec3> for TranslateSet<f32> {
+impl From<Vec3> for AxisSet3D<f32> {
     fn from(value: Vec3) -> Self {
         Self {
             xn: value.x,
@@ -240,8 +240,8 @@ impl From<Vec3> for TranslateSet<f32> {
     }
 }
 
-impl Mul<Vec3> for TranslateSet<f32> {
-    type Output = TranslateSet<f32>;
+impl Mul<Vec3> for AxisSet3D<f32> {
+    type Output = AxisSet3D<f32>;
 
     fn mul(self, rhs: Vec3) -> Self::Output {
         Self {
@@ -255,8 +255,8 @@ impl Mul<Vec3> for TranslateSet<f32> {
     }
 }
 
-impl Div<Vec3> for TranslateSet<f32> {
-    type Output = TranslateSet<f32>;
+impl Div<Vec3> for AxisSet3D<f32> {
+    type Output = AxisSet3D<f32>;
 
     fn div(self, rhs: Vec3) -> Self::Output {
         Self {
@@ -270,10 +270,10 @@ impl Div<Vec3> for TranslateSet<f32> {
     }
 }
 
-impl Mul<TranslateSet<f32>> for Vec3 {
+impl Mul<AxisSet3D<f32>> for Vec3 {
     type Output = Vec3;
 
-    fn mul(self, rhs: TranslateSet<f32>) -> Self::Output {
+    fn mul(self, rhs: AxisSet3D<f32>) -> Self::Output {
         Self {
             x: self.x * if self.x > 0.0 { rhs.xp } else { rhs.xn },
             y: self.y * if self.y > 0.0 { rhs.yp } else { rhs.yn },

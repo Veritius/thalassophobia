@@ -1,11 +1,11 @@
-use crate::{math::{curve::FloatCurve, transform::TranslateSet}, prelude::*};
+use crate::{math::{curve::FloatCurve, transform::AxisSet3D}, prelude::*};
 
 /// Drag applied to the vessel as it moves.
 #[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
 pub struct VesselDrag {
-    pub translate: TranslateSet<FloatCurve>,
-    pub rotation: TranslateSet<FloatCurve>,
+    pub translate: AxisSet3D<FloatCurve>,
+    pub rotation: AxisSet3D<FloatCurve>,
 }
 
 /// Applies drag forces to vessels.

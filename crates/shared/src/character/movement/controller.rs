@@ -2,7 +2,7 @@ use std::{f32::consts::FRAC_PI_2, time::{Duration, Instant}};
 use bevy_ecs::query::QueryData;
 use leafwing_input_manager::plugin::InputManagerPlugin;
 
-use crate::{math::transform::TranslateSet, prelude::*, SetupMode};
+use crate::{math::transform::AxisSet3D, prelude::*, SetupMode};
 
 use super::CharacterMovements;
 
@@ -71,9 +71,9 @@ pub struct PlayerController {
     pub walk_crouch_coefficient: Vec2,
 
     /// Base swim speed.
-    pub base_swim_force: TranslateSet<f32>,
+    pub base_swim_force: AxisSet3D<f32>,
     /// Coefficient applied to swim speed while sprinting.
-    pub swim_sprint_coefficient: TranslateSet<f32>,
+    pub swim_sprint_coefficient: AxisSet3D<f32>,
 
     /// If jumping is allowed.
     pub allow_jumping: bool,
@@ -106,8 +106,8 @@ impl PlayerController {
             walk_sprint_coefficient: Vec2::splat(1.5),
             walk_crouch_coefficient: Vec2::splat(0.8),
 
-            base_swim_force: TranslateSet::splat(0.6),
-            swim_sprint_coefficient: TranslateSet::splat(1.3),
+            base_swim_force: AxisSet3D::splat(0.6),
+            swim_sprint_coefficient: AxisSet3D::splat(1.3),
 
             allow_jumping: true,
             jump_impulse: 20.0,
@@ -341,7 +341,7 @@ fn character_controller_system(
                     // Movement speed coefficient
                     let coefficient = match sprinting {
                         true => root.body_controller.swim_sprint_coefficient,
-                        false => TranslateSet::splat(1.0), // no effect
+                        false => AxisSet3D::splat(1.0), // no effect
                     };
 
                     // Calculate the force for the movement
