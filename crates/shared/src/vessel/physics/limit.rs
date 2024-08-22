@@ -83,8 +83,13 @@ pub(super) fn vessel_limit_system(
                 // If the current angle is within range, don't do anything
                 if range.contains(&current) { break 'limit; }
 
+                let sign = match current.is_sign_negative() {
+                    true => 1.0,
+                    false => -1.0,
+                };
+
                 // Calculate the force to apply, and apply it
-                let force = -current * limit.force * ((mass.0 * 0.1) - 1.0).log10();
+                let force = current.abs().powi(2) * sign * limit.force;
                 let turned = transform.rotation * R::vect(force);
                 torque.apply_impulse(turned);
             } }
