@@ -20,7 +20,21 @@ pub struct VesselAngleLimit<R: Axis> {
     /// This ignores the physics engine and will directly alter the object's orientation.
     pub reset: Option<RangeInclusive<f32>>,
 
-    _phantom: PhantomData<R>,
+    #[reflect(ignore)]
+    pub _phantom: PhantomData<R>,
+}
+
+impl<R: Axis> Default for VesselAngleLimit<R> {
+    fn default() -> Self {
+        Self {
+            force: 0.0,
+
+            limit: None,
+            reset: None,
+
+            _phantom: PhantomData,
+        }
+    }
 }
 
 pub(super) fn vessel_limit_system(

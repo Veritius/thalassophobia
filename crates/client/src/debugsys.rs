@@ -1,13 +1,12 @@
 #![allow(unused_variables, unused_mut)]
 
 use shared::input::InputManagerBundle;
-use shared::math::curve::FloatCurve;
-use shared::math::transform::AxisSet3D;
+use shared::math::transform::{AxisSet3D, X, Z};
 use shared::physics::{ObjectDominance, ObjectLayer};
 use shared::progress::Done;
 use shared::schedules::Simulating;
 use shared::prelude::*;
-use shared::vessel::physics::VesselAntiRoll;
+use shared::vessel::physics::VesselAngleLimit;
 use shared::vessel::piloting::controller::VesselController;
 use shared::vessel::piloting::VesselMovements;
 use crate::initial::InitialLoading;
@@ -72,18 +71,6 @@ fn loaded_system(
 
     // Character body
     commands.spawn((
-        VesselController {
-            translate_force: AxisSet3D::from(Vec3 {
-                x: 0.5,
-                y: 0.3,
-                z: 1.0,
-            }),
-            rotation_force: AxisSet3D::from(Vec3 {
-                x: 0.4,
-                y: 0.2,
-                z: 0.1,
-            }),
-        },
         // TransformBundle::from_transform(
         //     Transform::from_xyz(
         //         0.0,
@@ -118,8 +105,36 @@ fn loaded_system(
         ExternalImpulse::default(),
         ExternalAngularImpulse::default(),
         GravityScale(0.0),
-        VesselAntiRoll::Adaptive {
-            coefficient: 0.1
+    )).insert((
+        VesselController {
+            translate_force: AxisSet3D::from(Vec3 {
+                x: 0.5,
+                y: 0.3,
+                z: 1.0,
+            }),
+            rotation_force: AxisSet3D::from(Vec3 {
+                x: 0.4,
+                y: 0.2,
+                z: 0.1,
+            }),
+        },
+
+        VesselAngleLimit::<X> {
+            force: 1.0,
+
+            limit: Some(-0.523598776 ..= 0.523598776),
+            reset: None,
+
+            ..default()
+        },
+
+        VesselAngleLimit::<Z> {
+            force: 1.0,
+
+            limit: Some(-0.523598776 ..= 0.523598776),
+            reset: None,
+
+            ..default()
         },
     ));
 }
