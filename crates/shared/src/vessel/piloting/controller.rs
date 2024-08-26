@@ -29,23 +29,18 @@ pub(super) fn vessel_controller_system(
         actions
     ) in bodies.iter_mut() {
         // Translation intent value
-        let mut translate_intent = Vec3::ZERO;
+        let mut absolute_translate_intent = Vec3::ZERO;
+        let mut relative_translate_intent = Vec3::ZERO;
 
         // Horizontal movement inputs
-        translate_intent.x += actions.clamped_value(&VesselMovements::SideThrust);
-        translate_intent.z -= actions.clamped_value(&VesselMovements::ForwardThrust);
+        relative_translate_intent.x += actions.clamped_value(&VesselMovements::SideThrust);
+        relative_translate_intent.z -= actions.clamped_value(&VesselMovements::ForwardThrust);
+        absolute_translate_intent.y += actions.clamped_value(&VesselMovements::VerticalThrust);
 
-        // Calculate the force to be applied
-        translate_intent = transform.rotation.mul_vec3(translate_intent);
-
-        // Vertical input handling
-        // This is separate so that horizontal movements are relative to the vessel's orientation,
-        // but vertical movements are not. Also clamping to avoid exploits.
-        translate_intent.y += actions.value(&VesselMovements::VerticalThrust);
-        translate_intent.y = translate_intent.y.clamp(-1.0, 1.0);
-
-        // Calculate the force to apply to the vessel
-        let translate_impulse = translate_intent * controller.translate_force;
+        let absolute_intent_forces = absolute_translate_intent * controller.translate_force;
+        let relative_intent_forces = relative_translate_intent * controller.translate_force;
+        let aligned_relative_forces = transform.rotation.mul_vec3(relative_intent_forces);
+        let translate_impulse = absolute_intent_forces +  aligned_relative_forces;
 
         // Apply the translation force
         impulse.apply_impulse(translate_impulse);
