@@ -33,13 +33,15 @@ fn startup_system(
 
 fn loaded_system(
     mut commands: Commands,
-    // mut state: ResMut<Simulating>,
+    mut sim_state: ResMut<NextState<SimulationLoaded>>,
+    mut run_state: ResMut<NextState<SimulationRunning>>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     vessel_controls: Res<ControlSettings<VesselMovements>>,
 ) {
     // Set game state to simulating
-    // *state = Simulating::Enabled;
+    sim_state.set(SimulationLoaded::Loaded);
+    run_state.set(SimulationRunning::Running);
 
     // Spawn the floor
     commands.spawn(PbrBundle {
