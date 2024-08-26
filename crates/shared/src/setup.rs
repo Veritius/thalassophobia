@@ -15,8 +15,8 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     #[cfg(feature="multiplayer")]
     app.add_plugins(crate::multiplayer::MultiplayerPlugin);
 
-    // Custom schedules
-    app.add_plugins(crate::schedules::SimulationSchedulesPlugin);
+    // Major plugins that are added before subsystems
+    app.add_plugins(crate::simulation::SimulationStatePlugin);
 
     // Subsystem plugins
     app.add_plugins(crate::campaign::CampaignPlugin);

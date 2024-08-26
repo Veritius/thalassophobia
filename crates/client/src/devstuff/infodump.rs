@@ -1,5 +1,5 @@
 use bevy_egui::*;
-use shared::{bevy::{diagnostic::DiagnosticsStore, prelude::*}, bevy_ecs, bevy_reflect, schedules::Simulating};
+use shared::{bevy::diagnostic::DiagnosticsStore, prelude::*};
 use crate::state::ClientState;
 
 #[derive(Resource, Default, Reflect, PartialEq, Eq)]
@@ -14,7 +14,8 @@ pub(super) fn infodump_window(
     mut ctx: EguiContexts,
     visibility: Res<InfodumpWindowVisibility>,
 
-    simulating: Res<Simulating>,
+    sim_loaded: Res<State<SimulationLoaded>>,
+    sim_running: Option<Res<State<SimulationRunning>>>,
     client_state: Res<State<ClientState>>,
 
     #[cfg(feature="hosting")]
@@ -30,8 +31,14 @@ pub(super) fn infodump_window(
             egui::Grid::new("infodump_statistics")
             .striped(true)
             .show(ui, |ui| {
-                ui.label("Simulating");
-                ui.label(format!("{:?}", *simulating));
+                ui.label("Simulation");
+                ui.label(match sim_loaded.get() {
+                    SimulationLoaded::Unloaded => "Unloaded",
+                    SimulationLoaded::Loaded => match sim_running.unwrap().get() {
+                        SimulationRunning::Paused => "Loaded",
+                        SimulationRunning::Running => "Running",
+                    },
+                });
                 ui.end_row();
 
                 ui.label("Client state");

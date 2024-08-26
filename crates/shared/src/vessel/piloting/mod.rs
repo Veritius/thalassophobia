@@ -6,7 +6,7 @@ pub use actions::*;
 
 use bevy::prelude::*;
 use controller::VesselController;
-use crate::{input::plugin::InputManagerPlugin, schedules::SimulationUpdate, SetupMode};
+use crate::{prelude::*, input::plugin::InputManagerPlugin};
 
 pub(crate) struct VesselControllerPlugin {
     pub mode: SetupMode,

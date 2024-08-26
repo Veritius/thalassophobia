@@ -4,7 +4,6 @@ use shared::input::InputManagerBundle;
 use shared::math::transform::{AxisSet3D, X, Z};
 use shared::physics::{ObjectDominance, ObjectLayer};
 use shared::progress::Done;
-use shared::schedules::Simulating;
 use shared::prelude::*;
 use shared::vessel::physics::VesselAngleLimit;
 use shared::vessel::piloting::controller::VesselController;
@@ -34,13 +33,13 @@ fn startup_system(
 
 fn loaded_system(
     mut commands: Commands,
-    mut state: ResMut<Simulating>,
+    // mut state: ResMut<Simulating>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     vessel_controls: Res<ControlSettings<VesselMovements>>,
 ) {
     // Set game state to simulating
-    *state = Simulating::Enabled;
+    // *state = Simulating::Enabled;
 
     // Spawn the floor
     commands.spawn(PbrBundle {
