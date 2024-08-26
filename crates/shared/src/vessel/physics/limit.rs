@@ -21,6 +21,7 @@ pub struct VesselAngleLimit<R: Axis> {
     pub reset: Option<RangeInclusive<f32>>,
 
     #[reflect(ignore)]
+    #[serde(skip)]
     pub _phantom: PhantomData<R>,
 }
 
