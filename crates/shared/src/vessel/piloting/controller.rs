@@ -45,7 +45,7 @@ pub(super) fn vessel_controller_system(
         translate_intent.y = translate_intent.y.clamp(-1.0, 1.0);
 
         // Calculate the force to apply to the vessel
-        let translate_impulse = translate_intent * controller.rotation_force;
+        let translate_impulse = translate_intent * controller.translate_force;
 
         // Apply the translation force
         impulse.apply_impulse(translate_impulse);

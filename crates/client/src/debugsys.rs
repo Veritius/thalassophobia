@@ -100,7 +100,7 @@ fn loaded_system(
             ObjectLayer::Terrain | ObjectLayer::Structure,
         ),
         Dominance::from(ObjectDominance::Terrain),
-        LinearDamping(100.0),
+        LinearDamping(20.0),
         AngularDamping(200.0),
         SweptCcd::NON_LINEAR,
         ExternalImpulse::default(),
@@ -110,9 +110,9 @@ fn loaded_system(
     )).insert((
         VesselController {
             translate_force: AxisSet3D::from(Vec3 {
-                x: 5.0,
-                y: 3.0,
-                z: 9.0,
+                x: 500.0,
+                y: 300.0,
+                z: 900.0,
             }),
 
             rotation_force: AxisSet3D::from(Vec3 {
