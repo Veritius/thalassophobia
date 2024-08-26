@@ -116,9 +116,9 @@ fn loaded_system(
             }),
 
             rotation_force: AxisSet3D::from(Vec3 {
-                x: 4.0,
-                y: 2.0,
-                z: 0.2,
+                x: 0.5,
+                y: 0.5,
+                z: 0.1,
             }),
         },
 
@@ -132,7 +132,7 @@ fn loaded_system(
         },
 
         VesselAngleLimit::<Z> {
-            force: 0.2,
+            force: 0.4,
 
             limit: Some(-0.0 ..= 0.0),
             reset: Some(-1.570796327 ..= 1.570796327),
