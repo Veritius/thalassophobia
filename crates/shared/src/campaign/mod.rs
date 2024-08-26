@@ -15,6 +15,10 @@ impl Plugin for CampaignPlugin {
 pub struct CampaignMeta {
     pub name: String,
     pub version: Version,
+
     pub created: DateTime<Utc>,
     pub modified: DateTime<Utc>,
+    pub playtime: u64,
+
+    pub random_seed: u64,
 }
