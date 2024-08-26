@@ -18,6 +18,14 @@ impl BitOr for ObjectLayer {
     }
 }
 
+impl BitOr<LayerMask> for ObjectLayer {
+    type Output = LayerMask;
+
+    fn bitor(self, rhs: LayerMask) -> Self::Output {
+        LayerMask::from(self.to_bits() | *rhs)
+    }
+}
+
 impl PhysicsLayer for ObjectLayer {
     fn to_bits(&self) -> u32 {
         let offset = match self {
