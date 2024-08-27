@@ -29,11 +29,15 @@ pub enum Initialisation {
 }
 
 fn load_finished_observer(
-    _trigger: Trigger<Done<Initialisation>>,
+    trigger: Trigger<Done<Initialisation>>,
     query: Query<Entity, With<ObserverType>>,
     mut state: ResMut<NextState<Initialisation>>,
     mut commands: Commands,
 ) {
+    // Log the completion of initialisation
+    let work = trigger.event().work();
+    info!(work, "Initialisation complete");
+
     // Set the next state
     state.set(Initialisation::Finished);
 
