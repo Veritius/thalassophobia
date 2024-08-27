@@ -12,7 +12,7 @@ macro_rules! unit {
         #[doc(alias=$unit)]
         #[doc(alias($($alias),*))]
         #[derive(Default, Clone, Copy, PartialEq, PartialOrd, Reflect, Serialize, Deserialize)]
-        #[reflect(Serialize, Deserialize)]
+        #[reflect(Default, PartialEq, Serialize, Deserialize)]
         pub struct $name(f32);
 
         impl $name {
