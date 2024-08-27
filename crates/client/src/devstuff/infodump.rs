@@ -39,7 +39,7 @@ pub(super) fn infodump_window(
 
                 ui.label("Simulation");
                 ui.label(match *initialisation.get() {
-                    Initialisation::Loading => "",
+                    Initialisation::Loading => "Waiting for init",
                     Initialisation::Finished => match sim_loaded.unwrap().get() {
                         SimulationLoaded::Unloaded => "Unloaded",
                         SimulationLoaded::Loaded => match sim_running.unwrap().get() {
@@ -52,10 +52,13 @@ pub(super) fn infodump_window(
 
                 #[cfg(feature="hosting")] {
                     ui.label("Server state");
-                    match *initialisation.get() {
-                        Initialisation::Loading => ui.label(""),
-                        Initialisation::Finished => ui.label(format!("{:?}", server_state.unwrap().get())),
-                    };
+                    ui.label(match *initialisation.get() {
+                        Initialisation::Loading => "Waiting for init",
+                        Initialisation::Finished => match *server_state.unwrap().get() {
+                            server::ServerState::Offline => "Offline",
+                            server::ServerState::Active => "Active",
+                        },
+                    });
                     ui.end_row();
                 }
             });
