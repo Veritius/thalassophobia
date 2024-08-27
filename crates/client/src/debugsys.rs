@@ -1,14 +1,13 @@
 #![allow(unused_variables, unused_mut)]
 
+use shared::initial::Initialisation;
 use shared::input::InputManagerBundle;
 use shared::math::transform::{AxisSet3D, X, Z};
 use shared::physics::{ObjectDominance, ObjectLayer};
-use shared::progress::Done;
 use shared::prelude::*;
 use shared::vessel::physics::VesselAngleLimit;
 use shared::vessel::piloting::controller::VesselController;
 use shared::vessel::piloting::VesselMovements;
-use crate::initial::InitialLoading;
 use crate::settings::ControlSettings;
 
 pub(crate) struct DebugSystemsPlugin;
@@ -18,7 +17,7 @@ impl Plugin for DebugSystemsPlugin {
         app.add_plugins(PhysicsDebugPlugin::default());
 
         app.add_systems(Startup, startup_system);
-        app.add_systems(Done::<InitialLoading>::new(), loaded_system);
+        app.add_systems(OnEnter(Initialisation::Finished), loaded_system);
         app.add_systems(Update, update_system);
         app.add_systems(Update, post_update_system
             .after(PhysicsSet::Sync));

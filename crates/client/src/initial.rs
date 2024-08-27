@@ -1,19 +1,38 @@
 use shared::bevy::color::palettes::tailwind::{LIME_600, NEUTRAL_400, NEUTRAL_700};
-use shared::bevy::prelude::*;
-use shared::bevy_ecs;
-use shared::progress::OverallProgress;
-use super::InitialLoading;
+use shared::initial::Initialisation;
+use shared::prelude::*;
+
+pub(crate) struct InitialisationUiPlugin;
+
+impl Plugin for InitialisationUiPlugin {
+    fn build(&self, app: &mut App) {
+        // Start of tracking
+        app.add_systems(OnEnter(Initialisation::Loading), (
+            spawn_loading_screen,
+        ));
+
+        // Tracking update
+        app.add_systems(Update, (
+            update_loading_screen,
+        ).run_if(in_state(Initialisation::Loading)));
+
+        // End of tracking
+        app.add_systems(OnExit(Initialisation::Loading), (
+            despawn_loading_screen,
+        ));
+    }
+}
 
 #[derive(Component)]
-pub(super) struct InitialLoadingUiElement;
+struct InitialLoadingUiElement;
 
 #[derive(Component)]
-pub(super) struct InitialLoadingUiBar;
+struct InitialLoadingUiBar;
 
 #[derive(Component)]
-pub(super) struct InitialLoadingInfoText;
+struct InitialLoadingInfoText;
 
-pub(super) fn spawn_loading_screen(
+fn spawn_loading_screen(
     mut commands: Commands,
     assets: Res<AssetServer>,
 ) {
@@ -119,26 +138,27 @@ pub(super) fn spawn_loading_screen(
     });
 }
 
-pub(super) fn update_loading_screen(
-    progress: Res<OverallProgress<InitialLoading>>,
+fn update_loading_screen(
+    progress: Res<Progress<Initialisation>>,
     mut bar: Query<&mut Style, With<InitialLoadingUiBar>>,
     mut txt: Query<&mut Text, With<InitialLoadingInfoText>>,
 ) {
     // Update bars
-    let percent = (progress.done() as f32 / progress.required() as f32) * 100.0;
+    let percent = progress.fract() * 100.0;
     for mut bar in bar.iter_mut() {
         bar.width = Val::Percent(percent);
     }
 
     // Update text
-    let text = format!("{} / {}", progress.done(), progress.required());
+    let (done, required) = progress.work();
+    let text = format!("{done} / {required}");
     for mut txt in txt.iter_mut() {
         let t = &mut txt.sections[0].value;
         t.clear(); t.push_str(&text);
     }
 }
 
-pub(super) fn despawn_loading_screen(
+fn despawn_loading_screen(
     mut commands: Commands,
     roots: Query<Entity, With<InitialLoadingUiElement>>,
 ) {

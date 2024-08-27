@@ -1,7 +1,6 @@
 mod escape;
 mod initial;
 mod settings;
-mod state;
 
 #[cfg(feature="devstuff")]
 mod devstuff;
@@ -21,9 +20,8 @@ fn main() {
 
     // Client subsystems
     app.add_plugins(escape::EscapeMenuPlugin);
-    app.add_plugins(initial::InitialLoadingPlugin);
+    app.add_plugins(initial::InitialisationUiPlugin);
     app.add_plugins(settings::UserSettingsPlugin);
-    app.add_plugins(state::GameStatePlugin);
 
     #[cfg(feature="devstuff")]
     app.add_plugins(devstuff::DevStuffPlugin);

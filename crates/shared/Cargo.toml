@@ -21,7 +21,7 @@ version = "0.1"
 version = "0.15"
 
 [dependencies.bevy_mod_progress]
-version = "0.2"
+version = "0.3"
 
 [dependencies.bevy_stardust]
 version = "0.6"

@@ -17,6 +17,7 @@ pub use setup::*;
 pub mod campaign;
 pub mod character;
 pub mod disabling;
+pub mod initial;
 pub mod living;
 pub mod math;
 pub mod package;

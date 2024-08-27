@@ -1,8 +1,9 @@
 use bevy::app::MainScheduleOrder;
 use bevy_ecs::schedule::ScheduleLabel;
-use crate::prelude::*;
+use crate::{initial::Initialisation, prelude::*};
 
-#[derive(Debug, Default, Clone, PartialEq, Eq, Hash, States)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, Hash, SubStates)]
+#[source(Initialisation = Initialisation::Finished)]
 pub enum SimulationLoaded {
     #[default]
     Unloaded,
@@ -21,7 +22,7 @@ pub(crate) struct SimulationStatePlugin;
 
 impl Plugin for SimulationStatePlugin {
     fn build(&self, app: &mut App) {
-        app.init_state::<SimulationLoaded>();
+        app.add_sub_state::<SimulationLoaded>();
         app.add_sub_state::<SimulationRunning>();
 
         app.init_schedule(TryUpdateSimulation);

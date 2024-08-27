@@ -8,6 +8,7 @@ pub use crate::math::units::*;
 pub use crate::smallvec::{smallvec, SmallVec};
 pub use crate::setup::SetupMode;
 pub use crate::simulation::SimulationAppExt;
+pub use crate::progress::{Progress, Done};
 pub use serde::{Serialize, Deserialize};
 
 #[cfg(feature="multiplayer")]

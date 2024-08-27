@@ -1,6 +1,5 @@
 use bevy_egui::*;
-use shared::{bevy::diagnostic::DiagnosticsStore, prelude::*};
-use crate::state::ClientState;
+use shared::{bevy::diagnostic::DiagnosticsStore, initial::Initialisation, prelude::*};
 
 #[derive(Resource, Default, Reflect, PartialEq, Eq)]
 #[reflect(Resource)]
@@ -14,9 +13,9 @@ pub(super) fn infodump_window(
     mut ctx: EguiContexts,
     visibility: Res<InfodumpWindowVisibility>,
 
-    sim_loaded: Res<State<SimulationLoaded>>,
+    initialisation: Res<State<Initialisation>>,
+    sim_loaded: Option<Res<State<SimulationLoaded>>>,
     sim_running: Option<Res<State<SimulationRunning>>>,
-    client_state: Res<State<ClientState>>,
 
     #[cfg(feature="hosting")]
     server_state: Res<State<server::ServerState>>,
@@ -31,18 +30,24 @@ pub(super) fn infodump_window(
             egui::Grid::new("infodump_statistics")
             .striped(true)
             .show(ui, |ui| {
-                ui.label("Simulation");
-                ui.label(match sim_loaded.get() {
-                    SimulationLoaded::Unloaded => "Unloaded",
-                    SimulationLoaded::Loaded => match sim_running.unwrap().get() {
-                        SimulationRunning::Paused => "Loaded",
-                        SimulationRunning::Running => "Running",
-                    },
+                ui.label("Initialisation");
+                ui.label(match *initialisation.get() {
+                    Initialisation::Loading => "Loading",
+                    Initialisation::Finished => "Finished",
                 });
                 ui.end_row();
 
-                ui.label("Client state");
-                ui.label(format!("{:?}", client_state.get()));
+                ui.label("Simulation");
+                ui.label(match *initialisation.get() {
+                    Initialisation::Loading => "",
+                    Initialisation::Finished => match sim_loaded.unwrap().get() {
+                        SimulationLoaded::Unloaded => "Unloaded",
+                        SimulationLoaded::Loaded => match sim_running.unwrap().get() {
+                            SimulationRunning::Paused => "Loaded",
+                            SimulationRunning::Running => "Running",
+                        },
+                    },
+                });
                 ui.end_row();
 
                 #[cfg(feature="hosting")] {
