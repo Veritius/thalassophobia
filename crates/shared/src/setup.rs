@@ -26,6 +26,6 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     app.add_plugins(crate::package::ContentPackagesPlugin);
     app.add_plugins(crate::power::ElectricityPlugin);
     app.add_plugins(crate::structure::compartments::CompartmentsPlugin);
-    app.add_plugins(crate::vessel::physics::VesselPhysicsPlugin);
-    app.add_plugins(crate::vessel::piloting::VesselControllerPlugin { mode });
+    app.add_plugins(crate::structure::StructuresPlugin);
+    app.add_plugins(crate::vessel::VesselsPlugin { mode });
 }
