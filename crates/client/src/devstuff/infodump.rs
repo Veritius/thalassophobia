@@ -18,7 +18,7 @@ pub(super) fn infodump_window(
     sim_running: Option<Res<State<SimulationRunning>>>,
 
     #[cfg(feature="hosting")]
-    server_state: Res<State<server::ServerState>>,
+    server_state: Option<Res<State<server::ServerState>>>,
 
     diagnostics: Res<DiagnosticsStore>,
 ) {
@@ -52,7 +52,10 @@ pub(super) fn infodump_window(
 
                 #[cfg(feature="hosting")] {
                     ui.label("Server state");
-                    ui.label(format!("{:?}", server_state.get()));
+                    match *initialisation.get() {
+                        Initialisation::Loading => ui.label(""),
+                        Initialisation::Finished => ui.label(format!("{:?}", server_state.unwrap().get())),
+                    };
                     ui.end_row();
                 }
             });
