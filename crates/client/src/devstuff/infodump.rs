@@ -42,6 +42,7 @@ pub(super) fn infodump_window(
                     Initialisation::Loading => "Waiting for init",
                     Initialisation::Finished => match sim_loaded.unwrap().get() {
                         SimulationLoaded::Unloaded => "Unloaded",
+                        SimulationLoaded::Loading => "Loading",
                         SimulationLoaded::Loaded => match sim_running.unwrap().get() {
                             SimulationRunning::Paused => "Loaded",
                             SimulationRunning::Running => "Running",

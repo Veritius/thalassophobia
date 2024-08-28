@@ -7,6 +7,7 @@ use crate::{initial::Initialisation, prelude::*};
 pub enum SimulationLoaded {
     #[default]
     Unloaded,
+    Loading,
     Loaded,
 }
 
@@ -58,7 +59,7 @@ pub trait SimulationAppExt {
 
 impl SimulationAppExt for App {
     fn add_sim_event<E: Event>(&mut self) {
-        self.add_systems(OnEnter(SimulationLoaded::Loaded), |mut commands: Commands| commands.init_resource::<Events<E>>());
+        self.add_systems(OnEnter(SimulationLoaded::Loading), |mut commands: Commands| commands.init_resource::<Events<E>>());
         self.add_systems(OnExit(SimulationLoaded::Loaded), |mut commands: Commands| commands.remove_resource::<Events<E>>());
         self.add_systems(SimulationUpdate, |mut events: ResMut<Events<E>>| events.update());
     }
