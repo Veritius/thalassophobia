@@ -1,8 +1,7 @@
-use bevy::prelude::*;
 use chrono::{DateTime, Utc};
 use semver::{Version, VersionReq};
 use serde::{Serialize, Deserialize};
-use crate::package::metadata::Dependencies;
+use crate::{prelude::*, package::metadata::Dependencies};
 
 pub(crate) struct CampaignPlugin;
 
@@ -14,7 +13,7 @@ impl Plugin for CampaignPlugin {
 
 #[derive(Debug, Clone, Resource, Serialize, Deserialize)]
 pub struct CampaignMeta {
-    pub name: String,
+    pub name: FastString,
     pub version: Version,
 
     pub created: DateTime<Utc>,
