@@ -13,7 +13,7 @@ impl Plugin for CampaignPlugin {
 
 #[derive(Debug, Clone, Resource, Serialize, Deserialize)]
 pub struct CampaignMeta {
-    pub name: FastString,
+    pub name: InlinedString,
     pub version: Version,
 
     pub created: DateTime<Utc>,

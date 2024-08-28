@@ -4,8 +4,8 @@ use crate::prelude::*;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct PackageMeta {
-    pub name: FastString,
-    pub shortcode: FastString,
+    pub name: InlinedString,
+    pub shortcode: InlinedString,
     pub package_version: Version,
 
     pub game_version: VersionReq,
@@ -18,7 +18,7 @@ pub struct PackageMeta {
 /// A version requirement.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Dependency {
-    pub shortcode: FastString,
+    pub shortcode: InlinedString,
     pub version: VersionReq,
     pub required: bool,
 }
