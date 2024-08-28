@@ -204,7 +204,7 @@ type RootAndOrHead = Or<(
 fn character_controller_system(
     mut shared: Query<ControllerSharedQueryData, RootAndOrHead>,
     mut roots: Query<ControllerRootQueryData, Without<Disabled>>,
-    mut heads: Query<ControllerHeadQueryData,>,
+    mut heads: Query<ControllerHeadQueryData>,
 ) {
     for mut root in roots.iter_mut() {
         let actions = root.action_state;

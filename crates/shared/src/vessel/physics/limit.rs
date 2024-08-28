@@ -47,11 +47,14 @@ pub(super) fn vessel_limit_system(
         &Mass,
         &mut Transform,
         &mut ExternalAngularImpulse,
-    ), Or<(
-        With<VesselAngleLimit<X>>,
-        With<VesselAngleLimit<Y>>,
-        With<VesselAngleLimit<Z>>,
-    )>>,
+    ), (
+        Or<(
+            With<VesselAngleLimit<X>>,
+            With<VesselAngleLimit<Y>>,
+            With<VesselAngleLimit<Z>>,
+        )>,
+        Without<Disabled>,
+    )>,
 ) {
     for (
         lm_x,
