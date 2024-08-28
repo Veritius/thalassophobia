@@ -6,10 +6,11 @@ pub use leafwing_input_manager as input;
 pub use bevy_mod_progress as progress;
 pub use avian3d as avian;
 
-pub use smallvec;
-pub use serde;
 pub use chrono;
 pub use semver;
+pub use serde;
+pub use smallvec;
+pub use smartstring;
 
 mod setup;
 pub use setup::*;

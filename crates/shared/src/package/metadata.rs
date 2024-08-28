@@ -1,13 +1,11 @@
 use semver::{Version, VersionReq};
 use serde::{Serialize, Deserialize};
-use smartstring::{SmartString, LazyCompact};
-
-type SmallString = SmartString<LazyCompact>;
+use crate::prelude::*;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct PackageMeta {
-    pub name: SmallString,
-    pub shortcode: SmallString,
+    pub name: FastString,
+    pub shortcode: FastString,
     pub package_version: Version,
 
     pub game_version: VersionReq,
@@ -20,7 +18,7 @@ pub struct PackageMeta {
 /// A version requirement.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Dependency {
-    pub shortcode: SmallString,
+    pub shortcode: FastString,
     pub version: VersionReq,
     pub required: bool,
 }

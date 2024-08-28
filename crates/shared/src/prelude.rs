@@ -12,5 +12,7 @@ pub use crate::simulation::SimulationAppExt;
 pub use crate::smallvec::{smallvec, SmallVec};
 pub use serde::{Serialize, Deserialize};
 
+pub type FastString = smartstring::SmartString<smartstring::LazyCompact>;
+
 #[cfg(feature="multiplayer")]
 pub use crate::multiplayer::{player::Player, stardust::prelude::*};
