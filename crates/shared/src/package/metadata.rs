@@ -1,23 +1,32 @@
 use semver::{Version, VersionReq};
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
+use smartstring::{SmartString, LazyCompact};
 
-// Since the strings will not change 
-type BoxStr = Box<str>;
+type SmallString = SmartString<LazyCompact>;
 
-#[derive(Debug, Deserialize)]
-pub struct ContentPackageMetadata {
-    pub name: BoxStr,
-    pub version: Version,
-    pub shortcode: BoxStr,
-    pub authors: BoxStr,
+#[derive(Debug, Clone, Deserialize)]
+pub struct PackageMeta {
+    pub name: SmallString,
+    pub shortcode: SmallString,
+    pub package_version: Version,
 
     pub game_version: VersionReq,
-    pub dependencies: Box<[PackageVersionReq]>,
+    pub dependencies: Dependencies,
+
+    pub can_insert_mid_save: bool,
+    pub can_remove_mid_save: bool,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct PackageVersionReq {
-    pub name: Option<BoxStr>,
-    pub shortcode: BoxStr,
+/// A version requirement.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Dependency {
+    pub shortcode: SmallString,
     pub version: VersionReq,
+    pub required: bool,
+}
+
+/// A set of dependencies for a package.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Dependencies {
+    packages: Vec<Dependency>,
 }

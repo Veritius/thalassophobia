@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 use chrono::{DateTime, Utc};
-use semver::Version;
+use semver::{Version, VersionReq};
 use serde::{Serialize, Deserialize};
+use crate::package::metadata::Dependencies;
 
 pub(crate) struct CampaignPlugin;
 
@@ -11,7 +12,7 @@ impl Plugin for CampaignPlugin {
     }
 }
 
-#[derive(Debug, Clone, Resource, Deserialize, Serialize)]
+#[derive(Debug, Clone, Resource, Serialize, Deserialize)]
 pub struct CampaignMeta {
     pub name: String,
     pub version: Version,
@@ -21,4 +22,7 @@ pub struct CampaignMeta {
     pub playtime: u64,
 
     pub random_seed: u64,
+
+    pub game_version: VersionReq,
+    pub dependencies: Dependencies,
 }

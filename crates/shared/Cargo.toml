@@ -31,6 +31,10 @@ optional = true
 version = "1.13"
 features = ["union", "serde"]
 
+[dependencies.smartstring]
+version = "1"
+features = ["serde"]
+
 [dependencies.serde]
 version = "1"
 features = ["derive"]
