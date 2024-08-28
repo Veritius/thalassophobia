@@ -25,7 +25,7 @@ impl Axis for X {
 
     #[inline(always)]
     fn quat(val: f32) -> Quat {
-        Quat::from_euler(EulerRot::YXZ, 0.0, val, 0.0)
+        Quat::from_rotation_x(val)
     }
 }
 
@@ -48,7 +48,7 @@ impl Axis for Y {
 
     #[inline(always)]
     fn quat(val: f32) -> Quat {
-        Quat::from_euler(EulerRot::YXZ, val, 0.0, 0.0)
+        Quat::from_rotation_y(val)
     }
 }
 
@@ -71,7 +71,7 @@ impl Axis for Z {
 
     #[inline(always)]
     fn quat(val: f32) -> Quat {
-        Quat::from_euler(EulerRot::YXZ, 0.0, 0.0, val)
+        Quat::from_rotation_z(val)
     }
 }
 
