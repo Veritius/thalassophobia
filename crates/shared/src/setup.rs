@@ -20,6 +20,7 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     app.add_plugins(crate::simulation::SimulationStatePlugin);
 
     // Subsystem plugins
+    app.add_plugins(crate::bodies::BodyPlugin);
     app.add_plugins(crate::campaign::CampaignPlugin);
     app.add_plugins(crate::character::movement::PlayerControllerPlugin { mode });
     app.add_plugins(crate::disabling::DisablingPlugin);
