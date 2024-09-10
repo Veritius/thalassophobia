@@ -15,6 +15,7 @@ pub use smartstring;
 mod setup;
 pub use setup::*;
 
+pub mod bodies;
 pub mod campaign;
 pub mod character;
 pub mod disabling;
