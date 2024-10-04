@@ -29,4 +29,5 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     app.add_plugins(crate::structure::compartments::CompartmentsPlugin);
     app.add_plugins(crate::structure::StructuresPlugin);
     app.add_plugins(crate::vessel::VesselsPlugin { mode });
+    app.add_plugins(crate::vitality::VitalityPlugin);
 }

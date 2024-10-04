@@ -28,6 +28,7 @@ pub mod power;
 pub mod simulation;
 pub mod structure;
 pub mod vessel;
+pub mod vitality;
 
 #[cfg(feature="multiplayer")]
 pub mod multiplayer;
