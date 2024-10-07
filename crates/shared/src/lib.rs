@@ -34,4 +34,7 @@ pub mod structure;
 pub mod vessel;
 pub mod vitality;
 
+#[cfg(feature="multiplayer")]
+pub mod multiplayer;
+
 pub mod prelude;

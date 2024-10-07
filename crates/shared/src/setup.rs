@@ -16,6 +16,9 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     app.add_plugins(crate::simulation::SimulationStatePlugin);
     app.add_plugins(crate::players::PlayerPlugin);
 
+    // Significant plugins that are added before subsystems, but after major plugins
+    app.add_plugins(crate::multiplayer::MultiplayerPlugin);
+
     // Subsystem plugins
     app.add_plugins(crate::bodies::BodyPlugin);
     app.add_plugins(crate::campaign::CampaignPlugin);
