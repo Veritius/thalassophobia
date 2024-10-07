@@ -92,8 +92,8 @@ impl Default for ControlSettings<VesselMovements> {
 
         // Keyboard pitching
         map.insert_axis(VesselMovements::Pitch, KeyboardVirtualAxis::new(
-            KeyCode::KeyJ,
-            KeyCode::KeyU,
+            KeyCode::KeyI,
+            KeyCode::KeyK,
         ));
 
         // Controller pitching
@@ -101,8 +101,8 @@ impl Default for ControlSettings<VesselMovements> {
 
         // Keyboard yawing
         map.insert_axis(VesselMovements::Yaw, KeyboardVirtualAxis::new(
-            KeyCode::KeyH,
-            KeyCode::KeyK,
+            KeyCode::KeyJ,
+            KeyCode::KeyL,
         ));
 
         // Controller yawing
@@ -110,8 +110,8 @@ impl Default for ControlSettings<VesselMovements> {
 
         // Keyboard rolling
         map.insert_axis(VesselMovements::Roll, KeyboardVirtualAxis::new(
-            KeyCode::KeyI,
-            KeyCode::KeyY,
+            KeyCode::KeyO,
+            KeyCode::KeyU,
         ));
 
         // Controller rolling
