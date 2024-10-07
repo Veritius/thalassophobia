@@ -24,6 +24,7 @@ pub mod living;
 pub mod math;
 pub mod package;
 pub mod physics;
+pub mod players;
 pub mod power;
 pub mod simulation;
 pub mod structure;
