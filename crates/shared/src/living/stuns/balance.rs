@@ -1,7 +1,7 @@
 use std::ops::{Add, Sub, AddAssign, SubAssign};
 use crate::prelude::*;
 
-#[derive(Debug, Clone, Copy, Component, Reflect, Serialize, Deserialize)]
+#[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
 pub struct Balance {
     #[reflect(@0.0 ..= 1.0)]

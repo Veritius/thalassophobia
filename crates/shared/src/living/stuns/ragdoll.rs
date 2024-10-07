@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-#[derive(Debug, Clone, Copy, Component, Reflect, Serialize, Deserialize)]
+#[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
 pub struct RagdollStun {
     #[reflect(@0.0 ..= f32::INFINITY)]
