@@ -11,13 +11,10 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     // Physics engine
     app.add_plugins(crate::avian::PhysicsPlugins::new(SimulationUpdate));
 
-    // Multiplayer (added before subsystems)
-    #[cfg(feature="multiplayer")]
-    app.add_plugins(crate::multiplayer::MultiplayerPlugin);
-
     // Major plugins that are added before subsystems
     app.add_plugins(crate::initial::InitialLoadingPlugin);
     app.add_plugins(crate::simulation::SimulationStatePlugin);
+    app.add_plugins(crate::players::PlayerPlugin);
 
     // Subsystem plugins
     app.add_plugins(crate::bodies::BodyPlugin);

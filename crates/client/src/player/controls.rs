@@ -1,6 +1,6 @@
 use shared::prelude::*;
 
-/// Control settings stored on a per-player basis.
+/// Control settings associated with a [`Player`].
 #[derive(Debug, Component, Reflect)]
 #[reflect(Component)]
 pub struct PlayerControls<T: Actionlike> {

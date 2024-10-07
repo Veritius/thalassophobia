@@ -13,6 +13,3 @@ pub use crate::smallvec::{smallvec, SmallVec};
 pub use serde::{Serialize, Deserialize};
 
 pub type InlinedString = smartstring::SmartString<smartstring::LazyCompact>;
-
-#[cfg(feature="multiplayer")]
-pub use crate::multiplayer::{player::Player, stardust::prelude::*};

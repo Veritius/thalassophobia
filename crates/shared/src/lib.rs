@@ -6,6 +6,9 @@ pub use leafwing_input_manager as input;
 pub use bevy_mod_progress as progress;
 pub use avian3d as avian;
 
+#[cfg(feature="multiplayer")]
+pub use bevy_stardust as stardust;
+
 pub use chrono;
 pub use semver;
 pub use serde;
@@ -30,8 +33,5 @@ pub mod simulation;
 pub mod structure;
 pub mod vessel;
 pub mod vitality;
-
-#[cfg(feature="multiplayer")]
-pub mod multiplayer;
 
 pub mod prelude;
