@@ -1,5 +1,6 @@
 mod escape;
 mod initial;
+mod player;
 mod settings;
 
 #[cfg(feature="devstuff")]
