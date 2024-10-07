@@ -11,7 +11,9 @@ impl Plugin for LivingPlugin {
         app.register_type::<state::LifeState>();
         app.register_type::<vitality::CalculatedVitality>();
         app.register_type::<vitality::wounds::Wound>();
+        app.register_type::<vitality::wounds::WoundFlatDamage>();
         app.register_type::<vitality::wounds::WoundSeverity>();
         app.register_type::<vitality::wounds::WoundSeverityAffectsVitality>();
+        app.register_type::<vitality::wounds::WoundSeverityPassiveChange>();
     }
 }
