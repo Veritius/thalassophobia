@@ -5,6 +5,7 @@ pub use crate::initial::Initialisation;
 pub use crate::input::{Actionlike, input_map::InputMap, action_state::ActionState};
 pub use crate::math::units::*;
 pub use crate::physics::{ObjectLayer, ObjectDominance};
+pub use crate::players::Player;
 pub use crate::progress::{Progress, Done};
 pub use crate::setup::SetupMode;
 pub use crate::simulation::{SimulationLoaded, SimulationRunning, SimulationUpdate};
