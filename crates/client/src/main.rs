@@ -1,6 +1,7 @@
 mod escape;
 mod initial;
 mod player;
+mod power;
 mod settings;
 
 #[cfg(feature="devstuff")]
@@ -22,6 +23,7 @@ fn main() {
     // Client subsystems
     app.add_plugins(escape::EscapeMenuPlugin);
     app.add_plugins(initial::InitialisationUiPlugin);
+    app.add_plugins(power::ElectricityPlugin);
     app.add_plugins(settings::UserSettingsPlugin);
 
     #[cfg(feature="devstuff")]
