@@ -6,7 +6,7 @@ pub use battery::Battery;
 pub use sink::{PowerSink, CalculatedPowerSink, PowerSinkBundle};
 pub use source::{PowerSource, CalculatedPowerSource, PowerSourceBundle};
 
-use bevy::prelude::*;
+use crate::prelude::*;
 
 pub(crate) struct ElectricityPlugin;
 
@@ -17,6 +17,8 @@ impl Plugin for ElectricityPlugin {
         app.register_type::<CalculatedPowerSink>();
         app.register_type::<PowerSource>();
         app.register_type::<CalculatedPowerSource>();
+
+        app.register_relation::<SuppliesEnergy>();
     }
 }
 
@@ -24,3 +26,7 @@ impl Plugin for ElectricityPlugin {
 pub enum ElectricitySystems {
     Update,
 }
+
+#[derive(Relation)]
+#[aery(Poly)]
+pub struct SuppliesEnergy;
