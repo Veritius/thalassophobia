@@ -17,6 +17,9 @@ features = [
 [dependencies.avian3d]
 version = "0.1"
 
+[dependencies.aery]
+version = "0.7.4"
+
 [dependencies.leafwing-input-manager]
 version = "0.15"
 

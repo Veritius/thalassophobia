@@ -5,6 +5,7 @@ pub use bevy::reflect as bevy_reflect;
 pub use leafwing_input_manager as input;
 pub use bevy_mod_progress as progress;
 pub use avian3d as avian;
+pub use aery as relations;
 
 #[cfg(feature="multiplayer")]
 pub use bevy_stardust as stardust;
