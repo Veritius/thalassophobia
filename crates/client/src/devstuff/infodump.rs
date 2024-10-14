@@ -23,6 +23,7 @@ pub(super) fn infodump_window(
     diagnostics: Res<DiagnosticsStore>,
 ) {
     if *visibility == InfodumpWindowVisibility::Hide { return; }
+
     egui::Window::new("Statistics").show(ctx.ctx_mut(), |ui| {
         // Game state panel
         egui::CollapsingHeader::new("State")
