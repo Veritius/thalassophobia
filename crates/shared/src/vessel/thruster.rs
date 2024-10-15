@@ -8,7 +8,8 @@ pub struct Thruster {
     /// If set to `true`, force will be zero outside of water.
     pub needs_water: bool,
 
-    /// The maximum force that the thruster can output.
+    /// The amount of force the thruster applies in each direction,
+    /// relative to the orientation of the entity.
     pub force: AxisSet3D<Force>,
 }
 
@@ -27,7 +28,7 @@ pub struct Dragger {
     /// If set to `true`, force will be zero outside of water.
     pub needs_water: bool,
 
-    /// The amount of force the dragger applies in each direction,
+    /// The amount of drag the dragger applies in each direction,
     /// relative to the orientation of the entity.
     pub drag: AxisSet3D<Force>,
 }
