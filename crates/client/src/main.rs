@@ -16,6 +16,10 @@ fn main() {
     app.add_plugins(DefaultPlugins);
     shared::setup(&mut app, SetupMode::Full);
 
+    // Dev stuff comes first
+    #[cfg(feature="devstuff")]
+    app.add_plugins(devstuff::DevStuffPlugin);
+
     // Server setup, if hosting is enabled
     #[cfg(feature="hosting")]
     app.add_plugins(server::LobbyHostingPlugin);
@@ -25,9 +29,6 @@ fn main() {
     app.add_plugins(initial::InitialisationUiPlugin);
     app.add_plugins(power::ElectricityPlugin);
     app.add_plugins(settings::UserSettingsPlugin);
-
-    #[cfg(feature="devstuff")]
-    app.add_plugins(devstuff::DevStuffPlugin);
 
     app.add_plugins(debugsys::DebugSystemsPlugin);
 
