@@ -9,7 +9,7 @@ pub enum FloatCurve {
     Logarithm(f32),
     Exponential(f32),
     LinearPoints(PointSet),
-    SmoothedPoints(PointSet),
+    CubicPoints(PointSet),
 }
 
 impl Default for FloatCurve {
@@ -25,7 +25,21 @@ impl FloatCurve {
             FloatCurve::Logarithm(e) => at.log10() * e,
             FloatCurve::Exponential(e) => at.powf(*e),
             FloatCurve::LinearPoints(_) => todo!(),
-            FloatCurve::SmoothedPoints(_) => todo!(),
+            FloatCurve::CubicPoints(_) => todo!(),
         }
+    }
+
+    pub fn linear_points<I>(iter: I) -> Self
+    where
+        I: IntoIterator<Item = Vec2>,
+    {
+        Self::LinearPoints(PointSet::from_iter(iter))
+    }
+
+    pub fn cubic_points<I>(iter: I) -> Self
+    where
+        I: IntoIterator<Item = Vec2>,
+    {
+        Self::CubicPoints(PointSet::from_iter(iter))
     }
 }
