@@ -17,7 +17,7 @@ impl Default for FloatCurve {
 }
 
 impl FloatCurve {
-    pub fn sample(&self, at: f32) -> f32 {
+    pub fn sample(&self, s: f32) -> f32 {
         match self {
             // Constants always return the same value
             FloatCurve::Constant(v) => *v,
@@ -35,12 +35,23 @@ impl FloatCurve {
             // Two points means linear interpolation
             FloatCurve::LinearPoints(p) |
             FloatCurve::CubicPoints(p)
-                if p.len() == 2 => {
-                    let [[lx, ly], [rx, ry]] = [p[0].to_array(), p[1].to_array()];
-                    ly.lerp(ry, Self::factor(at, lx, rx))
-                },
+                if p.len() == 2 => Self::lerp_pts(p, s),
 
-            FloatCurve::LinearPoints(_) => todo!(),
+            // Linear points sample for any length above 2
+            FloatCurve::LinearPoints(p) => {
+                let l = p.len();
+
+                // If less or greater than the bounds of the points in the set
+                // we have to extrapolate based on the two points on the start
+                // or end of the set, effectively continuing the line to infinity
+                if s < p[0].x { return Self::lerp_pts(&p[..2], s); }
+                if s > p[l].x { return Self::lerp_pts(&p[l-2..l], s); }
+
+                Self::lerp_pts(
+                    p.windows(2).find(|p| p[0].x < s && p[1].x > s).unwrap(),
+                    s
+                )
+            },
 
             FloatCurve::CubicPoints(_) => todo!(),
         }
@@ -62,8 +73,9 @@ impl FloatCurve {
         Self::CubicPoints(PointSet::from_iter(iter.into_iter().map(|p| p.into())))
     }
 
-    fn factor(value: f32, min: f32, max: f32) -> f32 {
-        (value - min) / (max - min)
+    fn lerp_pts(p: &[Vec2], s: f32) -> f32 {
+        let [[lx, ly], [rx, ry]] = [p[0].to_array(), p[1].to_array()];
+        return ly.lerp(ry, (s - lx) / (rx - lx));
     }
 }
 
