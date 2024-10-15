@@ -1,19 +1,22 @@
 use shared::prelude::*;
-use crate::devstuff::{register_overlay, if_overlay_enabled};
+use crate::devstuff::overlays::*;
 
-pub(super) fn setup_overlays(
-    app: &mut App,
-) {
-    register_overlay::<PowerLinksOverlay>(app, "power_links");
-
-    app.add_systems(PostUpdate, overlay_system
-        .run_if(if_overlay_enabled::<PowerLinksOverlay>()));
+pub(super) fn setup_overlays(app: &mut App) {
+    // app.register_overlay::<PowerLinksOverlay>();
 }
 
-struct PowerLinksOverlay;
+// pub(super) struct PowerLinksOverlay;
 
-fn overlay_system(
-    gizmos: Gizmos,
-) {
+// impl DevOverlay for PowerLinksOverlay {
+//     const NAME: &'static str = "power_links";
 
-}
+//     fn system<M, S: IntoSystemConfigs<M>>() -> S {
+//         power_links_system
+//     }
+// }
+
+// fn power_links_system(
+//     mut gizmos: Gizmos,
+// ) {
+
+// }

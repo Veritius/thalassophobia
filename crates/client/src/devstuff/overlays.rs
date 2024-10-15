@@ -2,19 +2,8 @@ use std::any::Any;
 use bevy_egui::{egui, EguiContexts};
 use shared::{bevy::utils::HashMap, prelude::*};
 
-pub(crate) fn register_overlay<T: Any>(app: &mut App, name: &'static str) {
-    app.world_mut().resource_mut::<OverlayRegistry>().enabled.insert(
-        TypeId::of::<T>(),
-        false,
-    );
-}
-
-pub(crate) fn if_overlay_enabled<T: Any>() -> impl FnMut(Res<'_, OverlayRegistry>) -> bool + Clone {
-    |reg| *(reg.enabled.get(&TypeId::of::<T>()).unwrap())
-}
-
 #[derive(Default, Resource)]
-pub(crate) struct OverlayRegistry {
+pub(super) struct OverlayRegistry {
     names: HashMap<&'static str, TypeId>,
     enabled: BTreeMap<TypeId, bool>,
 }
@@ -29,6 +18,36 @@ impl OverlayRegistry {
             &mut self.enabled,
         )
     }
+}
+
+
+pub(crate) trait DevOverlay: Any {
+    const NAME: &'static str;
+
+    fn system<M, S: IntoSystemConfigs<M>>() -> S;
+}
+
+pub(crate) trait OverlayAppExt: sealed::Sealed {
+    fn register_overlay<T: DevOverlay>(&mut self);
+}
+
+impl OverlayAppExt for App {
+    fn register_overlay<T: DevOverlay>(&mut self) {
+        // Register the overlay
+        let mut overlays = self.world_mut().resource_mut::<OverlayRegistry>();
+        let type_id = TypeId::of::<T>();
+        overlays.names.insert(T::NAME, type_id);
+        overlays.enabled.insert(type_id, false);
+
+        // Add the system that displays it
+        self.add_systems(PostUpdate, T::system()
+            .run_if(|overlays: Res<OverlayRegistry>| *overlays.enabled.get(&TypeId::of::<T>()).unwrap()));
+    }
+}
+
+mod sealed {
+    pub trait Sealed {}
+    impl Sealed for super::App {}
 }
 
 #[derive(Resource, Default, Reflect, PartialEq, Eq)]

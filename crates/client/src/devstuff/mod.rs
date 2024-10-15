@@ -1,14 +1,13 @@
+pub mod overlays;
+
 mod infodump;
 mod input;
-mod overlays;
 
 use bevy_egui::EguiPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use overlays::{OverlayRegistry, OverlayWindowVisibility};
 use shared::{bevy::{prelude::*, diagnostic::*}, bevy_ecs, bevy_reflect};
 use infodump::*;
-
-pub(crate) use overlays::{register_overlay, if_overlay_enabled};
 
 pub(crate) struct DevStuffPlugin;
 
