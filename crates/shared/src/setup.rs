@@ -17,6 +17,7 @@ pub fn setup(app: &mut App, mode: SetupMode) {
     app.add_plugins(crate::players::PlayerPlugin);
 
     // Significant plugins that are added before subsystems, but after major plugins
+    #[cfg(feature="multiplayer")]
     app.add_plugins(crate::multiplayer::MultiplayerPlugin);
 
     // Subsystem plugins
