@@ -9,7 +9,7 @@ pub struct Thruster {
     pub needs_water: bool,
 
     /// The maximum force that the thruster can output.
-    pub force: Force,
+    pub force: AxisSet3D<Force>,
 }
 
 /// Computed thrust force for a vessel, from [`Thruster`] components.
