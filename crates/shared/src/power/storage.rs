@@ -3,7 +3,7 @@ use crate::prelude::*;
 /// A device that stores electricity.
 #[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
-pub struct Battery {
+pub struct PowerStorage {
     /// The amount of currently stored energy.
     pub stored: Energy,
 
@@ -21,7 +21,7 @@ pub struct Battery {
     pub efficiency: f32,
 }
 
-impl Default for Battery {
+impl Default for PowerStorage {
     fn default() -> Self {
         Self {
             stored: Energy::new(0.0),
@@ -33,7 +33,7 @@ impl Default for Battery {
     }
 }
 
-impl Battery {
+impl PowerStorage {
     /// Returns how full the battery is, from `0.0` to `1.0`.
     #[inline]
     pub fn fract(&self) -> f32 {

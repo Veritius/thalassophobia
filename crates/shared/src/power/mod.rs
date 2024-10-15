@@ -1,10 +1,10 @@
-mod battery;
 mod sink;
 mod source;
+mod storage;
 
-pub use battery::Battery;
 pub use sink::{PowerSink, CalculatedPowerSink, PowerSinkBundle};
 pub use source::{PowerSource, CalculatedPowerSource, PowerSourceBundle};
+pub use storage::PowerStorage;
 
 use crate::prelude::*;
 
@@ -12,7 +12,7 @@ pub(crate) struct ElectricityPlugin;
 
 impl Plugin for ElectricityPlugin {
     fn build(&self, app: &mut App) {
-        app.register_type::<Battery>();
+        app.register_type::<PowerStorage>();
         app.register_type::<PowerSink>();
         app.register_type::<CalculatedPowerSink>();
         app.register_type::<PowerSource>();
