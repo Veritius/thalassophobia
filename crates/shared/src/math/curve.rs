@@ -24,7 +24,26 @@ impl FloatCurve {
             FloatCurve::Constant(v) => *v,
             FloatCurve::Logarithm(e) => at.log10() * e,
             FloatCurve::Exponential(e) => at.powf(*e),
+
+            // You can't sample a lack of points
+            FloatCurve::LinearPoints(p) |
+            FloatCurve::CubicPoints(p)
+                if p.len() == 0 => f32::NAN,
+
+            // One point is the same as Constant
+            FloatCurve::LinearPoints(p) |
+            FloatCurve::CubicPoints(p)
+                if p.len() == 1 => p[0].y,
+
+            // Two points means linear interpolation
+            FloatCurve::LinearPoints(p) |
+            FloatCurve::CubicPoints(p)
+                if p.len() == 2 => {
+                    todo!()
+                },
+
             FloatCurve::LinearPoints(_) => todo!(),
+
             FloatCurve::CubicPoints(_) => todo!(),
         }
     }
