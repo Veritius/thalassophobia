@@ -24,3 +24,8 @@ pub struct Dragger {
     /// relative to the orientation of the entity.
     pub drag: AxisSet3D<Force>,
 }
+
+/// Relation from [`Thruster`] and [`Dragger`] entities to [`Vessel`](super::Vessel) entities.
+/// When this relation exists, the vessel will consider their influence in force calculations.
+#[derive(Relation)]
+pub struct Influences;

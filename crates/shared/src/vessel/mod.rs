@@ -16,6 +16,10 @@ pub(crate) struct VesselsPlugin {
 impl Plugin for VesselsPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<Vessel>();
+        app.register_type::<thruster::Thruster>();
+        app.register_type::<thruster::Dragger>();
+
+        app.register_relation::<thruster::Influences>();
 
         app.add_plugins(physics::VesselPhysicsPlugin);
         app.add_plugins(piloting::VesselControllerPlugin { mode: self.mode });
