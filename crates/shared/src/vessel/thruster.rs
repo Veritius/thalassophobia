@@ -12,6 +12,13 @@ pub struct Thruster {
     pub force: Force,
 }
 
+/// Computed thrust force for a vessel, from [`Thruster`] components.
+#[derive(Debug, Default, Clone, Component, Reflect)]
+#[reflect(Component)]
+pub struct ComputedThrust {
+    force: AxisSet3D<Force>,
+}
+
 /// A source of drag that resists the movement of vessels.
 #[derive(Debug, Default, Clone, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
@@ -25,7 +32,15 @@ pub struct Dragger {
     pub drag: AxisSet3D<Force>,
 }
 
+/// Computed drag force for a vessel, from [`Dragger`] components.
+#[derive(Debug, Default, Clone, Component, Reflect)]
+#[reflect(Component)]
+pub struct ComputedDrag {
+    drag: AxisSet3D<Force>,
+}
+
 /// Relation from [`Thruster`] and [`Dragger`] entities to [`Vessel`](super::Vessel) entities.
 /// When this relation exists, the vessel will consider their influence in force calculations.
 #[derive(Relation)]
+#[aery(Poly)]
 pub struct Influences;

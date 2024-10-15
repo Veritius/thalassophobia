@@ -17,7 +17,9 @@ impl Plugin for VesselsPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<Vessel>();
         app.register_type::<thruster::Thruster>();
+        app.register_type::<thruster::ComputedThrust>();
         app.register_type::<thruster::Dragger>();
+        app.register_type::<thruster::ComputedDrag>();
 
         app.register_relation::<thruster::Influences>();
 
