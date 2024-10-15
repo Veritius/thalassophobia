@@ -1,23 +1,25 @@
-use crate::{math::transform::AxisSet3D, prelude::*};
+use crate::{math::{curve::FloatCurve, transform::AxisSet3D}, prelude::*};
 
 /// A source of force that vessels need to move.
 #[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]
 #[reflect(Component, Serialize, Deserialize)]
 pub struct Thruster {
-    /// Sets whether the thruster needs to be submerged to function.
-    /// If set to `true`, force will be zero outside of water.
-    pub needs_water: bool,
-
     /// The amount of force the thruster applies in each direction,
     /// relative to the orientation of the entity.
     pub force: AxisSet3D<Force>,
+
+    /// Coefficient for when the thruster is fully out of the water.
+    pub dry_factor: FloatCurve,
 }
 
 impl Default for Thruster {
     fn default() -> Self {
         Self {
-            needs_water: true,
             force: AxisSet3D::default(),
+            dry_factor: FloatCurve::linear_points([
+                Vec2::new(0.0, 0.0),
+                Vec2::new(1.0, 1.0),
+            ]),
         }
     }
 }
