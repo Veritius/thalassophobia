@@ -45,10 +45,10 @@ impl FloatCurve {
                 // we have to extrapolate based on the two points on the start
                 // or end of the set, effectively continuing the line to infinity
                 if s < p[0].x { return Self::lerp_pts(&p[..2], s); }
-                if s > p[l].x { return Self::lerp_pts(&p[l-2..l], s); }
+                if s > p[l-1].x { return Self::lerp_pts(&p[l-2..l-1], s); }
 
                 Self::lerp_pts(
-                    p.windows(2).find(|p| p[0].x < s && p[1].x > s).unwrap(),
+                    p.windows(2).find(|p| p[0].x <= s && p[1].x >= s).unwrap(),
                     s
                 )
             },
@@ -96,4 +96,18 @@ fn float_curve_tests() {
     // Linear point checks (outside range)
     assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(-0.3), -0.3);
     assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(1.2), 1.2);
+
+    // Linear point checks with a set bigger than 2 items
+    let mut set = FloatCurve::linear_points([
+        [-1.0, 0.0],
+        [0.0, 1.0],
+        [2.0, 3.0],
+    ]);
+
+    // Within-bounds checks for >2 set
+    assert_eq!(set.sample(-1.0), 0.0);
+    assert_eq!(set.sample(-0.5), 0.5);
+    assert_eq!(set.sample(0.0), 1.0);
+    assert_eq!(set.sample(1.0), 2.0);
+    assert_eq!(set.sample(2.0), 3.0);
 }
