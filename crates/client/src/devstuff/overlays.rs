@@ -1,4 +1,5 @@
 use std::any::Any;
+use bevy_ecs::system::SystemParam;
 use bevy_egui::{egui, EguiContexts};
 use shared::{bevy::utils::HashMap, prelude::*};
 
@@ -23,16 +24,21 @@ impl OverlayRegistry {
 
 pub(crate) trait DevOverlay: Any {
     const NAME: &'static str;
-
-    fn system<M, S: IntoSystemConfigs<M>>() -> S;
 }
 
 pub(crate) trait OverlayAppExt: sealed::Sealed {
-    fn register_overlay<T: DevOverlay>(&mut self);
+    fn register_overlay<T: DevOverlay, M, P>(&mut self, system: P)
+    where
+        M: 'static,
+        P: IntoSystemConfigs<M>;
 }
 
 impl OverlayAppExt for App {
-    fn register_overlay<T: DevOverlay>(&mut self) {
+    fn register_overlay<T: DevOverlay, M, P>(&mut self, system: P)
+    where
+        M: 'static,
+        P: IntoSystemConfigs<M>,
+    {
         // Register the overlay
         let mut overlays = self.world_mut().resource_mut::<OverlayRegistry>();
         let type_id = TypeId::of::<T>();
@@ -40,7 +46,7 @@ impl OverlayAppExt for App {
         overlays.enabled.insert(type_id, false);
 
         // Add the system that displays it
-        self.add_systems(PostUpdate, T::system()
+        self.add_systems(PostUpdate, system
             .run_if(|overlays: Res<OverlayRegistry>| *overlays.enabled.get(&TypeId::of::<T>()).unwrap()));
     }
 }
