@@ -46,21 +46,42 @@ impl FloatCurve {
         }
     }
 
-    pub fn linear_points<I>(iter: I) -> Self
+    pub fn linear_points<I, P>(iter: I) -> Self
     where
-        I: IntoIterator<Item = Vec2>,
+        I: IntoIterator<Item = P>,
+        P: Into<Vec2>,
     {
-        Self::LinearPoints(PointSet::from_iter(iter))
+        Self::LinearPoints(PointSet::from_iter(iter.into_iter().map(|p| p.into())))
     }
 
-    pub fn cubic_points<I>(iter: I) -> Self
+    pub fn cubic_points<I, P>(iter: I) -> Self
     where
-        I: IntoIterator<Item = Vec2>,
+        I: IntoIterator<Item = P>,
+        P: Into<Vec2>,
     {
-        Self::CubicPoints(PointSet::from_iter(iter))
+        Self::CubicPoints(PointSet::from_iter(iter.into_iter().map(|p| p.into())))
     }
 
     fn factor(value: f32, min: f32, max: f32) -> f32 {
         (value - min) / (max - min)
     }
+}
+
+#[test]
+fn float_curve_tests() {
+    // Constant value checks
+    assert_eq!(FloatCurve::Constant(0.0).sample(0.0), 0.0);
+    assert_eq!(FloatCurve::Constant(1.0).sample(0.0), 1.0);
+    assert_eq!(FloatCurve::Constant(0.0).sample(1.0), 0.0);
+    assert_eq!(FloatCurve::Constant(1.0).sample(1.0), 1.0);
+
+    // Linear point checks (within range)
+    assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(0.0), 0.0);
+    assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(0.1), 0.1);
+    assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(0.5), 0.5);
+    assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(1.0), 1.0);
+
+    // Linear point checks (outside range)
+    assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(-0.3), -0.3);
+    assert_eq!(FloatCurve::linear_points([[0.0, 0.0], [1.0, 1.0]]).sample(1.2), 1.2);
 }
