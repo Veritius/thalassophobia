@@ -1,5 +1,4 @@
 use std::any::Any;
-use bevy_ecs::system::SystemParam;
 use bevy_egui::{egui, EguiContexts};
 use shared::{bevy::utils::HashMap, prelude::*};
 
