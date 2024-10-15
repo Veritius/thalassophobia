@@ -6,8 +6,6 @@ type PointSet = SmallVec<[Vec2; 2]>;
 #[reflect(Serialize, Deserialize)]
 pub enum FloatCurve {
     Constant(f32),
-    Logarithm(f32),
-    Exponential(f32),
     LinearPoints(PointSet),
     CubicPoints(PointSet),
 }
@@ -21,9 +19,8 @@ impl Default for FloatCurve {
 impl FloatCurve {
     pub fn sample(&self, at: f32) -> f32 {
         match self {
+            // Constants always return the same value
             FloatCurve::Constant(v) => *v,
-            FloatCurve::Logarithm(e) => at.log10() * e,
-            FloatCurve::Exponential(e) => at.powf(*e),
 
             // You can't sample a lack of points
             FloatCurve::LinearPoints(p) |
