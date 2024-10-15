@@ -39,7 +39,8 @@ impl FloatCurve {
             FloatCurve::LinearPoints(p) |
             FloatCurve::CubicPoints(p)
                 if p.len() == 2 => {
-                    todo!()
+                    let [[lx, ly], [rx, ry]] = [p[0].to_array(), p[1].to_array()];
+                    ly.lerp(ry, factor(at, lx, rx))
                 },
 
             FloatCurve::LinearPoints(_) => todo!(),
@@ -61,4 +62,8 @@ impl FloatCurve {
     {
         Self::CubicPoints(PointSet::from_iter(iter))
     }
+}
+
+fn factor(value: f32, min: f32, max: f32) -> f32 {
+    (value - min) / (max - min)
 }
