@@ -8,15 +8,16 @@ pub struct Thruster {
     /// relative to the orientation of the entity.
     pub force: AxisSet3D<Force>,
 
-    /// Coefficient for when the thruster is fully out of the water.
-    pub dry_factor: FloatCurve,
+    /// Coefficient for the amount of force available, based on immersion into water.
+    /// When fully immersed, the `x` is `1.0`. When fully out of the water, the `x` is `0.0`.
+    pub efficiency: FloatCurve,
 }
 
 impl Default for Thruster {
     fn default() -> Self {
         Self {
             force: AxisSet3D::default(),
-            dry_factor: FloatCurve::linear_points([
+            efficiency: FloatCurve::linear_points([
                 Vec2::new(0.0, 0.0),
                 Vec2::new(1.0, 1.0),
             ]),
