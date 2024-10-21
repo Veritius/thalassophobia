@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
+use crate::math::units::*;
 
 /// A device that stores electricity.
 #[derive(Debug, Clone, Component, Reflect, Serialize, Deserialize)]

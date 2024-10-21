@@ -1,7 +1,8 @@
 use std::{f32::consts::FRAC_PI_2, time::{Duration, Instant}};
+use avian3d::prelude::*;
 use bevy::{prelude::*, ecs::query::QueryData};
-use leafwing_input_manager::plugin::InputManagerPlugin;
-use crate::math::transform::AxisSet3D;
+use leafwing_input_manager::{plugin::InputManagerPlugin, prelude::*};
+use crate::{math::transform::AxisSet3D, simulation::{ticking::SimulationUpdate, Disabled}};
 use super::CharacterMovements;
 
 /// The furthest downward the controller can turn.
@@ -12,20 +13,11 @@ const CONTROLLER_PITCH_MIN: f32 = -FRAC_PI_2;
 /// Prevents the camera from doing backflips.
 const CONTROLLER_PITCH_MAX: f32 = FRAC_PI_2;
 
-pub(crate) struct PlayerControllerPlugin {
-    pub mode: SetupMode,
-}
+pub struct PlayerControllerPlugin;
 
 impl Plugin for PlayerControllerPlugin {
     fn build(&self, app: &mut App) {
-        match self.mode {
-            SetupMode::Full => {
-                app.add_plugins(InputManagerPlugin::<CharacterMovements>::default());
-            },
-            SetupMode::Headless => {
-                app.add_plugins(InputManagerPlugin::<CharacterMovements>::server());
-            },
-        }
+        app.add_plugins(InputManagerPlugin::<CharacterMovements>::default());
 
         app.register_type::<CharacterMovements>();
         app.register_type::<PlayerController>();

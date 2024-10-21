@@ -6,6 +6,7 @@ pub use portal::CompartmentPortal;
 
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
+use crate::math::units::*;
 
 pub(crate) struct CompartmentsPlugin;
 

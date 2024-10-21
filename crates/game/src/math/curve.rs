@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
+use smallvec::SmallVec;
 
 type PointSet = SmallVec<[Vec2; 2]>;
 

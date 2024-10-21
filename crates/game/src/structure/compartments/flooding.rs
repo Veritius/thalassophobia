@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
-use crate::math::fluids::water::DENSITY;
+use crate::math::{fluids::water::DENSITY, units::*};
 
 /// How flooded a [`Compartment`](super::Compartment) is.
 #[derive(Debug, Default, Clone, Copy, Component, Reflect, Serialize, Deserialize)]

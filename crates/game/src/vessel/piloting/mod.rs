@@ -7,21 +7,13 @@ pub use actions::*;
 use bevy::prelude::*;
 use controller::VesselController;
 use leafwing_input_manager::plugin::InputManagerPlugin;
+use crate::simulation::ticking::SimulationUpdate;
 
-pub(crate) struct VesselControllerPlugin {
-    pub mode: SetupMode,
-}
+pub(crate) struct VesselControllerPlugin;
 
 impl Plugin for VesselControllerPlugin {
     fn build(&self, app: &mut App) {
-        match self.mode {
-            SetupMode::Full => {
-                app.add_plugins(InputManagerPlugin::<actions::VesselMovements>::default());
-            },
-            SetupMode::Headless => {
-                app.add_plugins(InputManagerPlugin::<actions::VesselMovements>::server());
-            },
-        }
+        app.add_plugins(InputManagerPlugin::<actions::VesselMovements>::default());
 
         app.register_type::<VesselController>();
 

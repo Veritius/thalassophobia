@@ -1,5 +1,7 @@
 use bevy::prelude::*;
-use crate::math::transform::AxisSet3D;
+use avian3d::prelude::*;
+use leafwing_input_manager::prelude::*;
+use crate::{simulation::Disabled, math::transform::AxisSet3D};
 use super::VesselMovements;
 
 /// A controller for a submarine.

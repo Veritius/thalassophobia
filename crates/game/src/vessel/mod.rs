@@ -3,15 +3,14 @@ pub mod piloting;
 pub mod thruster;
 
 use bevy::prelude::*;
+use aery::prelude::*;
 
 /// A marker component for vessels.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Component, Reflect)]
 #[reflect(Default, PartialEq, Component)]
 pub struct Vessel;
 
-pub(crate) struct VesselsPlugin {
-    pub mode: SetupMode,
-}
+pub(crate) struct VesselsPlugin;
 
 impl Plugin for VesselsPlugin {
     fn build(&self, app: &mut App) {
@@ -24,6 +23,6 @@ impl Plugin for VesselsPlugin {
         app.register_relation::<thruster::Influences>();
 
         app.add_plugins(physics::VesselPhysicsPlugin);
-        app.add_plugins(piloting::VesselControllerPlugin { mode: self.mode });
+        app.add_plugins(piloting::VesselControllerPlugin);
     }
 }

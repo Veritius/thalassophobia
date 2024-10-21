@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
+use crate::math::units::*;
 
 /// A device that uses electricity.
 #[derive(Debug, Default, Clone, Component, Reflect, Serialize, Deserialize)]

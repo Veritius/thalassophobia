@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use crate::math::units::*;
 
 /// A gap between two compartments.
 #[derive(Debug, Component, Reflect)]

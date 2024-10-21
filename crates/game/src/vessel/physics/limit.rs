@@ -1,5 +1,8 @@
 use std::{marker::PhantomData, ops::RangeInclusive};
-use crate::{math::transform::{Axis, X, Y, Z}, prelude::*};
+use bevy::prelude::*;
+use avian3d::prelude::*;
+use serde::{Deserialize, Serialize};
+use crate::{simulation::Disabled, math::transform::{Axis, X, Y, Z}};
 
 /// Imposes limits to the orientation of a vessel around an axis.
 /// The component is applied only to local space.
