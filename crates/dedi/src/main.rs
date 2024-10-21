@@ -7,7 +7,7 @@ fn main() {
     shared::setup(&mut app, SetupMode::Headless);
 
     // Add the server hosting plugin
-    app.add_plugins(server::LobbyHostingPlugin);
+    app.add_plugins(server::lobbies::LobbyHostingPlugin);
 
     // Run the server
     app.run();

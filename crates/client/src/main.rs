@@ -29,7 +29,7 @@ fn main() {
 
     // Server setup, if hosting is enabled
     #[cfg(feature="hosting")]
-    app.add_plugins(server::LobbyHostingPlugin);
+    app.add_plugins(server::lobbies::LobbyHostingPlugin);
 
     // Client subsystems
     app.add_plugins(escape::EscapeMenuPlugin);

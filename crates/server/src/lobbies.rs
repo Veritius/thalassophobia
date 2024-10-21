@@ -1,5 +1,16 @@
 use shared::prelude::*;
 
+pub struct LobbyHostingPlugin;
+
+impl Plugin for LobbyHostingPlugin {
+    fn build(&self, app: &mut App) {
+        app.register_type::<LobbyState>();
+        app.add_sub_state::<LobbyState>();
+        app.register_type::<LobbySettings>();
+        app.add_sub_state::<LobbySettings>();
+    }
+}
+
 /// Whether or not the lobby is open.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Reflect, SubStates)]
 #[source(Initialisation = Initialisation::Finished)]

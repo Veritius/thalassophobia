@@ -1,3 +1,5 @@
+pub mod joining;
+
 use shared::prelude::*;
 
 pub(crate) struct MultiplayerPlugin;

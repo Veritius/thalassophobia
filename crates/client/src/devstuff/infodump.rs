@@ -18,7 +18,7 @@ pub(super) fn infodump_window(
     sim_running: Option<Res<State<SimulationRunning>>>,
 
     #[cfg(feature="hosting")]
-    server_state: Option<Res<State<server::ServerState>>>,
+    lobby_state: Option<Res<State<server::lobbies::LobbyState>>>,
 
     diagnostics: Res<DiagnosticsStore>,
 ) {
@@ -55,9 +55,9 @@ pub(super) fn infodump_window(
                     ui.label("Server state");
                     ui.label(match *initialisation.get() {
                         Initialisation::Loading => "Waiting for init",
-                        Initialisation::Finished => match *server_state.unwrap().get() {
-                            server::ServerState::Offline => "Offline",
-                            server::ServerState::Active => "Active",
+                        Initialisation::Finished => match *lobby_state.unwrap().get() {
+                            server::lobbies::LobbyState::Offline => "Offline",
+                            server::lobbies::LobbyState::Active => "Active",
                         },
                     });
                     ui.end_row();
