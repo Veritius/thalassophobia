@@ -36,6 +36,7 @@ fn devtools_viewer_system(
     // Draw the docks and stuff
     DockArea::new(&mut state.state)
         .style(Style::from_egui(ctx.get_mut().style().as_ref()))
+        .show_add_buttons(true)
         .show(ctx.get_mut(), &mut DevtoolsTabViewer { world });
 
     // Put the state back into the world
