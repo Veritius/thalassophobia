@@ -27,10 +27,6 @@ fn main() {
     #[cfg(feature="multiplayer")]
     app.add_plugins(multiplayer::MultiplayerPlugin);
 
-    // Server setup, if hosting is enabled
-    #[cfg(feature="hosting")]
-    app.add_plugins(server::lobbies::LobbyHostingPlugin);
-
     // Client subsystems
     app.add_plugins(escape::EscapeMenuPlugin);
     app.add_plugins(initial::InitialisationUiPlugin);
