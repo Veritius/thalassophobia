@@ -15,7 +15,7 @@ impl Plugin for DevtoolsPlugin {
         app.register_type::<SidebarSettings>();
         app.init_resource::<SidebarSettings>();
 
-        app.add_systems(PostUpdate, sidebar_system
+        app.add_systems(Update, sidebar_system
             .run_if(in_state(Initialisation::Finished)));
     }
 }
