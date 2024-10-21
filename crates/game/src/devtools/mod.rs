@@ -36,7 +36,7 @@ fn devtools_viewer_system(
     // Construct the tab viewer thingy
     let mut viewer = DevtoolsTabViewer {
         world,
-        added: Vec::new(),
+        added: TabAdditionQueue { added: Vec::new() },
     };
 
     // Draw the docks and stuff
@@ -47,7 +47,7 @@ fn devtools_viewer_system(
         .show(ctx.get_mut(), &mut viewer);
 
     // Drain the added tabs set and add it to the state
-    viewer.added.drain(..).for_each(|(surface, node, object)| {
+    viewer.added.added.drain(..).for_each(|(surface, node, object)| {
         state.state.set_focused_node_and_surface((surface, node));
         state.state.push_to_focused_leaf(object);
     });
@@ -58,19 +58,44 @@ fn devtools_viewer_system(
 
 struct DevtoolsTabViewer<'a> {
     world: &'a mut World,
-    added: Vec<(SurfaceIndex, NodeIndex, DevtoolsTab)>,
+    added: TabAdditionQueue,
 }
 
 impl<'a> TabViewer for DevtoolsTabViewer<'a> {
     type Tab = DevtoolsTab;
 
-    fn title(&mut self, tab: &mut Self::Tab) -> egui::WidgetText {
+    fn title(
+        &mut self,
+        tab: &mut Self::Tab,
+    ) -> egui::WidgetText {
         tab.state.title()
     }
 
-    fn ui(&mut self, ui: &mut egui::Ui, tab: &mut Self::Tab) {
+    fn ui(
+        &mut self,
+        ui: &mut egui::Ui,
+        tab: &mut Self::Tab,
+    ) {
         tab.state.ui(&mut self.world, ui);
     }
+
+    fn add_popup(
+        &mut self,
+        ui: &mut egui::Ui,
+        surface: SurfaceIndex,
+        node: NodeIndex,
+    ) {
+        populate_additon_popup(
+            ui,
+            &mut self.added,
+            surface,
+            node,
+        );
+    }
+}
+
+struct TabAdditionQueue {
+    added: Vec<(SurfaceIndex, NodeIndex, DevtoolsTab)>,
 }
 
 #[derive(Resource)]
@@ -106,4 +131,13 @@ where
         world: &mut World,
         ui: &mut egui::Ui,
     );
+}
+
+fn populate_additon_popup(
+    ui: &mut egui::Ui,
+    queue: &mut TabAdditionQueue,
+    surface: SurfaceIndex,
+    node: NodeIndex,
+) {
+
 }
