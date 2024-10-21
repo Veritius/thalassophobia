@@ -1,5 +1,6 @@
 use std::{any::Any, fmt::Debug, ops::{Deref, DerefMut}};
-use shared::{bevy::prelude::*, bevy_ecs, bevy_reflect::{self, GetTypeRegistration}, character::movement::CharacterMovements, vessel::piloting::VesselMovements};
+use bevy::{prelude::*, reflect::GetTypeRegistration};
+use crate::{character::movement::CharacterMovements, vessel::piloting::VesselMovements};
 
 mod access;
 mod audio;

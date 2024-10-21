@@ -1,5 +1,4 @@
-use shared::bevy::prelude::*;
-use shared::bevy_reflect;
+use bevy::prelude::*;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Reflect)]
 pub struct MasterVolume(pub f32);

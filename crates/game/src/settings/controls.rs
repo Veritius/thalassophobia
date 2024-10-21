@@ -1,8 +1,7 @@
-use shared::bevy::prelude::*;
-use shared::character::movement::CharacterMovements;
-use shared::vessel::piloting::VesselMovements;
-use shared::{bevy_ecs, bevy_reflect};
-use shared::input::prelude::*;
+use bevy::prelude::*;
+use leafwing_input_manager::prelude::*;
+use crate::character::movement::CharacterMovements;
+use crate::vessel::piloting::VesselMovements;
 
 #[derive(Resource, Reflect)]
 pub struct ControlSettings<T: Actionlike>(pub InputMap<T>);

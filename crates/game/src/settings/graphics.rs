@@ -1,5 +1,5 @@
 use std::ops::RangeInclusive;
-use shared::prelude::*;
+use bevy::prelude::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Reflect)]
 pub struct CameraFov {

@@ -1,7 +1,6 @@
 use std::fmt::Debug;
 use std::ops::RangeInclusive;
-use shared::bevy::prelude::*;
-use shared::bevy_reflect;
+use bevy::prelude::*;
 
 /// Alters or disables blood effects.
 /// 

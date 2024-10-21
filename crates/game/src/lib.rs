@@ -6,6 +6,7 @@ pub mod math;
 pub mod physics;
 pub mod players;
 pub mod power;
+pub mod settings;
 pub mod simulation;
 pub mod structure;
 pub mod vessel;
