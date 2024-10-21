@@ -1,3 +1,5 @@
+mod entities;
+
 use bevy::{prelude::*, window::PrimaryWindow};
 use bevy_egui::{egui, EguiContext};
 use egui_dock::{DockArea, DockState, NodeIndex, Style, SurfaceIndex, TabViewer};
@@ -139,5 +141,7 @@ fn populate_additon_popup(
     surface: SurfaceIndex,
     node: NodeIndex,
 ) {
-
+    if ui.button("Entities").clicked() {
+        queue.added.push((surface, node, entities::WorldEntitiesInspector::default().into()));
+    };
 }
