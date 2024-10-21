@@ -14,6 +14,7 @@ macro_rules! unit {
         #[doc(alias($($alias),*))]
         #[derive(Default, Clone, Copy, PartialEq, PartialOrd, Reflect, Serialize, Deserialize)]
         #[reflect(Default, PartialEq, Serialize, Deserialize)]
+        #[repr(transparent)]
         pub struct $name(f32);
 
         impl $name {
