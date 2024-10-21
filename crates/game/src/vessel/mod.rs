@@ -23,6 +23,5 @@ impl Plugin for VesselsPlugin {
         app.register_relation::<thruster::Influences>();
 
         app.add_plugins(physics::VesselPhysicsPlugin);
-        app.add_plugins(piloting::VesselControllerPlugin);
     }
 }

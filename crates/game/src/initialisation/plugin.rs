@@ -4,7 +4,7 @@ use super::Initialisation;
 
 type ObserverType = Observer<Done<Initialisation>, ()>;
 
-pub(crate) struct InitialLoadingPlugin;
+pub struct InitialLoadingPlugin;
 
 impl Plugin for InitialLoadingPlugin {
     fn build(&self, app: &mut App) {

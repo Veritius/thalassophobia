@@ -1,12 +1,14 @@
-pub mod character;
-pub mod devtools;
-pub mod initialisation;
-pub mod living;
-pub mod math;
-pub mod physics;
-pub mod players;
-pub mod power;
-pub mod settings;
-pub mod simulation;
-pub mod structure;
-pub mod vessel;
+pub mod plugins;
+
+mod character;
+mod devtools;
+mod initialisation;
+mod living;
+mod math;
+mod physics;
+mod players;
+mod power;
+mod settings;
+mod simulation;
+mod structure;
+mod vessel;
