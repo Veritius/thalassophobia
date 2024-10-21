@@ -2,6 +2,9 @@ use bevy::{app::PluginGroupBuilder, prelude::*};
 
 pub use crate::initialisation::InitialLoadingPlugin;
 
+#[cfg(feature="devtools")]
+pub use crate::devtools::DevtoolsPlugin;
+
 pub struct MechanicPlugins;
 
 impl PluginGroup for MechanicPlugins {

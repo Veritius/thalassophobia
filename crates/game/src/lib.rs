@@ -1,7 +1,9 @@
 pub mod plugins;
 
-mod character;
+#[cfg(feature="devtools")]
 mod devtools;
+
+mod character;
 mod initialisation;
 mod living;
 mod math;

@@ -82,9 +82,11 @@ render = [
     "bevy/x11"
 ]
 
-gizmos = [
+devtools = [
     "render",
-    "bevy/bevy_gizmos"
+    "bevy/bevy_gizmos",
+    "bevy_egui",
+    "bevy-inspector-egui"
 ]
 
 multiplayer = [
@@ -113,9 +115,7 @@ required-features = [
 name = "devclient"
 required-features = [
     "render",
-    "gizmos",
-    "bevy_egui",
-    "bevy-inspector-egui"
+    "devtools"
 ]
 
 [[bin]]
