@@ -4,6 +4,9 @@ mod player;
 mod power;
 mod settings;
 
+#[cfg(feature="multiplayer")]
+mod multiplayer;
+
 #[cfg(feature="devstuff")]
 mod devstuff;
 mod debugsys;
@@ -19,6 +22,10 @@ fn main() {
     // Dev stuff comes first
     #[cfg(feature="devstuff")]
     app.add_plugins(devstuff::DevStuffPlugin);
+
+    // Client setup, if multiplayer is enabled
+    #[cfg(feature="multiplayer")]
+    app.add_plugins(multiplayer::MultiplayerPlugin);
 
     // Server setup, if hosting is enabled
     #[cfg(feature="hosting")]
