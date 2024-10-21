@@ -63,5 +63,36 @@ fn sidebar_system(
     egui::SidePanel::left("devtools_sidebar")
     .show(ctx.ctx_mut(), |ui| {
         ui.heading("Dev tools");
+
+        ui.separator();
+
+        egui::ScrollArea::vertical()
+        .show(ui, |ui| {
+            egui::CollapsingHeader::new("Entities")
+            .show(ui, |ui| {
+
+            });
+
+            egui::CollapsingHeader::new("Resources")
+            .show(ui, |ui| {
+
+            });
+
+            egui::CollapsingHeader::new("States")
+            .show(ui, |ui| {
+
+            });
+
+            egui::CollapsingHeader::new("Assets")
+            .show(ui, |ui| {
+
+            });
+
+            #[cfg(feature="multiplayer")]
+            egui::CollapsingHeader::new("Players")
+            .show(ui, |ui| {
+
+            });
+        });
     });
 }
