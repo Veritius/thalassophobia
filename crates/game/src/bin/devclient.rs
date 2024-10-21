@@ -9,6 +9,7 @@ fn main() {
         InitialLoadingPlugin,
         MechanicPlugins,
         ControllerPlugins,
+        DevtoolsPlugin,
     ));
 
     app.run();
