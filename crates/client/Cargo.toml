@@ -25,5 +25,5 @@ optional = true
 [features]
 default = ["multiplayer", "hosting", "devstuff"]
 devstuff = ["shared/gizmos", "dep:bevy_egui", "dep:bevy-inspector-egui"]
-multiplayer = ["shared/multiplayer"]
+multiplayer = ["shared/multiplayer", "shared/multiplayer_quic"]
 hosting = ["multiplayer", "dep:server"]

@@ -30,6 +30,11 @@ version = "0.3"
 version = "0.6"
 optional = true
 
+[dependencies.bevy_stardust_quinn]
+git = "https://github.com/Veritius/bevy_stardust.git"
+branch = "quic-0.1.0-sans-io-quinn"
+optional = true
+
 [dependencies.smallvec]
 version = "1.13"
 features = ["union", "serde"]
