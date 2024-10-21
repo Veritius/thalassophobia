@@ -70,7 +70,7 @@ impl<'a> TabViewer for DevtoolsTabViewer<'a> {
         &mut self,
         tab: &mut Self::Tab,
     ) -> egui::WidgetText {
-        tab.state.title()
+        tab.state.title(self.world)
     }
 
     fn ui(
@@ -126,6 +126,7 @@ where
 {
     fn title(
         &mut self,
+        world: &mut World,
     ) -> egui::WidgetText;
 
     fn ui(

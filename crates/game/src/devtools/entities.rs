@@ -15,6 +15,7 @@ impl Default for WorldEntitiesInspector {
 impl DevtoolsWidget for WorldEntitiesInspector {
     fn title(
         &mut self,
+        _world: &mut World,
     ) -> egui::WidgetText {
         egui::WidgetText::from("Entities")
     }
@@ -38,8 +39,12 @@ pub(super) struct SingleEntityInspector {
 impl DevtoolsWidget for SingleEntityInspector {
     fn title(
         &mut self,
+        world: &mut World,
     ) -> egui::WidgetText {
-        egui::WidgetText::from(format!("Entity {}", self.entity))
+        bevy_inspector::guess_entity_name(
+            world,
+            self.entity,
+        ).into()
     }
 
     fn ui(
