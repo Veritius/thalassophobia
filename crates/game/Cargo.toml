@@ -26,18 +26,6 @@ version = "0.15"
 [dependencies.bevy_mod_progress]
 version = "0.3"
 
-[dependencies.bevy_stardust]
-version = "0.6"
-optional = true
-
-[dependencies.bevy_egui]
-version = "0.30"
-optional = true
-
-[dependencies.bevy-inspector-egui]
-version = "0.27.0"
-optional = true
-
 [dependencies.smallvec]
 version = "1.13"
 features = ["union", "serde"]
@@ -60,6 +48,18 @@ features = ["serde"]
 
 [dependencies.const-fnv1a-hash]
 version = "1.1"
+
+[dependencies.bevy_stardust]
+version = "0.6"
+optional = true
+
+[dependencies.bevy_egui]
+version = "0.30"
+optional = true
+
+[dependencies.bevy-inspector-egui]
+version = "0.27.0"
+optional = true
 
 [features]
 default = [
@@ -107,6 +107,15 @@ dynamic_linking = [
 name = "client"
 required-features = [
     "render"
+]
+
+[[bin]]
+name = "devclient"
+required-features = [
+    "render",
+    "gizmos",
+    "bevy_egui",
+    "bevy-inspector-egui"
 ]
 
 [[bin]]
