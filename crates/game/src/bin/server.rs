@@ -8,4 +8,6 @@ fn main() {
     app.add_plugins((
         MechanicPlugins,
     ));
+
+    app.run();
 }

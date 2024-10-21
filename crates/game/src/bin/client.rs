@@ -10,4 +10,6 @@ fn main() {
         MechanicPlugins,
         ControllerPlugins,
     ));
+
+    app.run();
 }
