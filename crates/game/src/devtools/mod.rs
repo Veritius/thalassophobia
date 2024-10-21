@@ -1,6 +1,6 @@
 use bevy::{prelude::*, window::PrimaryWindow};
 use bevy_egui::{egui, EguiContext};
-use egui_dock::{DockArea, DockState, Style, TabViewer};
+use egui_dock::{DockArea, DockState, NodeIndex, Style, SurfaceIndex, TabViewer};
 use crate::initialisation::Initialisation;
 
 pub struct DevtoolsPlugin;
@@ -34,7 +34,10 @@ fn devtools_viewer_system(
     let mut state = world.remove_resource::<DevtoolsDockState>().unwrap();
 
     // Construct the tab viewer thingy
-    let mut viewer = DevtoolsTabViewer { world };
+    let mut viewer = DevtoolsTabViewer {
+        world,
+        added: Vec::new(),
+    };
 
     // Draw the docks and stuff
     DockArea::new(&mut state.state)
@@ -43,12 +46,19 @@ fn devtools_viewer_system(
         .show_add_popup(true)
         .show(ctx.get_mut(), &mut viewer);
 
+    // Drain all added surfaces and add them to the state
+    viewer.added.drain(..).for_each(|(surface, node, object)| {
+        state.state.set_focused_node_and_surface((surface, node));
+        state.state.push_to_focused_leaf(object);
+    });
+
     // Put the state back into the world
     world.insert_resource(state);
 }
 
 struct DevtoolsTabViewer<'a> {
     world: &'a mut World,
+    added: Vec<(SurfaceIndex, NodeIndex, DevtoolsTab)>,
 }
 
 impl<'a> TabViewer for DevtoolsTabViewer<'a> {
@@ -65,7 +75,7 @@ impl<'a> TabViewer for DevtoolsTabViewer<'a> {
 
 #[derive(Resource)]
 struct DevtoolsDockState {
-    state: DockState<DevtoolsTab>
+    state: DockState<DevtoolsTab>,
 }
 
 struct DevtoolsTab {
