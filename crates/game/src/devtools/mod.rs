@@ -46,7 +46,7 @@ fn devtools_viewer_system(
         .show_add_popup(true)
         .show(ctx.get_mut(), &mut viewer);
 
-    // Drain all added surfaces and add them to the state
+    // Drain the added tabs set and add it to the state
     viewer.added.drain(..).for_each(|(surface, node, object)| {
         state.state.set_focused_node_and_surface((surface, node));
         state.state.push_to_focused_leaf(object);
