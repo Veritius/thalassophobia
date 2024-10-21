@@ -60,7 +60,7 @@ version = "1.1"
 
 [features]
 default = [
-    "bevy_dylib"
+    "dynamic_linking"
 ]
 
 render = [
@@ -88,4 +88,11 @@ multiplayer = [
     "bevy_stardust"
 ]
 
-bevy_dylib = ["bevy/dynamic_linking"]
+multiplayer_quic = [
+    "multiplayer",
+    "bevy_stardust_quinn"
+]
+
+dynamic_linking = [
+    "bevy/dynamic_linking"
+]

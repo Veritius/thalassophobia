@@ -7,9 +7,6 @@ pub use bevy_mod_progress as progress;
 pub use avian3d as avian;
 pub use aery as relations;
 
-#[cfg(feature="multiplayer")]
-pub use bevy_stardust as stardust;
-
 pub use chrono;
 pub use semver;
 pub use serde;
