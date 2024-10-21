@@ -1,6 +1,5 @@
 use bevy::prelude::*;
-use bevy_egui::{egui::{self, Color32, RichText, WidgetText}, EguiContexts};
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_egui::{egui, EguiContexts};
 use egui_dock::TabViewer;
 use crate::initialisation::Initialisation;
 
@@ -20,43 +19,17 @@ struct DevtoolsTabViewer<'a> {
 }
 
 impl<'a> TabViewer for DevtoolsTabViewer<'a> {
-    type Tab = Entity;
+    type Tab = DevtoolsTabState;
 
     fn title(&mut self, tab: &mut Self::Tab) -> egui::WidgetText {
-        // Try and use the `Name` component as the tab title
-        if let Some(ent) = self.world.get_entity(*tab) {
-            if let Some(name) = ent.get::<Name>() {
-                return WidgetText::from(name.as_str());
-            }
-        }
-
-        // We couldn't get the name of the tab normally
-        // Instead, use the entity id's Display implementation
-        return WidgetText::from(format!("{}", *tab));
+        tab.state.title()
     }
 
     fn ui(&mut self, ui: &mut egui::Ui, tab: &mut Self::Tab) {
-        // Try to get the function from the tab entity
-        let mut state = match self.world.get_entity_mut(*tab)
-            .map(|mut e| e.take::<DevtoolsTabState>())
-        {
-            Some(Some(v)) => v,
-            Some(None)  | None => {
-                // If the entity doesn't exist, display a warning and return
-                ui.label(RichText::new("Tab entity did not exist").color(Color32::RED));
-                return;
-            },
-        };
-
-        // Run the inner function
-        state.state.ui(self.world, ui);
-
-        // Put the component back into the entity.
-        self.world.entity_mut(*tab).insert(state);
+        tab.state.ui(&mut self.world, ui);
     }
 }
 
-#[derive(Component)]
 struct DevtoolsTabState {
     state: Box<dyn DevtoolsWidget>,
 }
@@ -76,6 +49,10 @@ trait DevtoolsWidget
 where
     Self: Send + Sync + 'static,
 {
+    fn title(
+        &mut self,
+    ) -> egui::WidgetText;
+
     fn ui(
         &mut self,
         world: &mut World,
