@@ -1,3 +1,4 @@
+use std::ops::Not;
 use bevy::prelude::*;
 use bevy_egui::{egui, EguiContexts};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
@@ -10,28 +11,53 @@ impl Plugin for DevtoolsPlugin {
         app.add_plugins(bevy_egui::EguiPlugin);
         app.add_plugins(WorldInspectorPlugin::new());
 
-        app.register_type::<SidebarVisibility>();
-        app.init_resource::<SidebarVisibility>();
+        app.register_type::<Visibility>();
+        app.register_type::<SidebarSettings>();
+        app.init_resource::<SidebarSettings>();
 
         app.add_systems(PostUpdate, sidebar_system
             .run_if(in_state(Initialisation::Finished)));
     }
 }
 
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Resource, Reflect)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Resource, Reflect)]
 #[reflect(Resource)]
-enum SidebarVisibility {
+struct SidebarSettings {
+    visible: Visibility,
+}
+
+impl Default for SidebarSettings {
+    fn default() -> Self {
+        Self {
+            visible: Visibility::default(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Reflect)]
+enum Visibility {
     #[default]
     Hidden,
     Visible,
 }
 
+impl Not for Visibility {
+    type Output = Self;
+
+    fn not(self) -> Self::Output {
+        match self {
+            Visibility::Hidden => Visibility::Visible,
+            Visibility::Visible => Visibility::Hidden,
+        }
+    }
+}
+
 fn sidebar_system(
     mut ctx: EguiContexts,
-    // show: Res<SidebarVisibility>,
+    settings: Res<SidebarSettings>,
 ) {
     // Quick check to see if we should actually show this
-    // if *show == SidebarVisibility::Hidden { return }
+    if settings.visible == Visibility::Hidden { return }
 
     // show the sidebar
     egui::SidePanel::left("devtools_sidebar")
