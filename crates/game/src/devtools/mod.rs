@@ -1,6 +1,6 @@
-use bevy::prelude::*;
-use bevy_egui::{egui, EguiContexts};
-use egui_dock::TabViewer;
+use bevy::{prelude::*, window::PrimaryWindow};
+use bevy_egui::{egui, EguiContext};
+use egui_dock::{DockArea, DockState, Style, TabViewer};
 use crate::initialisation::Initialisation;
 
 pub struct DevtoolsPlugin;
@@ -9,9 +9,37 @@ impl Plugin for DevtoolsPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(bevy_egui::EguiPlugin);
 
-        // app.add_systems(Update, sidebar_system
-        //     .run_if(in_state(Initialisation::Finished)));
+        app.insert_resource(DevtoolsDockState {
+            state: DockState::new(vec![]),
+        });
+
+        app.add_systems(Update, devtools_viewer_system
+            .run_if(in_state(Initialisation::Finished)));
     }
+}
+
+fn devtools_viewer_system(
+    world: &mut World,
+) {
+    // Try to access the egui context for the primary window
+    // This early returns if it's not accessible (no window)
+    let mut ctx = match world
+        .query_filtered::<&mut EguiContext, With<PrimaryWindow>>()
+        .get_single(world) {
+            Ok(v) => v.clone(),
+            Err(_) => return,
+        };
+
+    // Remove the state from the world so it doesn't interfere with our other accesses
+    let mut state = world.remove_resource::<DevtoolsDockState>().unwrap();
+
+    // Draw the docks and stuff
+    DockArea::new(&mut state.state)
+        .style(Style::from_egui(ctx.get_mut().style().as_ref()))
+        .show(ctx.get_mut(), &mut DevtoolsTabViewer { world });
+
+    // Put the state back into the world
+    world.insert_resource(state);
 }
 
 struct DevtoolsTabViewer<'a> {
@@ -19,7 +47,7 @@ struct DevtoolsTabViewer<'a> {
 }
 
 impl<'a> TabViewer for DevtoolsTabViewer<'a> {
-    type Tab = DevtoolsTabState;
+    type Tab = DevtoolsTab;
 
     fn title(&mut self, tab: &mut Self::Tab) -> egui::WidgetText {
         tab.state.title()
@@ -30,11 +58,16 @@ impl<'a> TabViewer for DevtoolsTabViewer<'a> {
     }
 }
 
-struct DevtoolsTabState {
+#[derive(Resource)]
+struct DevtoolsDockState {
+    state: DockState<DevtoolsTab>
+}
+
+struct DevtoolsTab {
     state: Box<dyn DevtoolsWidget>,
 }
 
-impl<S> From<S> for DevtoolsTabState
+impl<S> From<S> for DevtoolsTab
 where
     S: DevtoolsWidget,
 {
