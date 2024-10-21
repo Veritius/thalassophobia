@@ -33,12 +33,15 @@ fn devtools_viewer_system(
     // Remove the state from the world so it doesn't interfere with our other accesses
     let mut state = world.remove_resource::<DevtoolsDockState>().unwrap();
 
+    // Construct the tab viewer thingy
+    let mut viewer = DevtoolsTabViewer { world };
+
     // Draw the docks and stuff
     DockArea::new(&mut state.state)
         .style(Style::from_egui(ctx.get_mut().style().as_ref()))
         .show_add_buttons(true)
         .show_add_popup(true)
-        .show(ctx.get_mut(), &mut DevtoolsTabViewer { world });
+        .show(ctx.get_mut(), &mut viewer);
 
     // Put the state back into the world
     world.insert_resource(state);
