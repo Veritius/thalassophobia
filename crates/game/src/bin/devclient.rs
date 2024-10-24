@@ -7,9 +7,9 @@ fn main() {
 
     app.add_plugins((
         InitialLoadingPlugin,
+        DevtoolsPlugin,
         MechanicPlugins,
         ControllerPlugins,
-        DevtoolsPlugin,
     ));
 
     app.run();
