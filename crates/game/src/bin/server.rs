@@ -7,6 +7,7 @@ fn main() {
 
     app.add_plugins((
         PhysicsPlugin,
+        EssentialPlugins,
         MechanicPlugins,
     ));
 

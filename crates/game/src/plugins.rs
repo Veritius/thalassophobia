@@ -6,6 +6,15 @@ pub use crate::physics::PhysicsPlugin;
 #[cfg(feature="devtools")]
 pub use crate::devtools::DevtoolsPlugin;
 
+pub struct EssentialPlugins;
+
+impl PluginGroup for EssentialPlugins {
+    fn build(self) -> PluginGroupBuilder {
+        PluginGroupBuilder::start::<Self>()
+            .add(crate::players::PlayerPlugin)
+    }
+}
+
 pub struct MechanicPlugins;
 
 impl PluginGroup for MechanicPlugins {
