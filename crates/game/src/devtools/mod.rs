@@ -17,10 +17,32 @@ impl Plugin for DevtoolsPlugin {
         app.add_plugins(bevy_egui::EguiPlugin);
         app.add_plugins(bevy_inspector_egui::DefaultInspectorConfigPlugin);
 
-        app.add_systems(Update, layout_devtool_ui);
+        app.init_resource::<DevtoolSidebar>();
+
+        app.add_systems(Update, (
+            handle_input_system,
+            ui_layout_system,
+        ).chain());
 
         diagnostics::setup(app);
         inspectors::setup(app);
+    }
+}
+
+#[derive(Resource, Clone)]
+struct DevtoolSidebar {
+    pub visible: bool,
+
+    pub toggle_key: KeyCode,
+}
+
+impl Default for DevtoolSidebar {
+    fn default() -> Self {
+        Self {
+            visible: false,
+
+            toggle_key: KeyCode::F3,
+        }
     }
 }
 
@@ -31,9 +53,21 @@ pub(crate) struct DevtoolLayout<Category = ()> {
     _p1: PhantomData<Category>,
 }
 
-fn layout_devtool_ui(
+fn handle_input_system(
+    mut sidebar: ResMut<DevtoolSidebar>,
+    keyboard: Res<ButtonInput<KeyCode>>,
+) {
+    if keyboard.just_pressed(sidebar.toggle_key) {
+        sidebar.visible = !sidebar.visible;
+    }
+}
+
+fn ui_layout_system(
     world: &mut World,
 ) {
+    // If the sidebar isn't visible, don't continue
+    if !world.resource::<DevtoolSidebar>().visible { return };
+
     // Early return if there's no window that we can use.
     let mut ctx = match world
     .query_filtered::<&mut EguiContext, With<PrimaryWindow>>()

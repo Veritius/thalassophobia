@@ -8,7 +8,7 @@ pub(super) fn setup(app: &mut App) {
     app.init_resource::<Inspectors>();
 
     app.add_systems(Update, inspector_system
-        .after(layout_devtool_ui));
+        .after(ui_layout_system));
 
     app.observe(observer_system);
 }
