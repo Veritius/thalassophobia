@@ -2,6 +2,9 @@ mod sink;
 mod source;
 mod storage;
 
+#[cfg(feature="devtools")]
+mod devtools;
+
 pub use sink::{PowerSink, CalculatedPowerSink, PowerSinkBundle};
 pub use source::{PowerSource, CalculatedPowerSource, PowerSourceBundle};
 pub use storage::PowerStorage;
@@ -20,6 +23,9 @@ impl Plugin for ElectricityPlugin {
         app.register_type::<CalculatedPowerSource>();
 
         app.register_relation::<SuppliesEnergy>();
+
+        #[cfg(feature="devtools")]
+        devtools::setup(app);
     }
 }
 
