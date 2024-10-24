@@ -15,7 +15,7 @@ impl Plugin for DevtoolsPlugin {
 
         app.add_systems(Update, layout_devtool_ui);
 
-        app.observe(diagnostics::observer_system);
+        diagnostics::setup(app);
     }
 }
 

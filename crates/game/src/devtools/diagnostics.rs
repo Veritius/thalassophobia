@@ -1,7 +1,12 @@
 use bevy::diagnostic::DiagnosticsStore;
 use super::*;
 
-pub(super) fn observer_system(
+#[inline(always)]
+pub(super) fn setup(app: &mut App) {
+    app.observe(observer_system);
+}
+
+fn observer_system(
     mut trigger: Trigger<DevtoolLayout>,
     diagnostics: Res<DiagnosticsStore>,
 ) {
