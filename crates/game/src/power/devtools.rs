@@ -1,4 +1,3 @@
-use std::any::TypeId;
 use aery::edges::{EdgeInfo, Edges};
 use bevy::prelude::*;
 use bevy_egui::egui;
@@ -9,45 +8,49 @@ pub(super) fn setup(app: &mut App) {
     app.observe(link_overlay);
 }
 
-#[derive(Default, Clone, Copy, PartialEq, Eq)]
-enum LinkOverlay {
-    #[default]
-    Disabled,
-    Enabled,
+struct PowerToolsMemory {
+    show_links: bool,
+    show_link_arrows: bool,
+}
+
+impl Default for PowerToolsMemory {
+    fn default() -> Self {
+        Self {
+            show_links: false,
+            show_link_arrows: true,
+        }
+    }
 }
 
 fn link_overlay(
     mut trigger: Trigger<DevtoolLayout>,
-    mut state: Local<LinkOverlay>,
+    mut state: Local<PowerToolsMemory>,
 
     hosts: Query<(&GlobalTransform, Edges<SuppliesEnergy>)>,
     mut gizmos: Gizmos,
 ) {
-    // Combo box for changing the overlay visibility
-    egui::ComboBox::new(TypeId::of::<LinkOverlay>(), "Show power links")
-    .wrap_mode(egui::TextWrapMode::Extend)
-    .selected_text(match *state {
-        LinkOverlay::Disabled => "Disabled",
-        LinkOverlay::Enabled => "Enabled",
-    })
-    .show_ui(&mut trigger.event_mut().ui, |ui| {
-        ui.selectable_value(&mut *state, LinkOverlay::Disabled, "Disabled");
-        ui.selectable_value(&mut *state, LinkOverlay::Enabled, "Enabled");
+    let ui = &mut trigger.event_mut().ui;
+
+    ui.collapsing("Electricity", |ui| {
+        ui.add(egui::Checkbox::new(&mut state.show_links, "Show links between devices"));
+        ui.add_enabled(state.show_links, egui::Checkbox::new(&mut state.show_link_arrows, "Show arrow heads on links"));
     });
 
-    match *state {
-        // Do nothing, overlay is disabled
-        LinkOverlay::Disabled => { return },
+    if state.show_links {
+        for (host, relations) in hosts.iter() {
+            for target in relations.targets() {
+                let (target, _) = match hosts.get(*target) {
+                    Ok(v) => v,
+                    Err(_) => continue, // Next item
+                };
 
-        // Draw lines between connected devices
-        LinkOverlay::Enabled => {
-            for (host, relations) in hosts.iter() {
-                for target in relations.targets() {
-                    let (target, _) = match hosts.get(*target) {
-                        Ok(v) => v,
-                        Err(_) => continue, // Next item
-                    };
-        
+                if state.show_link_arrows {
+                    gizmos.arrow(
+                        host.translation(),
+                        target.translation(),
+                        Hsva::hsv(1.0 / 3.0, 1.0, 1.0),
+                    );
+                } else {
                     gizmos.line(
                         host.translation(),
                         target.translation(),
@@ -55,6 +58,6 @@ fn link_overlay(
                     );
                 }
             }
-        },
+        }
     }
 }
