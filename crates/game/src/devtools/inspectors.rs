@@ -50,7 +50,7 @@ fn inspector_system(
 
     if state.entities {
         egui::Window::new("Entities")
-        .open(&mut state.resources)
+        .open(&mut state.entities)
         .show(ctx.get_mut(), |ui| {
             bevy_inspector::ui_for_world_entities(world, ui);
         });
@@ -58,7 +58,7 @@ fn inspector_system(
 
     if state.assets {
         egui::Window::new("Assets")
-        .open(&mut state.resources)
+        .open(&mut state.assets)
         .show(ctx.get_mut(), |ui| {
             bevy_inspector::ui_for_all_assets(world, ui);
         });
