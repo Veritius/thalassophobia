@@ -30,15 +30,23 @@ fn layout_devtool_ui(
         Err(_) => { return },
     };
 
+    // Side panel :)
     egui::SidePanel::left("devtools")
+    .max_width(f32::INFINITY)
+    .min_width(0.0)
     .show(ctx.get_mut(), |ui| {
         // Some nice decorations
         ui.heading("Dev tools");
+        ui.separator();
 
-        // Let other systems add elements
-        world.trigger(DevtoolLayout {
-            ui: ui.new_child(UiBuilder::new()),
-            _p1: PhantomData::<()>,
+        // Scroll area since it may become long
+        egui::ScrollArea::vertical()
+        .show(ui, |ui| {
+            // Let other systems add elements
+            world.trigger(DevtoolLayout {
+                ui: ui.new_child(UiBuilder::new()),
+                _p1: PhantomData::<()>,
+            });
         });
     });
 }
