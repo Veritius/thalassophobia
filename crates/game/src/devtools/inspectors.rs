@@ -18,9 +18,9 @@ fn observer_system(
     let ui = &mut trigger.event_mut().ui;
 
     ui.collapsing("Inspectors", |ui| {
-        ui.checkbox(&mut state.resources, "Show resources inspector");
-        ui.checkbox(&mut state.entities, "Show entities inspector");
-        ui.checkbox(&mut state.assets, "Show assets inspector");
+        ui.checkbox(&mut state.resources, "Resources");
+        ui.checkbox(&mut state.entities, "Entities");
+        ui.checkbox(&mut state.assets, "Assets");
     });
 }
 
