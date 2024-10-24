@@ -128,7 +128,9 @@ fn float_curve_tests() {
     assert_eq!(set.sample(-1.0), 0.0);
     assert_eq!(set.sample(-0.5), 0.5);
     assert_eq!(set.sample(0.0), 1.0);
+    assert_eq!(set.sample(0.5), 1.5);
     assert_eq!(set.sample(1.0), 2.0);
+    assert_eq!(set.sample(1.5), 2.5);
     assert_eq!(set.sample(2.0), 3.0);
 
     // Outside-bounds checks for >2 set
