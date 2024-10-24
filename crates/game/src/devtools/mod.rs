@@ -38,6 +38,7 @@ fn layout_devtool_ui(
         // Some nice decorations
         ui.heading("Dev tools");
         ui.separator();
+        ui.add_space(8.0);
 
         // Scroll area since it may become long
         egui::ScrollArea::vertical()
