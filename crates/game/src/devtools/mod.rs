@@ -1,4 +1,5 @@
 mod diagnostics;
+mod inspectors;
 
 use std::marker::PhantomData;
 use bevy::{prelude::*, window::PrimaryWindow};
@@ -16,6 +17,7 @@ impl Plugin for DevtoolsPlugin {
         app.add_systems(Update, layout_devtool_ui);
 
         diagnostics::setup(app);
+        inspectors::setup(app);
     }
 }
 
