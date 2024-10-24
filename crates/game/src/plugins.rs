@@ -1,6 +1,7 @@
 use bevy::{app::PluginGroupBuilder, prelude::*};
 
 pub use crate::initialisation::InitialLoadingPlugin;
+pub use crate::physics::PhysicsPlugin;
 
 #[cfg(feature="devtools")]
 pub use crate::devtools::DevtoolsPlugin;
