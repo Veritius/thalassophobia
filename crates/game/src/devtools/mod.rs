@@ -5,6 +5,8 @@ use std::marker::PhantomData;
 use bevy::{prelude::*, window::PrimaryWindow};
 use bevy_egui::{egui::{self, UiBuilder}, EguiContext};
 
+pub(crate) use inspectors::Inspectors;
+
 pub struct DevtoolsPlugin;
 
 impl Plugin for DevtoolsPlugin {
