@@ -44,7 +44,10 @@ fn inspector_system(
         egui::Window::new("Resources")
         .open(&mut state.resources)
         .show(ctx.get_mut(), |ui| {
-            bevy_inspector::ui_for_resources(world, ui);
+            egui::ScrollArea::both()
+            .show(ui, |ui| {
+                bevy_inspector::ui_for_resources(world, ui);
+            });
         });
     }
 
@@ -52,7 +55,10 @@ fn inspector_system(
         egui::Window::new("Entities")
         .open(&mut state.entities)
         .show(ctx.get_mut(), |ui| {
-            bevy_inspector::ui_for_world_entities(world, ui);
+            egui::ScrollArea::both()
+            .show(ui, |ui| {
+                bevy_inspector::ui_for_world_entities(world, ui);
+            });
         });
     }
 
@@ -60,7 +66,10 @@ fn inspector_system(
         egui::Window::new("Assets")
         .open(&mut state.assets)
         .show(ctx.get_mut(), |ui| {
-            bevy_inspector::ui_for_all_assets(world, ui);
+            egui::ScrollArea::both()
+            .show(ui, |ui| {
+                bevy_inspector::ui_for_all_assets(world, ui);
+            });
         });
     }
 
