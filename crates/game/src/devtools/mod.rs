@@ -13,6 +13,7 @@ impl Plugin for DevtoolsPlugin {
         app.add_plugins(bevy::diagnostic::EntityCountDiagnosticsPlugin);
 
         app.add_plugins(bevy_egui::EguiPlugin);
+        app.add_plugins(bevy_inspector_egui::DefaultInspectorConfigPlugin);
 
         app.add_systems(Update, layout_devtool_ui);
 
