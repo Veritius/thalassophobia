@@ -1,3 +1,5 @@
+mod diagnostics;
+
 use std::marker::PhantomData;
 use bevy::{prelude::*, window::PrimaryWindow};
 use bevy_egui::{egui::{self, UiBuilder}, EguiContext};
@@ -6,9 +8,14 @@ pub struct DevtoolsPlugin;
 
 impl Plugin for DevtoolsPlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(bevy::diagnostic::FrameTimeDiagnosticsPlugin);
+        app.add_plugins(bevy::diagnostic::EntityCountDiagnosticsPlugin);
+
         app.add_plugins(bevy_egui::EguiPlugin);
 
         app.add_systems(Update, layout_devtool_ui);
+
+        app.observe(diagnostics::observer_system);
     }
 }
 
