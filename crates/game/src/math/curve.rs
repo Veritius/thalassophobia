@@ -63,7 +63,7 @@ impl FloatCurve {
                 if s > p[l-1].x { todo!() }
 
                 Self::qerp_pts_slice(
-                    p.windows(3).find(|p| p[0].x <= s && p[1].x >= s).unwrap(),
+                    p.windows(3).find(|p| p[0].x <= s && p[2].x >= s).unwrap(),
                     s
                 )
             },
