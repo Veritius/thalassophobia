@@ -180,3 +180,21 @@ fn float_curve_tests() {
     assert_eq!(set.sample(-2.0), -1.0);
     assert_eq!(set.sample(4.0), 5.0);
 }
+
+#[test]
+fn dump_pts() {
+    let set = FloatCurve::smoothed_points([
+        Vec2::new(-4.0, -2.0),
+        Vec2::new(-3.0, -1.5),
+        Vec2::new(0.0, 0.0),
+        Vec2::new(2.0, 3.0),
+        Vec2::new(4.0, 9.0),
+    ]);
+
+    const LOWER: i32 = -40;
+    const UPPER: i32 = 40;
+
+    for x in LOWER..=UPPER {
+        println!("{x}: {}", set.sample(x as f32 / 10.0));
+    }
+}
