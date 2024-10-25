@@ -195,6 +195,6 @@ fn dump_pts() {
     const UPPER: i32 = 40;
 
     for x in LOWER..=UPPER {
-        println!("{x}: {}", set.sample(x as f32 / 10.0));
+        println!("({x},{})", set.sample(x as f32 / 10.0));
     }
 }
